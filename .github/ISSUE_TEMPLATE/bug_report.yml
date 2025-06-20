@@ -1,0 +1,60 @@
+name: バグ報告
+description: バグの報告はこちらからお願いします。
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## バグ報告用テンプレート
+        必要事項を記入してください。
+  - type: input
+    id: summary
+    attributes:
+      label: バグの概要
+      description: バグの内容を簡潔に記載してください。
+      placeholder: 例）アプリが起動しない
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      description: バグを再現する手順を記載してください。
+      placeholder: |
+        1. アプリを起動する
+        2. ログインボタンを押す
+        3. エラーが表示される
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待する動作
+      description: 本来期待される動作を記載してください。
+      placeholder: 正常にログインできる
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: スクリーンショット・ログ
+      description: 必要に応じてスクリーンショットやエラーログを貼り付けてください。
+      placeholder: スクリーンショットやログをここに貼り付けてください
+    validations:
+      required: false
+  - type: input
+    id: environment
+    attributes:
+      label: 環境情報
+      description: OSやバージョンなど、関連する環境情報を記載してください。
+      placeholder: 例）iOS 17.0, Android 14, Chrome 123
+    validations:
+      required: false
+  - type: textarea
+    id: notes
+    attributes:
+      label: 補足情報
+      description: その他、補足事項があれば記載してください。
+      placeholder: 補足事項があれば記載してください
+    validations:
+      required: false

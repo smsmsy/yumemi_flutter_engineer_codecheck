@@ -1,0 +1,41 @@
+name: 機能要望
+description: 新しい機能や改善の提案はこちらからお願いします。
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 機能要望用テンプレート
+        必要事項を記入してください。
+  - type: input
+    id: summary
+    attributes:
+      label: 機能・改善の概要
+      description: 提案する機能や改善点の概要を記載してください。
+      placeholder: 例）ダークモードの追加
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景・目的
+      description: なぜこの機能が必要なのか、目的や背景を記載してください。
+      placeholder: 例）夜間の利用時に目が疲れるため
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 実装案・参考資料
+      description: 具体的な実装案や参考資料があれば記載してください。
+      placeholder: 例）設定画面にテーマ切り替えを追加
+    validations:
+      required: false
+  - type: textarea
+    id: notes
+    attributes:
+      label: 補足情報
+      description: その他、補足事項があれば記載してください。
+      placeholder: 補足事項があれば記載してください
+    validations:
+      required: false
