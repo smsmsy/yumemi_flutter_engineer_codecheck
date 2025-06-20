@@ -1,0 +1,20 @@
+{
+  "[dart]": {
+    // ---------- 公式で推奨する機能 ----------
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.suggest.insertMode": "replace",
+    "editor.defaultFormatter": "Dart-Code.dart-code",
+    "editor.inlayHints.enabled": "offUnlessPressed",
+    // ---------- 自動保存 ----------
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    // ---------- フォーマッター・リンターの自動適用 ----------
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "always",
+      "source.organizeImports": "always",
+    },
+  }
+}
