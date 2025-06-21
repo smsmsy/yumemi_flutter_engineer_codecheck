@@ -19,38 +19,42 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context)?.searchPageTitle ??
-              WordingData.searchPageTitle,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            AppLocalizations.of(context)?.searchPageTitle ??
+                WordingData.searchPageTitle,
+          ),
         ),
-      ),
-      drawer: const CustomDrawer(),
-      body: Center(
-        child: Column(
-          children: [
-            SearchTextField(
-              controller: controller,
-              onChanged: (value) {
-                // TODO: リポジトリ検索実行時の実装
-                setState(() {
-                  _text = value;
-                });
-              },
-              onCancelButtonPressed: () {
-                // TODO: リポジトリ検索キャンセル時の実装
-                setState(() {
-                  _text = '';
-                  controller.clear();
-                });
-                FocusScope.of(context).unfocus();
-              },
-              labelText:
-                  AppLocalizations.of(context)?.searchRepositories ??
-                  WordingData.searchRepositories,
-            ),
-          ],
+        drawer: const CustomDrawer(),
+        body: Center(
+          child: Column(
+            children: [
+              SearchTextField(
+                controller: controller,
+                onChanged: (value) {
+                  // TODO: リポジトリ検索実行時の実装
+                  setState(() {
+                    _text = value;
+                  });
+                },
+                onCancelButtonPressed: () {
+                  // TODO: リポジトリ検索キャンセル時の実装
+                  setState(() {
+                    _text = '';
+                    controller.clear();
+                  });
+                },
+                labelText:
+                    AppLocalizations.of(context)?.searchRepositories ??
+                    WordingData.searchRepositories,
+              ),
+            ],
+          ),
         ),
       ),
     );
