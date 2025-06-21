@@ -15,9 +15,9 @@ flutter pub get
 flutter run
 ```
 
-## Riverpod の自動生成
+## Riverpod/Freezed/JsonSerialization の自動生成
 
-Riverpod のコード自動生成には下記コマンドを使用してください。
+上記のようなbuild_runnerによるコード自動生成を実行するには下記コマンドを使用してください。
 
 ```terminal
 flutter pub run build_runner watch --delete-conflicting-outputs
