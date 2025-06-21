@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/page/my_home_page.dart';
+import 'package:yumemi_flutter_engineer_codecheck/view/page/search_page.dart';
 
 import '../mock/mock_shared_preferences_async_plarform.dart';
 
@@ -30,7 +30,7 @@ void main() {
               Locale('en'),
               Locale('ja'),
             ],
-            home: const MyHomePage(),
+            home: const SearchPage(),
           ),
         ),
       );
