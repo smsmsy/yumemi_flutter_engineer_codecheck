@@ -1,0 +1,33 @@
+name: "ドキュメント追加・修正"
+description: "新しいドキュメントの追加や既存ドキュメントの修正を提案するためのテンプレートです。"
+title: "[Docs] <ドキュメント名・内容>"
+labels: ["Docs"]
+body:
+  - type: input
+    id: doc-title
+    attributes:
+      label: ドキュメント名・内容
+      description: どんなドキュメントを追加・修正したいかを記入してください。
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: 目的・背景
+      description: 追加・修正の目的や背景を記入してください。
+    validations:
+      required: true
+  - type: textarea
+    id: outline
+    attributes:
+      label: 期待する内容やアウトライン（任意）
+      description: どのような内容を期待するか、アウトラインや詳細があれば記入してください。
+    validations:
+      required: false
+  - type: textarea
+    id: notes
+    attributes:
+      label: その他の備考（任意）
+      description: その他、伝えておきたいことがあれば記入してください。
+    validations:
+      required: false
