@@ -12,12 +12,12 @@ sealed class Repository with _$Repository {
   @JsonSerializable(explicitToJson: true)
   const factory Repository({
     required String name,
-    required Owner owner,
-    required String language,
     @JsonKey(name: 'stargazers_count') required int stargazersCount,
     @JsonKey(name: 'watchers_count') required int watchersCount,
     @JsonKey(name: 'forks_count') required int forksCount,
     @JsonKey(name: 'open_issues_count') required int openIssuesCount,
+    Owner? owner,
+    String? language,
   }) = _Repository;
 
   factory Repository.fromJson(Map<String, dynamic> json) =>

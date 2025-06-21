@@ -129,7 +129,7 @@ void main() {
       expect(result, isEmpty);
     });
 
-    test('items内の一部データが不正な場合は例外', ()  {
+    test('items内の一部データが不正な場合は例外', () {
       const query = GitHubSearchQuery(q: 'flutter');
       final mockResponse = {
         'items': [
@@ -167,7 +167,7 @@ void main() {
       expect(() => repository.fetch(query), throwsA(isA<Exception>()));
     });
 
-    test('Dioのタイムアウト時に例外が投げられる', ()  {
+    test('Dioのタイムアウト時に例外が投げられる', () {
       const query = GitHubSearchQuery(q: 'flutter');
       when(
         mockDio.get<Map<String, dynamic>>(
@@ -184,7 +184,7 @@ void main() {
       expect(() => repository.fetch(query), throwsA(isA<Exception>()));
     });
 
-    test('APIのrate limit超過時(403)に例外が投げられる', ()  {
+    test('APIのrate limit超過時(403)に例外が投げられる', () {
       const query = GitHubSearchQuery(q: 'flutter');
       when(
         mockDio.get<Map<String, dynamic>>(
@@ -244,6 +244,80 @@ void main() {
       expect(result, isA<List<Repository>>());
       expect(result.length, 1);
       expect(result[0].name, 'repo1');
+    });
+
+    test('languageがnullのリポジトリも正常にパースされる', () async {
+      const query = GitHubSearchQuery(q: 'flutter');
+      final mockResponse = {
+        'items': [
+          {
+            'id': 1,
+            'name': 'repo1',
+            'full_name': 'user/repo1',
+            'owner': {'avatar_url': 'https://example.com/avatar1.png'},
+            'language': null,
+            'stargazers_count': 100,
+            'watchers_count': 50,
+            'forks_count': 10,
+            'open_issues_count': 5,
+          },
+        ],
+      };
+      when(
+        mockDio.get<Map<String, dynamic>>(
+          any,
+          queryParameters: query.toQueryParameters(),
+          options: anyNamed('options'),
+        ),
+      ).thenAnswer(
+        (_) async => Response<Map<String, dynamic>>(
+          data: mockResponse,
+          statusCode: 200,
+          requestOptions: RequestOptions(),
+        ),
+      );
+      final result = await repository.fetch(query);
+      expect(result, isA<List<Repository>>());
+      expect(result.length, 1);
+      expect(result[0].name, 'repo1');
+      expect(result[0].language, isNull);
+    });
+
+    test('ownerがnullのリポジトリも正常にパースされる', () async {
+      const query = GitHubSearchQuery(q: 'flutter');
+      final mockResponse = {
+        'items': [
+          {
+            'id': 1,
+            'name': 'repo1',
+            'full_name': 'user/repo1',
+            'owner': null,
+            'language': 'Dart',
+            'stargazers_count': 100,
+            'watchers_count': 50,
+            'forks_count': 10,
+            'open_issues_count': 5,
+          },
+        ],
+      };
+      when(
+        mockDio.get<Map<String, dynamic>>(
+          any,
+          queryParameters: query.toQueryParameters(),
+          options: anyNamed('options'),
+        ),
+      ).thenAnswer(
+        (_) async => Response<Map<String, dynamic>>(
+          data: mockResponse,
+          statusCode: 200,
+          requestOptions: RequestOptions(),
+        ),
+      );
+      final result = await repository.fetch(query);
+      expect(result, isA<List<Repository>>());
+      expect(result.length, 1);
+      expect(result[0].name, 'repo1');
+      expect(result[0].owner, isNull);
     });
   });
 }
