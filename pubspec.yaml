@@ -22,6 +22,7 @@ dev_dependencies:
     sdk: flutter
   riverpod_generator: ^2.6.5
   riverpod_lint: ^2.6.5
+  shared_preferences_platform_interface: ^2.4.1
   yumemi_lints: ^4.1.1
 
 flutter:
