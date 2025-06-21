@@ -1,3 +1,7 @@
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'git_hub_search_query.g.dart';
+
 enum GitHubSearchSort { stars, forks, helpWantedIssues, updated }
 
 enum GitHubSearchOrder { desc, asc }
@@ -39,6 +43,30 @@ extension GitHubSearchOrderExtension on GitHubSearchOrder {
   String get value => toString().split('.').last;
 }
 
+@riverpod
+class GitHubSearchQueryNotifier extends _$GitHubSearchQueryNotifier {
+  @override
+  GitHubSearchQuery build() {
+    return const GitHubSearchQuery(q: '');
+  }
+
+  void setQuery({
+    required String q,
+    GitHubSearchSort? sort,
+    GitHubSearchOrder? order,
+    PerPage? perPage,
+    PageNumber? page,
+  }) {
+    state = GitHubSearchQuery(
+      q: q,
+      sort: sort,
+      order: order,
+      perPage: perPage,
+      page: page,
+    );
+  }
+}
+
 class GitHubSearchQuery {
   const GitHubSearchQuery({
     required this.q,
@@ -53,13 +81,13 @@ class GitHubSearchQuery {
   final PerPage? perPage;
   final PageNumber? page;
 
-  Map<String, dynamic> toQueryParameters() {
+  Map<String, String> toQueryParameters() {
     return {
       'q': q,
       if (sort != null) 'sort': sort!.value,
       if (order != null) 'order': order!.value,
-      if (perPage != null) 'per_page': perPage!.value,
-      if (page != null) 'page': page!.value,
+      if (perPage != null) 'per_page': perPage!.value.toString(),
+      if (page != null) 'page': page!.value.toString(),
     };
   }
 }

@@ -43,15 +43,8 @@ void main() {
         ],
       };
       when(
-        mockDio.get<Map<String, dynamic>>(
+        mockDio.getUri<Map<String, dynamic>>(
           any,
-          queryParameters: {
-            'q': 'flutter',
-            'sort': 'stars',
-            'order': 'desc',
-            'per_page': 50,
-            'page': 2,
-          },
           options: anyNamed('options'),
         ),
       ).thenAnswer(
