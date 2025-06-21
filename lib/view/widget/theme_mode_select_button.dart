@@ -11,10 +11,6 @@ class ThemeModeSelectButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(selectedThemeModeProvider);
     return PopupMenuButton<ThemeMode>(
-      icon: const Icon(Icons.brightness_6),
-      onSelected: (mode) async {
-        await ref.read(selectedThemeModeProvider.notifier).setThemeMode(mode);
-      },
       itemBuilder: (context) {
         return [
           PopupMenuItem(
@@ -40,7 +36,17 @@ class ThemeModeSelectButton extends ConsumerWidget {
           ),
         ];
       },
+      onSelected: (mode) async {
+        await ref.read(selectedThemeModeProvider.notifier).setThemeMode(mode);
+      },
       initialValue: themeMode.value ?? ThemeMode.system,
+      child: ListTile(
+        leading: const Icon(Icons.brightness_6),
+        title: Text(
+          AppLocalizations.of(context)?.themeModeSelect ??
+              WordingData.themeModeSelect,
+        ),
+      ),
     );
   }
 }
