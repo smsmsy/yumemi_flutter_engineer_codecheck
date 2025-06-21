@@ -1,6 +1,7 @@
-name: 機能要望
-description: 新しい機能や改善の提案はこちらからお願いします。
-labels: [enhancement]
+name: 💡 新機能要望
+description: 新しい機能の提案はこちらからお願いします。
+title: "[NewFeature] <機能の概要>"
+labels: [NewFeature]
 body:
   - type: markdown
     attributes:
@@ -10,8 +11,8 @@ body:
   - type: input
     id: summary
     attributes:
-      label: 機能・改善の概要
-      description: 提案する機能や改善点の概要を記載してください。
+      label: 機能の概要
+      description: 提案する機能の概要を記載してください。
       placeholder: 例）ダークモードの追加
     validations:
       required: true
