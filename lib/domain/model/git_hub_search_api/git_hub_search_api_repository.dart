@@ -1,18 +1,28 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/git_hub_search_query.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/repository.dart';
+
+part 'git_hub_search_api_repository.g.dart';
+
+@riverpod
+GitHubSearchApiRepository apiRepository(Ref ref) {
+  return GitHubSearchApiRepository(dio: Dio());
+}
 
 class GitHubSearchApiRepository {
   GitHubSearchApiRepository({required this.dio});
   final Dio dio;
 
   Future<List<Repository>> fetch(GitHubSearchQuery query) async {
+    if (query.q.isEmpty) {
+      return [];
+    }
+    final baseUri = Uri.parse('https://api.github.com/search/repositories');
+    final uri = baseUri.replace(queryParameters: query.toQueryParameters());
     try {
-      final response = await dio.get<Map<String, dynamic>>(
-        'https://api.github.com/search/repositories',
-        queryParameters: query.toQueryParameters(),
-        options: Options(headers: {'accept': 'application/vnd.github+json'}),
-      );
+      final response = await dio.getUri<Map<String, dynamic>>(uri);
       if (response.statusCode != 200) {
         throw Exception('GitHub API error: status ${response.statusCode}');
       }
