@@ -2,5 +2,6 @@
   "appTitle": "フラッターデモ",
   "homePageTitle": "フラッターデモホームページ",
   "counterText": "ボタンを押した回数:",
-  "incrementTooltip": "増やす"
+  "incrementTooltip": "増やす",
+  "ossLicense": "OSSライセンス"
 }

@@ -3,3 +3,4 @@ appTitle,The title of the application.,Flutter Demo,フラッターデモ
 homePageTitle,The title of the home page.,Flutter Demo Home Page,フラッターデモホームページ
 counterText,Label for the counter display.,You have pushed the button this many times:,ボタンを押した回数:
 incrementTooltip,Tooltip for the increment button.,Increment,増やす
+ossLicense,The license information for the app.,OSS License,OSSライセンス

@@ -14,5 +14,9 @@
   "incrementTooltip": "Increment",
   "@incrementTooltip": {
     "description": "Tooltip for the increment button."
+  },
+  "ossLicense": "OSS License",
+  "@ossLicense": {
+    "description": "The license information for the app."
   }
 }
