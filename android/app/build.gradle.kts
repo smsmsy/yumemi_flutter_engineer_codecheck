@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.yumemi_flutter_engineer_codecheck"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973" // ★ Flutterの自動設定より優先して明示的に指定
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
