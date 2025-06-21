@@ -39,8 +39,9 @@ class _SearchPageState extends ConsumerState<SearchPage> {
             children: [
               SearchTextField(
                 controller: controller,
-                // TODO : onChanged を使用すると、入力中にAPIを叩いてしまうため、現状は onSubmitted のみを使用する。
-                // TODO : 例えば、Debounceを使用して、一定時間入力がない場合にAPIを叩くようにするなどして改善後にコメント解除する。
+                // TODO :
+                // 　onChanged を使用すると、入力中にAPIを叩いてしまうため、現状は onSubmitted のみを使用する。
+                // 　例えば、Debounceを使用して、一定時間入力がない場合にAPIを叩くようにするなどして改善後にコメント解除する。
                 // onChanged: (value) {
                 //   setState(() {
                 //     _text = value;
