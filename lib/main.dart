@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/provider/selected_theme_mode_provider.dart';
 import 'package:yumemi_flutter_engineer_codecheck/view/widget/theme_mode_select_button.dart';
 
@@ -26,24 +26,18 @@ class MyApp extends ConsumerWidget {
         ),
       ),
       themeMode: themeMode.value ?? ThemeMode.system,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({required this.title, super.key});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(StringProperty('title', title));
-  }
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -57,10 +51,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(localizations.homePageTitle),
         actions: const [
           ThemeModeSelectButton(),
         ],
@@ -69,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('You have pushed the button this many times:'),
+            Text(localizations.counterText),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
@@ -79,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        tooltip: localizations.incrementTooltip,
         child: const Icon(Icons.add),
       ),
     );
