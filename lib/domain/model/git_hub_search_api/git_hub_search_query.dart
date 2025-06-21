@@ -1,3 +1,7 @@
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'git_hub_search_query.g.dart';
+
 enum GitHubSearchSort { stars, forks, helpWantedIssues, updated }
 
 enum GitHubSearchOrder { desc, asc }
@@ -37,6 +41,30 @@ class PageNumber {
 
 extension GitHubSearchOrderExtension on GitHubSearchOrder {
   String get value => toString().split('.').last;
+}
+
+@riverpod
+class GitHubSearchQueryNotifier extends _$GitHubSearchQueryNotifier {
+  @override
+  GitHubSearchQuery build() {
+    return const GitHubSearchQuery(q: '');
+  }
+
+  void setQuery({
+    required String q,
+    GitHubSearchSort? sort,
+    GitHubSearchOrder? order,
+    PerPage? perPage,
+    PageNumber? page,
+  }) {
+    state = GitHubSearchQuery(
+      q: q,
+      sort: sort,
+      order: order,
+      perPage: perPage,
+      page: page,
+    );
+  }
 }
 
 class GitHubSearchQuery {
