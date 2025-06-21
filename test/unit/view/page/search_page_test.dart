@@ -28,5 +28,50 @@ void main() {
       );
       expect(find.text('Search Repository'), findsOneWidget);
     });
+    testWidgets('検索テキストボックスに入力した内容が表示される', (tester) async {
+      await pumpAppWithLocale(
+        tester: tester,
+        locale: const Locale('ja'),
+        home: const SearchPage(),
+      );
+      // テキストボックスに入力
+      const inputText = 'Flutter';
+      await tester.enterText(find.byType(TextField), inputText);
+      await tester.pump();
+      // 入力内容がTextFieldに表示されていること
+      expect(find.text(inputText), findsOneWidget);
+    });
+    testWidgets('キャンセルボタン押下でテキストがクリアされる', (tester) async {
+      await pumpAppWithLocale(
+        tester: tester,
+        locale: const Locale('ja'),
+        home: const SearchPage(),
+      );
+      // テキスト入力
+      const inputText = 'Flutter';
+      await tester.enterText(find.byType(TextField), inputText);
+      await tester.pump();
+      expect(find.text(inputText), findsOneWidget);
+      // キャンセルボタン押下
+      await tester.tap(find.byIcon(Icons.cancel));
+      await tester.pump();
+      // テキストがクリアされていること
+      expect(find.text(inputText), findsNothing);
+    });
+
+    testWidgets('ロケール切り替えでlabelTextが切り替わる', (tester) async {
+      await pumpAppWithLocale(
+        tester: tester,
+        locale: const Locale('en'),
+        home: const SearchPage(),
+      );
+      expect(find.text('Search repositories'), findsOneWidget);
+      await pumpAppWithLocale(
+        tester: tester,
+        locale: const Locale('ja'),
+        home: const SearchPage(),
+      );
+      expect(find.text('リポジトリを検索'), findsOneWidget);
+    });
   });
 }

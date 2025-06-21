@@ -28,4 +28,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get themeModeSelect => 'Select Theme Mode';
+
+  @override
+  String get searchRepositories => 'Search repositories';
 }

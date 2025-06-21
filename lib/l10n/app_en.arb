@@ -26,5 +26,9 @@
   "themeModeSelect": "Select Theme Mode",
   "@themeModeSelect": {
     "description": "The label for selecting theme mode."
+  },
+  "searchRepositories": "Search repositories",
+  "@searchRepositories": {
+    "description": "The label for searching repositories."
   }
 }
