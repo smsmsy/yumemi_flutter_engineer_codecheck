@@ -24,54 +24,60 @@ final class MockSharedPreferencesAsyncPlatform
   Future<void> clear(
     ClearPreferencesParameters parameters,
     SharedPreferencesOptions options,
-  ) {
-    // TODO: implement clear
-    throw UnimplementedError();
+  ) async {
+    _store.clear();
   }
 
   @override
-  Future<bool?> getBool(String key, SharedPreferencesOptions options) {
-    // TODO: implement getBool
-    throw UnimplementedError();
+  Future<bool?> getBool(String key, SharedPreferencesOptions options) async {
+    return _store[key] as bool?;
   }
 
   @override
-  Future<double?> getDouble(String key, SharedPreferencesOptions options) {
-    // TODO: implement getDouble
-    throw UnimplementedError();
+  Future<double?> getDouble(
+    String key,
+    SharedPreferencesOptions options,
+  ) async {
+    return _store[key] as double?;
   }
 
   @override
   Future<Set<String>> getKeys(
     GetPreferencesParameters parameters,
     SharedPreferencesOptions options,
-  ) {
-    // TODO: implement getKeys
-    throw UnimplementedError();
+  ) async {
+    return _store.keys.toSet();
   }
 
   @override
   Future<Map<String, Object>> getPreferences(
     GetPreferencesParameters parameters,
     SharedPreferencesOptions options,
-  ) {
-    // TODO: implement getPreferences
-    throw UnimplementedError();
+  ) async {
+    // Object? ではなく Object なので、null を除外
+    return Map<String, Object>.fromEntries(
+      _store.entries
+          .where((e) => e.value != null)
+          .map(
+            (e) => MapEntry(e.key, e.value!),
+          ),
+    );
   }
 
   @override
-  Future<String?> getString(String key, SharedPreferencesOptions options) {
-    // TODO: implement getString
-    throw UnimplementedError();
+  Future<String?> getString(
+    String key,
+    SharedPreferencesOptions options,
+  ) async {
+    return _store[key] as String?;
   }
 
   @override
   Future<List<String>?> getStringList(
     String key,
     SharedPreferencesOptions options,
-  ) {
-    // TODO: implement getStringList
-    throw UnimplementedError();
+  ) async {
+    return _store[key] as List<String>?;
   }
 
   @override
@@ -79,9 +85,8 @@ final class MockSharedPreferencesAsyncPlatform
     String key,
     bool value,
     SharedPreferencesOptions options,
-  ) {
-    // TODO: implement setBool
-    throw UnimplementedError();
+  ) async {
+    _store[key] = value;
   }
 
   @override
@@ -89,9 +94,8 @@ final class MockSharedPreferencesAsyncPlatform
     String key,
     double value,
     SharedPreferencesOptions options,
-  ) {
-    // TODO: implement setDouble
-    throw UnimplementedError();
+  ) async {
+    _store[key] = value;
   }
 
   @override
@@ -99,9 +103,8 @@ final class MockSharedPreferencesAsyncPlatform
     String key,
     String value,
     SharedPreferencesOptions options,
-  ) {
-    // TODO: implement setString
-    throw UnimplementedError();
+  ) async {
+    _store[key] = value;
   }
 
   @override
@@ -109,8 +112,7 @@ final class MockSharedPreferencesAsyncPlatform
     String key,
     List<String> value,
     SharedPreferencesOptions options,
-  ) {
-    // TODO: implement setStringList
-    throw UnimplementedError();
+  ) async {
+    _store[key] = value;
   }
 }
