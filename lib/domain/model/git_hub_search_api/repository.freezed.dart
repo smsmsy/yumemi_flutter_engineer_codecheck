@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Repository {
 
- String get name; Owner? get owner; String? get language;@JsonKey(name: 'stargazers_count') int get stargazersCount;@JsonKey(name: 'watchers_count') int get watchersCount;@JsonKey(name: 'forks_count') int get forksCount;@JsonKey(name: 'open_issues_count') int get openIssuesCount;
+ String get name;@JsonKey(name: 'stargazers_count') int get stargazersCount;@JsonKey(name: 'watchers_count') int get watchersCount;@JsonKey(name: 'forks_count') int get forksCount;@JsonKey(name: 'open_issues_count') int get openIssuesCount; Owner? get owner; String? get language;
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $RepositoryCopyWith<Repository> get copyWith => _$RepositoryCopyWithImpl<Reposit
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Repository&&(identical(other.name, name) || other.name == name)&&(identical(other.owner, owner) || other.owner == owner)&&(identical(other.language, language) || other.language == language)&&(identical(other.stargazersCount, stargazersCount) || other.stargazersCount == stargazersCount)&&(identical(other.watchersCount, watchersCount) || other.watchersCount == watchersCount)&&(identical(other.forksCount, forksCount) || other.forksCount == forksCount)&&(identical(other.openIssuesCount, openIssuesCount) || other.openIssuesCount == openIssuesCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Repository&&(identical(other.name, name) || other.name == name)&&(identical(other.stargazersCount, stargazersCount) || other.stargazersCount == stargazersCount)&&(identical(other.watchersCount, watchersCount) || other.watchersCount == watchersCount)&&(identical(other.forksCount, forksCount) || other.forksCount == forksCount)&&(identical(other.openIssuesCount, openIssuesCount) || other.openIssuesCount == openIssuesCount)&&(identical(other.owner, owner) || other.owner == owner)&&(identical(other.language, language) || other.language == language));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,owner,language,stargazersCount,watchersCount,forksCount,openIssuesCount);
+int get hashCode => Object.hash(runtimeType,name,stargazersCount,watchersCount,forksCount,openIssuesCount,owner,language);
 
 @override
 String toString() {
-  return 'Repository(name: $name, owner: $owner, language: $language, stargazersCount: $stargazersCount, watchersCount: $watchersCount, forksCount: $forksCount, openIssuesCount: $openIssuesCount)';
+  return 'Repository(name: $name, stargazersCount: $stargazersCount, watchersCount: $watchersCount, forksCount: $forksCount, openIssuesCount: $openIssuesCount, owner: $owner, language: $language)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $RepositoryCopyWith<$Res>  {
   factory $RepositoryCopyWith(Repository value, $Res Function(Repository) _then) = _$RepositoryCopyWithImpl;
 @useResult
 $Res call({
- String name, Owner? owner, String? language,@JsonKey(name: 'stargazers_count') int stargazersCount,@JsonKey(name: 'watchers_count') int watchersCount,@JsonKey(name: 'forks_count') int forksCount,@JsonKey(name: 'open_issues_count') int openIssuesCount
+ String name,@JsonKey(name: 'stargazers_count') int stargazersCount,@JsonKey(name: 'watchers_count') int watchersCount,@JsonKey(name: 'forks_count') int forksCount,@JsonKey(name: 'open_issues_count') int openIssuesCount, Owner? owner, String? language
 });
 
 
@@ -66,16 +66,16 @@ class _$RepositoryCopyWithImpl<$Res>
 
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? owner = freezed,Object? language = freezed,Object? stargazersCount = null,Object? watchersCount = null,Object? forksCount = null,Object? openIssuesCount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? stargazersCount = null,Object? watchersCount = null,Object? forksCount = null,Object? openIssuesCount = null,Object? owner = freezed,Object? language = freezed,}) {
   return _then(_self.copyWith(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,owner: freezed == owner ? _self.owner : owner // ignore: cast_nullable_to_non_nullable
-as Owner?,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
-as String?,stargazersCount: null == stargazersCount ? _self.stargazersCount : stargazersCount // ignore: cast_nullable_to_non_nullable
+as String,stargazersCount: null == stargazersCount ? _self.stargazersCount : stargazersCount // ignore: cast_nullable_to_non_nullable
 as int,watchersCount: null == watchersCount ? _self.watchersCount : watchersCount // ignore: cast_nullable_to_non_nullable
 as int,forksCount: null == forksCount ? _self.forksCount : forksCount // ignore: cast_nullable_to_non_nullable
 as int,openIssuesCount: null == openIssuesCount ? _self.openIssuesCount : openIssuesCount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,owner: freezed == owner ? _self.owner : owner // ignore: cast_nullable_to_non_nullable
+as Owner?,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 /// Create a copy of Repository
@@ -98,16 +98,16 @@ $OwnerCopyWith<$Res>? get owner {
 
 @JsonSerializable(explicitToJson: true)
 class _Repository implements Repository {
-  const _Repository({required this.name, this.owner, this.language, @JsonKey(name: 'stargazers_count') required this.stargazersCount, @JsonKey(name: 'watchers_count') required this.watchersCount, @JsonKey(name: 'forks_count') required this.forksCount, @JsonKey(name: 'open_issues_count') required this.openIssuesCount});
+  const _Repository({required this.name, @JsonKey(name: 'stargazers_count') required this.stargazersCount, @JsonKey(name: 'watchers_count') required this.watchersCount, @JsonKey(name: 'forks_count') required this.forksCount, @JsonKey(name: 'open_issues_count') required this.openIssuesCount, this.owner, this.language});
   factory _Repository.fromJson(Map<String, dynamic> json) => _$RepositoryFromJson(json);
 
 @override final  String name;
-@override final  Owner? owner;
-@override final  String? language;
 @override@JsonKey(name: 'stargazers_count') final  int stargazersCount;
 @override@JsonKey(name: 'watchers_count') final  int watchersCount;
 @override@JsonKey(name: 'forks_count') final  int forksCount;
 @override@JsonKey(name: 'open_issues_count') final  int openIssuesCount;
+@override final  Owner? owner;
+@override final  String? language;
 
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
@@ -122,16 +122,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Repository&&(identical(other.name, name) || other.name == name)&&(identical(other.owner, owner) || other.owner == owner)&&(identical(other.language, language) || other.language == language)&&(identical(other.stargazersCount, stargazersCount) || other.stargazersCount == stargazersCount)&&(identical(other.watchersCount, watchersCount) || other.watchersCount == watchersCount)&&(identical(other.forksCount, forksCount) || other.forksCount == forksCount)&&(identical(other.openIssuesCount, openIssuesCount) || other.openIssuesCount == openIssuesCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Repository&&(identical(other.name, name) || other.name == name)&&(identical(other.stargazersCount, stargazersCount) || other.stargazersCount == stargazersCount)&&(identical(other.watchersCount, watchersCount) || other.watchersCount == watchersCount)&&(identical(other.forksCount, forksCount) || other.forksCount == forksCount)&&(identical(other.openIssuesCount, openIssuesCount) || other.openIssuesCount == openIssuesCount)&&(identical(other.owner, owner) || other.owner == owner)&&(identical(other.language, language) || other.language == language));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,owner,language,stargazersCount,watchersCount,forksCount,openIssuesCount);
+int get hashCode => Object.hash(runtimeType,name,stargazersCount,watchersCount,forksCount,openIssuesCount,owner,language);
 
 @override
 String toString() {
-  return 'Repository(name: $name, owner: $owner, language: $language, stargazersCount: $stargazersCount, watchersCount: $watchersCount, forksCount: $forksCount, openIssuesCount: $openIssuesCount)';
+  return 'Repository(name: $name, stargazersCount: $stargazersCount, watchersCount: $watchersCount, forksCount: $forksCount, openIssuesCount: $openIssuesCount, owner: $owner, language: $language)';
 }
 
 
@@ -142,7 +142,7 @@ abstract mixin class _$RepositoryCopyWith<$Res> implements $RepositoryCopyWith<$
   factory _$RepositoryCopyWith(_Repository value, $Res Function(_Repository) _then) = __$RepositoryCopyWithImpl;
 @override @useResult
 $Res call({
- String name, Owner? owner, String? language,@JsonKey(name: 'stargazers_count') int stargazersCount,@JsonKey(name: 'watchers_count') int watchersCount,@JsonKey(name: 'forks_count') int forksCount,@JsonKey(name: 'open_issues_count') int openIssuesCount
+ String name,@JsonKey(name: 'stargazers_count') int stargazersCount,@JsonKey(name: 'watchers_count') int watchersCount,@JsonKey(name: 'forks_count') int forksCount,@JsonKey(name: 'open_issues_count') int openIssuesCount, Owner? owner, String? language
 });
 
 
@@ -159,16 +159,16 @@ class __$RepositoryCopyWithImpl<$Res>
 
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? owner = freezed,Object? language = freezed,Object? stargazersCount = null,Object? watchersCount = null,Object? forksCount = null,Object? openIssuesCount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? stargazersCount = null,Object? watchersCount = null,Object? forksCount = null,Object? openIssuesCount = null,Object? owner = freezed,Object? language = freezed,}) {
   return _then(_Repository(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,owner: freezed == owner ? _self.owner : owner // ignore: cast_nullable_to_non_nullable
-as Owner?,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
-as String?,stargazersCount: null == stargazersCount ? _self.stargazersCount : stargazersCount // ignore: cast_nullable_to_non_nullable
+as String,stargazersCount: null == stargazersCount ? _self.stargazersCount : stargazersCount // ignore: cast_nullable_to_non_nullable
 as int,watchersCount: null == watchersCount ? _self.watchersCount : watchersCount // ignore: cast_nullable_to_non_nullable
 as int,forksCount: null == forksCount ? _self.forksCount : forksCount // ignore: cast_nullable_to_non_nullable
 as int,openIssuesCount: null == openIssuesCount ? _self.openIssuesCount : openIssuesCount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,owner: freezed == owner ? _self.owner : owner // ignore: cast_nullable_to_non_nullable
+as Owner?,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
