@@ -48,9 +48,8 @@ void main() {
         ],
       };
       when(
-        mockDio.get<Map<String, dynamic>>(
+        mockDio.getUri<Map<String, dynamic>>(
           any,
-          queryParameters: query.toQueryParameters(),
           options: anyNamed('options'),
         ),
       ).thenAnswer(
@@ -71,9 +70,8 @@ void main() {
     test('異常系: APIエラー時に例外が投げられる', () {
       const query = GitHubSearchQuery(q: 'flutter');
       when(
-        mockDio.get<Map<String, dynamic>>(
+        mockDio.getUri<Map<String, dynamic>>(
           any,
-          queryParameters: query.toQueryParameters(),
           options: anyNamed('options'),
         ),
       ).thenThrow(
@@ -91,9 +89,8 @@ void main() {
       const query = GitHubSearchQuery(q: 'flutter');
       final mockResponse = {'items': <Map<String, dynamic>>[]};
       when(
-        mockDio.get<Map<String, dynamic>>(
+        mockDio.getUri<Map<String, dynamic>>(
           any,
-          queryParameters: query.toQueryParameters(),
           options: anyNamed('options'),
         ),
       ).thenAnswer(
@@ -112,9 +109,8 @@ void main() {
       const query = GitHubSearchQuery(q: 'flutter');
       final mockResponse = <String, dynamic>{};
       when(
-        mockDio.get<Map<String, dynamic>>(
+        mockDio.getUri<Map<String, dynamic>>(
           any,
-          queryParameters: query.toQueryParameters(),
           options: anyNamed('options'),
         ),
       ).thenAnswer(
@@ -152,9 +148,8 @@ void main() {
         ],
       };
       when(
-        mockDio.get<Map<String, dynamic>>(
+        mockDio.getUri<Map<String, dynamic>>(
           any,
-          queryParameters: query.toQueryParameters(),
           options: anyNamed('options'),
         ),
       ).thenAnswer(
@@ -170,9 +165,8 @@ void main() {
     test('Dioのタイムアウト時に例外が投げられる', () {
       const query = GitHubSearchQuery(q: 'flutter');
       when(
-        mockDio.get<Map<String, dynamic>>(
+        mockDio.getUri<Map<String, dynamic>>(
           any,
-          queryParameters: query.toQueryParameters(),
           options: anyNamed('options'),
         ),
       ).thenThrow(
@@ -187,9 +181,8 @@ void main() {
     test('APIのrate limit超過時(403)に例外が投げられる', () {
       const query = GitHubSearchQuery(q: 'flutter');
       when(
-        mockDio.get<Map<String, dynamic>>(
+        mockDio.getUri<Map<String, dynamic>>(
           any,
-          queryParameters: query.toQueryParameters(),
           options: anyNamed('options'),
         ),
       ).thenAnswer(
@@ -224,13 +217,8 @@ void main() {
         ],
       };
       when(
-        mockDio.get<Map<String, dynamic>>(
+        mockDio.getUri<Map<String, dynamic>>(
           any,
-          queryParameters: {
-            'q': 'flutter',
-            'sort': 'stars',
-            'order': 'asc',
-          },
           options: anyNamed('options'),
         ),
       ).thenAnswer(
@@ -264,9 +252,8 @@ void main() {
         ],
       };
       when(
-        mockDio.get<Map<String, dynamic>>(
+        mockDio.getUri<Map<String, dynamic>>(
           any,
-          queryParameters: query.toQueryParameters(),
           options: anyNamed('options'),
         ),
       ).thenAnswer(
@@ -301,9 +288,8 @@ void main() {
         ],
       };
       when(
-        mockDio.get<Map<String, dynamic>>(
+        mockDio.getUri<Map<String, dynamic>>(
           any,
-          queryParameters: query.toQueryParameters(),
           options: anyNamed('options'),
         ),
       ).thenAnswer(
