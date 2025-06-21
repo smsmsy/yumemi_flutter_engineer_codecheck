@@ -1,22 +1,30 @@
 {
-  "appTitle": "Flutter Demo",
+  "appTitle": "Yumemi Flutter Engineer Codecheck",
   "@appTitle": {
     "description": "The title of the application."
   },
-  "homePageTitle": "Flutter Demo Home Page",
-  "@homePageTitle": {
+  "searchPageTitle": "Search Repository",
+  "@searchPageTitle": {
     "description": "The title of the home page."
-  },
-  "counterText": "You have pushed the button this many times:",
-  "@counterText": {
-    "description": "Label for the counter display."
-  },
-  "incrementTooltip": "Increment",
-  "@incrementTooltip": {
-    "description": "Tooltip for the increment button."
   },
   "ossLicense": "OSS License",
   "@ossLicense": {
     "description": "The license information for the app."
+  },
+  "themeModeSystem": "System",
+  "@themeModeSystem": {
+    "description": "The label for system theme mode."
+  },
+  "themeModeLight": "Light",
+  "@themeModeLight": {
+    "description": "The label for light theme mode."
+  },
+  "themeModeDark": "Dark",
+  "@themeModeDark": {
+    "description": "The label for dark theme mode."
+  },
+  "themeModeSelect": "Select Theme Mode",
+  "@themeModeSelect": {
+    "description": "The label for selecting theme mode."
   }
 }

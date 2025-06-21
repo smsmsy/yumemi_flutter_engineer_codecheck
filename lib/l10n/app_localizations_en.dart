@@ -9,17 +9,23 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Flutter Demo';
+  String get appTitle => 'Yumemi Flutter Engineer Codecheck';
 
   @override
-  String get homePageTitle => 'Flutter Demo Home Page';
-
-  @override
-  String get counterText => 'You have pushed the button this many times:';
-
-  @override
-  String get incrementTooltip => 'Increment';
+  String get searchPageTitle => 'Search Repository';
 
   @override
   String get ossLicense => 'OSS License';
+
+  @override
+  String get themeModeSystem => 'System';
+
+  @override
+  String get themeModeLight => 'Light';
+
+  @override
+  String get themeModeDark => 'Dark';
+
+  @override
+  String get themeModeSelect => 'Select Theme Mode';
 }

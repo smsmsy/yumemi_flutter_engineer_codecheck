@@ -1,7 +1,9 @@
 {
-  "appTitle": "フラッターデモ",
-  "homePageTitle": "フラッターデモホームページ",
-  "counterText": "ボタンを押した回数:",
-  "incrementTooltip": "増やす",
-  "ossLicense": "OSSライセンス"
+  "appTitle": "Yumemi Flutter Engineer Codecheck",
+  "searchPageTitle": "リポジトリ検索",
+  "ossLicense": "OSSライセンス",
+  "themeModeSystem": "システム",
+  "themeModeLight": "ライト",
+  "themeModeDark": "ダーク",
+  "themeModeSelect": "テーマモードを選択"
 }

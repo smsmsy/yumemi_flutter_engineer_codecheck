@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/page/my_home_page.dart';
+import 'package:yumemi_flutter_engineer_codecheck/view/page/search_page.dart';
 
 final goRouterProvider = Provider<GoRouter>(
   (ref) => createGoRouter(),
@@ -16,7 +16,7 @@ GoRouter createGoRouter() {
       GoRoute(
         path: AppRoutes.root,
         name: 'home',
-        builder: (context, state) => const MyHomePage(),
+        builder: (context, state) => const SearchPage(),
       ),
     ],
   );
