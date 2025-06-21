@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
 import 'package:yumemi_flutter_engineer_codecheck/view/widget/custom_drawer.dart';
+import 'package:yumemi_flutter_engineer_codecheck/view/widget/search_result_list_view.dart';
 import 'package:yumemi_flutter_engineer_codecheck/view/widget/search_text_field.dart';
 
 class SearchPage extends StatefulWidget {
@@ -58,6 +59,10 @@ class _SearchPageState extends State<SearchPage> {
                 labelText:
                     AppLocalizations.of(context)?.searchRepositories ??
                     WordingData.searchRepositories,
+              ),
+              const SizedBox(height: 8),
+              const Expanded(
+                child: SearchResultListView(),
               ),
             ],
           ),
