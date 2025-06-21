@@ -81,13 +81,13 @@ class GitHubSearchQuery {
   final PerPage? perPage;
   final PageNumber? page;
 
-  Map<String, dynamic> toQueryParameters() {
+  Map<String, String> toQueryParameters() {
     return {
       'q': q,
       if (sort != null) 'sort': sort!.value,
       if (order != null) 'order': order!.value,
-      if (perPage != null) 'per_page': perPage!.value,
-      if (page != null) 'page': page!.value,
+      if (perPage != null) 'per_page': perPage!.value.toString(),
+      if (page != null) 'page': page!.value.toString(),
     };
   }
 }
