@@ -1,6 +1,7 @@
-name: バグ報告
+name: 🦋 バグ報告
 description: バグの報告はこちらからお願いします。
-labels: [bug]
+title: "[Bug] <バグの概要>"
+labels: [Bug]
 body:
   - type: markdown
     attributes:

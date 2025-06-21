@@ -1,0 +1,40 @@
+name: "🛠️ 開発環境に関する課題・要望"
+description: "開発環境のセットアップや構築、トラブルシュート、改善要望などを報告・提案するためのテンプレートです。"
+title: "[DevEnv] <課題・要望の概要>"
+labels: ["DevEnv"]
+body:
+  - type: input
+    id: env-title
+    attributes:
+      label: 課題・要望の概要
+      description: どんな開発環境の課題・要望かを記入してください。
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: 内容の詳細
+      description: 発生している問題や要望の具体的な内容を記入してください。
+    validations:
+      required: false
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待する動作やゴール
+      description: どのような状態になることを期待するかを記入してください。
+    validations:
+      required: true
+  - type: textarea
+    id: env-info
+    attributes:
+      label: 再現手順や環境情報
+      description: OSやツールのバージョン、再現手順など、関連する情報を記入してください。
+    validations:
+      required: false
+  - type: textarea
+    id: notes
+    attributes:
+      label: その他の備考（任意）
+      description: その他、伝えておきたいことがあれば記入してください。
+    validations:
+      required: false
