@@ -1,43 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
-import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
+import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
 import 'package:yumemi_flutter_engineer_codecheck/view/page/search_page.dart';
+import 'package:yumemi_flutter_engineer_codecheck/view/widget/custom_drawer.dart';
 
-import '../mock/mock_shared_preferences_async_plarform.dart';
+import '../../../mock/mock_shared_preferences_async_plarform.dart';
+import '../../../util/test_util.dart';
 
 void main() {
-  group('MyHomePage Drawer', () {
+  group('CustomDrawerのテスト', () {
     setUp(() {
+      // SharedPreferencesのモックを初期化
       SharedPreferencesAsyncPlatform.instance =
           MockSharedPreferencesAsyncPlatform();
     });
 
-    Future<void> pumpApp(WidgetTester tester, Locale locale) async {
-      await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            locale: locale,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [
-              Locale('en'),
-              Locale('ja'),
-            ],
-            home: const SearchPage(),
-          ),
-        ),
-      );
-    }
-
     testWidgets('DrawerにOSSライセンス(ja)が表示される', (tester) async {
-      await pumpApp(tester, const Locale('ja'));
+      await pumpAppWithLocale(
+        tester: tester,
+        locale: const Locale('ja'),
+        home: const SearchPage(),
+      );
       // Drawerを開く
       await tester.tap(find.byIcon(Icons.menu));
       await tester.pumpAndSettle();
@@ -46,7 +31,11 @@ void main() {
     });
 
     testWidgets('DrawerにOSS License(en)が表示される', (tester) async {
-      await pumpApp(tester, const Locale('en'));
+      await pumpAppWithLocale(
+        tester: tester,
+        locale: const Locale('en'),
+        home: const SearchPage(),
+      );
       // Drawerを開く
       await tester.tap(find.byIcon(Icons.menu));
       await tester.pumpAndSettle();
@@ -55,7 +44,11 @@ void main() {
     });
 
     testWidgets('Licensesのページが表示され元のページにも遷移することができる', (tester) async {
-      await pumpApp(tester, const Locale('en'));
+      await pumpAppWithLocale(
+        tester: tester,
+        locale: const Locale('en'),
+        home: const SearchPage(),
+      );
 
       // Drawerを開く
       await tester.tap(find.byIcon(Icons.menu));
@@ -76,6 +69,36 @@ void main() {
       // 元のページに戻っていることを確認
       expect(find.byIcon(Icons.menu), findsOneWidget);
       expect(find.text('Licenses'), findsNothing);
+    });
+
+    testWidgets('CustomDrawer の表示要素が表示されていること', (tester) async {
+      final scaffoldKey = GlobalKey<ScaffoldState>();
+      await tester.pumpWidget(
+        ProviderScope(
+          child: MaterialApp(
+            home: Scaffold(
+              key: scaffoldKey,
+              drawer: const CustomDrawer(),
+            ),
+          ),
+        ),
+      );
+
+      // Drawerを開く
+      scaffoldKey.currentState!.openDrawer();
+      await tester.pumpAndSettle();
+
+      expect(find.text(WordingData.applicationName), findsOneWidget);
+      expect(find.byIcon(Icons.brightness_6), findsOneWidget);
+
+      expect(find.text(WordingData.ossLicense), findsOneWidget);
+
+      await tester.tap(find.byIcon(Icons.brightness_6));
+      await tester.pumpAndSettle();
+
+      expect(find.text(WordingData.themeModeSystem), findsOneWidget);
+      expect(find.text(WordingData.themeModeLight), findsOneWidget);
+      expect(find.text(WordingData.themeModeDark), findsOneWidget);
     });
   });
 }
