@@ -62,5 +62,21 @@ void main() {
       expect(controller.text, 'Flutter');
       expect(find.text('Flutter'), findsOneWidget);
     });
+
+    testWidgets('onSubmittedが呼ばれる', (tester) async {
+      String? submittedValue;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SearchTextField(
+              onSubmitted: (v) => submittedValue = v,
+            ),
+          ),
+        ),
+      );
+      await tester.enterText(find.byType(TextField), 'Dart');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      expect(submittedValue, 'Dart');
+    });
   });
 }

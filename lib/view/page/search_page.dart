@@ -42,6 +42,12 @@ class _SearchPageState extends State<SearchPage> {
                     _text = value;
                   });
                 },
+                onSubmitted: (value) {
+                  // TODO: エンターキーや検索ボタンでの検索実行時の実装
+                  setState(() {
+                    _text = value;
+                  });
+                },
                 onCancelButtonPressed: () {
                   // TODO: リポジトリ検索キャンセル時の実装
                   setState(() {

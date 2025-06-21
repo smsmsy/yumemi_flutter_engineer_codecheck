@@ -8,12 +8,14 @@ class SearchTextField extends StatelessWidget {
     this.onChanged,
     this.onCancelButtonPressed,
     this.labelText,
+    this.onSubmitted,
   });
 
   final TextEditingController? controller;
   final void Function(String)? onChanged;
   final void Function()? onCancelButtonPressed;
   final String? labelText;
+  final void Function(String)? onSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class SearchTextField extends StatelessWidget {
           labelText: labelText,
         ),
         onChanged: onChanged,
+        onSubmitted: onSubmitted,
       ),
     );
   }
@@ -50,5 +53,11 @@ class SearchTextField extends StatelessWidget {
       ),
     );
     properties.add(StringProperty('labelText', labelText));
+    properties.add(
+      ObjectFlagProperty<void Function(String p1)?>.has(
+        'onSubmitted',
+        onSubmitted,
+      ),
+    );
   }
 }
