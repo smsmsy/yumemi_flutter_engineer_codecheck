@@ -19,4 +19,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get incrementTooltip => '増やす';
+
+  @override
+  String get ossLicense => 'OSSライセンス';
 }

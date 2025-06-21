@@ -121,6 +121,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Increment'**
   String get incrementTooltip;
+
+  /// The license information for the app.
+  ///
+  /// In en, this message translates to:
+  /// **'OSS License'**
+  String get ossLicense;
 }
 
 class _AppLocalizationsDelegate
