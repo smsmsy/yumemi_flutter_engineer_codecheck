@@ -9,17 +9,20 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
-  String get appTitle => 'フラッターデモ';
+  String get appTitle => 'Yumemi Flutter Engineer Codecheck';
 
   @override
-  String get homePageTitle => 'フラッターデモホームページ';
-
-  @override
-  String get counterText => 'ボタンを押した回数:';
-
-  @override
-  String get incrementTooltip => '増やす';
+  String get searchPageTitle => 'リポジトリ検索';
 
   @override
   String get ossLicense => 'OSSライセンス';
+
+  @override
+  String get themeModeSystem => 'システム';
+
+  @override
+  String get themeModeLight => 'ライト';
+
+  @override
+  String get themeModeDark => 'ダーク';
 }

@@ -101,32 +101,38 @@ abstract class AppLocalizations {
   /// The title of the application.
   ///
   /// In en, this message translates to:
-  /// **'Flutter Demo'**
+  /// **'Yumemi Flutter Engineer Codecheck'**
   String get appTitle;
 
   /// The title of the home page.
   ///
   /// In en, this message translates to:
-  /// **'Flutter Demo Home Page'**
-  String get homePageTitle;
-
-  /// Label for the counter display.
-  ///
-  /// In en, this message translates to:
-  /// **'You have pushed the button this many times:'**
-  String get counterText;
-
-  /// Tooltip for the increment button.
-  ///
-  /// In en, this message translates to:
-  /// **'Increment'**
-  String get incrementTooltip;
+  /// **'Search Repository'**
+  String get searchPageTitle;
 
   /// The license information for the app.
   ///
   /// In en, this message translates to:
   /// **'OSS License'**
   String get ossLicense;
+
+  /// The label for system theme mode.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeModeSystem;
+
+  /// The label for light theme mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeModeLight;
+
+  /// The label for dark theme mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeModeDark;
 }
 
 class _AppLocalizationsDelegate

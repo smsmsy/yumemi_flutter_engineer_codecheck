@@ -1,6 +1,7 @@
 ID,Description,EN,JA
-appTitle,The title of the application.,Flutter Demo,フラッターデモ
-homePageTitle,The title of the home page.,Flutter Demo Home Page,フラッターデモホームページ
-counterText,Label for the counter display.,You have pushed the button this many times:,ボタンを押した回数:
-incrementTooltip,Tooltip for the increment button.,Increment,増やす
+appTitle,The title of the application.,Yumemi Flutter Engineer Codecheck,Yumemi Flutter Engineer Codecheck
+searchPageTitle,The title of the home page.,Search Repository,リポジトリ検索
 ossLicense,The license information for the app.,OSS License,OSSライセンス
+themeModeSystem,The label for system theme mode.,System,システム
+themeModeLight,The label for light theme mode.,Light,ライト
+themeModeDark,The label for dark theme mode.,Dark,ダーク
