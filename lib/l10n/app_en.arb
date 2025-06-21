@@ -22,5 +22,9 @@
   "themeModeDark": "Dark",
   "@themeModeDark": {
     "description": "The label for dark theme mode."
+  },
+  "themeModeSelect": "Select Theme Mode",
+  "@themeModeSelect": {
+    "description": "The label for selecting theme mode."
   }
 }

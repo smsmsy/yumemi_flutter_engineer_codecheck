@@ -4,5 +4,6 @@
   "ossLicense": "OSSライセンス",
   "themeModeSystem": "システム",
   "themeModeLight": "ライト",
-  "themeModeDark": "ダーク"
+  "themeModeDark": "ダーク",
+  "themeModeSelect": "テーマモードを選択"
 }

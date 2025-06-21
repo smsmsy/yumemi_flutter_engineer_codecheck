@@ -5,3 +5,4 @@ ossLicense,The license information for the app.,OSS License,OSSライセンス
 themeModeSystem,The label for system theme mode.,System,システム
 themeModeLight,The label for light theme mode.,Light,ライト
 themeModeDark,The label for dark theme mode.,Dark,ダーク
+themeModeSelect,The label for selecting theme mode.,Select Theme Mode,テーマモードを選択

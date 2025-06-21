@@ -133,6 +133,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get themeModeDark;
+
+  /// The label for selecting theme mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Theme Mode'**
+  String get themeModeSelect;
 }
 
 class _AppLocalizationsDelegate
