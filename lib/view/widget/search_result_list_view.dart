@@ -21,18 +21,28 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: 検索結果のリストを引き取る実装
-    // ここではダミーデータを使用しているため、実際のデータを取得するロジックを実装する必要があります。
-    final repositories = List<Repository>.generate(
-      1000,
-      (index) => Repository(
-        name: 'flutter-engineer-codecheck-${index + 1}',
-        stargazersCount: 100,
-        watchersCount: 50,
-        forksCount: 20,
-        openIssuesCount: 5,
-      ),
-    );
+    final repositoriesAsyncValue = ref.watch(repositiesSearchResultProvider);
+
+    if (repositoriesAsyncValue.isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    if (repositoriesAsyncValue.hasError) {
+      return Center(
+        child: Text(
+          'エラーが発生しました: ${repositoriesAsyncValue.error}',
+          style: const TextStyle(color: Colors.red),
+        ),
+      );
+    }
+    if (repositoriesAsyncValue.isRefreshing) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    final repositories = repositoriesAsyncValue.requireValue;
 
     if (repositories.isEmpty) {
       return const Center(
@@ -48,10 +58,18 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
         return Card(
           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           child: ListTile(
-            leading: const CircleAvatar(
-              backgroundColor: Colors.blueGrey,
-              // TODO: Image.network(repository.owner.avatarUrl) によるアイコンの実装
-            ),
+            leading:
+                repository.owner == null
+                    ? const CircleAvatar(
+                      backgroundColor: Colors.grey,
+                      child: Icon(Icons.person, color: Colors.white),
+                    )
+                    : CircleAvatar(
+                      backgroundColor: const Color(0x00000000),
+                      backgroundImage: NetworkImage(
+                        repository.owner!.avatarUrl,
+                      ),
+                    ),
             title: Text(
               repository.name,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
