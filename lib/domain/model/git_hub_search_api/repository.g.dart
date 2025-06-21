@@ -29,3 +29,31 @@ Map<String, dynamic> _$RepositoryToJson(_Repository instance) =>
       'owner': instance.owner?.toJson(),
       'language': instance.language,
     };
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$repositiesSearchResultHash() =>
+    r'7d4e63e680f7b7696bba23b0c2b30a63a97e70c7';
+
+/// See also [repositiesSearchResult].
+@ProviderFor(repositiesSearchResult)
+final repositiesSearchResultProvider =
+    AutoDisposeFutureProvider<List<Repository>>.internal(
+      repositiesSearchResult,
+      name: r'repositiesSearchResultProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$repositiesSearchResultHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef RepositiesSearchResultRef =
+    AutoDisposeFutureProviderRef<List<Repository>>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
