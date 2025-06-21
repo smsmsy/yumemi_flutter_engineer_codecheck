@@ -139,6 +139,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select Theme Mode'**
   String get themeModeSelect;
+
+  /// The label for searching repositories.
+  ///
+  /// In en, this message translates to:
+  /// **'Search repositories'**
+  String get searchRepositories;
 }
 
 class _AppLocalizationsDelegate

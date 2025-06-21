@@ -14,4 +14,6 @@ class WordingData {
   static const themeModeDark = 'Dark';
 
   static const themeModeSelect = 'Select Theme Mode';
+
+  static const searchRepositories = 'Search repositories';
 }

@@ -28,4 +28,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get themeModeSelect => 'テーマモードを選択';
+
+  @override
+  String get searchRepositories => 'リポジトリを検索';
 }
