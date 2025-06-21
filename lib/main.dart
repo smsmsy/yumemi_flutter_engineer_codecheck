@@ -48,7 +48,6 @@ class _MyHomePageState extends State<MyHomePage> {
     final localizations = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(localizations.homePageTitle),
         actions: const [
           ThemeModeSelectButton(),
