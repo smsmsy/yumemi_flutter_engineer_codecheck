@@ -12,7 +12,7 @@ part 'repository.freezed.dart';
 part 'repository.g.dart';
 
 @riverpod
-Future<List<Repository>> repositiesSearchResult(Ref ref) async {
+Future<List<Repository>> repositoriesSearchResult(Ref ref) async {
   final query = ref.watch(gitHubSearchQueryNotifierProvider);
   if (query.q.isEmpty) {
     return [];

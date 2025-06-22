@@ -14,7 +14,27 @@
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.fixAll": "always",
-      "source.organizeImports": "always",
-    },
-  }
+      "source.organizeImports": "always"
+    }
+  },
+  // ---------- Code Spell Checker ----------
+  "cSpell.language": "en,ja",
+  "cSpell.enabledFileTypes": {
+    "dart": true,
+    "json": true,
+    "yaml": true,
+    "markdown": true,
+    "plaintext": true,
+    "text": true
+  },
+  "cSpell.words": [
+    "codecheck",
+    "cupertino",
+    "prefs",
+    "pubspec",
+    "riverpod",
+    "subosito",
+    "xcworkspace",
+    "yumemi"
+  ]
 }

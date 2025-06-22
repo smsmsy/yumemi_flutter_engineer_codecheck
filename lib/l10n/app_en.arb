@@ -1,4 +1,5 @@
 {
+  "@@locale": "en",
   "appTitle": "Yumemi Flutter Engineer Codecheck",
   "@appTitle": {
     "description": "The title of the application."
