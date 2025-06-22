@@ -35,7 +35,7 @@ Map<String, dynamic> _$RepositoryToJson(_Repository instance) =>
 // **************************************************************************
 
 String _$repositiesSearchResultHash() =>
-    r'7d4e63e680f7b7696bba23b0c2b30a63a97e70c7';
+    r'29797e8b5ac305dce75aeb14fbd987012fc916ae';
 
 /// See also [repositiesSearchResult].
 @ProviderFor(repositiesSearchResult)
