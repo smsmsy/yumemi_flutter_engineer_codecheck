@@ -7,5 +7,7 @@
     "robert-brunhage.flutter-riverpod-snippets",
     // GitHub Copilot
     "github.copilot",
+    // Code Spell Checker
+    "streetsidesoftware.code-spell-checker",
   ]
 }
