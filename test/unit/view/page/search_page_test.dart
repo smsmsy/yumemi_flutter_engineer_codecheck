@@ -40,6 +40,8 @@ void main() {
       await tester.pump();
       // 入力内容がTextFieldに表示されていること
       expect(find.text(inputText), findsOneWidget);
+      // タイマーなどの保留中処理を解消
+      await tester.pumpAndSettle();
     });
     testWidgets('キャンセルボタン押下でテキストがクリアされる', (tester) async {
       await pumpAppWithLocale(
@@ -57,6 +59,8 @@ void main() {
       await tester.pump();
       // テキストがクリアされていること
       expect(find.text(inputText), findsNothing);
+      // タイマーなどの保留中処理を解消
+      await tester.pumpAndSettle();
     });
 
     testWidgets('ロケール切り替えでlabelTextが切り替わる', (tester) async {
