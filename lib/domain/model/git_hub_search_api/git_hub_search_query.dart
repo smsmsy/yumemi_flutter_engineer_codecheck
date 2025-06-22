@@ -83,11 +83,17 @@ class GitHubSearchQuery {
 
   Map<String, String> toQueryParameters() {
     return {
-      'q': q,
-      if (sort != null) 'sort': sort!.value,
-      if (order != null) 'order': order!.value,
-      if (perPage != null) 'per_page': perPage!.value.toString(),
-      if (page != null) 'page': page!.value.toString(),
+      'q': Uri.encodeQueryComponent(q),
+      if (sort != null) 'sort': Uri.encodeQueryComponent(sort!.value),
+      if (order != null) 'order': Uri.encodeQueryComponent(order!.value),
+      if (perPage != null)
+        'per_page': Uri.encodeQueryComponent(
+          perPage!.value.toString(),
+        ),
+      if (page != null)
+        'page': Uri.encodeQueryComponent(
+          page!.value.toString(),
+        ),
     };
   }
 }
