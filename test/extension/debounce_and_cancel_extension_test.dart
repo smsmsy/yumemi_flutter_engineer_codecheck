@@ -7,7 +7,7 @@ import 'package:yumemi_flutter_engineer_codecheck/extension/debounce_and_cancel_
 
 /// デバウンス処理とキャンセル処理を実装したDioのFutureProvider
 ///
-/// - [params] には以下のキーを含むMapを渡す必要があります:
+/// - params には以下のキーを含むMapを渡す必要があります:
 ///   - `duration`: デバウンスの遅延時間（Duration型）
 ///   - `dio`: オプションでDioインスタンスを指定できます（Dio型）
 ///   - `timerFactory`: オプションでTimerの生成方法を指定できます
