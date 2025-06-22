@@ -6,5 +6,11 @@
   "themeModeLight": "ライト",
   "themeModeDark": "ダーク",
   "themeModeSelect": "テーマモードを選択",
-  "searchRepositories": "リポジトリを検索"
+  "searchRepositories": "リポジトリを検索",
+  "repoLanguage": "言語",
+  "repoStars": "スター",
+  "repoWatchers": "ウォッチ",
+  "repoForks": "フォーク",
+  "repoIssues": "イシュー",
+  "repoDetailsInfo": "リポジトリ詳細"
 }

@@ -30,5 +30,29 @@
   "searchRepositories": "Search repositories",
   "@searchRepositories": {
     "description": "The label for searching repositories."
+  },
+  "repoLanguage": "Language",
+  "@repoLanguage": {
+    "description": "The programming language of the repository."
+  },
+  "repoStars": "Stars",
+  "@repoStars": {
+    "description": "The number of stars of the repository."
+  },
+  "repoWatchers": "Watchers",
+  "@repoWatchers": {
+    "description": "The number of watchers of the repository."
+  },
+  "repoForks": "Forks",
+  "@repoForks": {
+    "description": "The number of forks of the repository."
+  },
+  "repoIssues": "Issues",
+  "@repoIssues": {
+    "description": "The number of open issues of the repository."
+  },
+  "repoDetailsInfo": "Repository Details Info",
+  "@repoDetailsInfo": {
+    "description": "The title for the repository details page."
   }
 }

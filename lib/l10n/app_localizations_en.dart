@@ -31,4 +31,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchRepositories => 'Search repositories';
+
+  @override
+  String get repoLanguage => 'Language';
+
+  @override
+  String get repoStars => 'Stars';
+
+  @override
+  String get repoWatchers => 'Watchers';
+
+  @override
+  String get repoForks => 'Forks';
+
+  @override
+  String get repoIssues => 'Issues';
+
+  @override
+  String get repoDetailsInfo => 'Repository Details Info';
 }
