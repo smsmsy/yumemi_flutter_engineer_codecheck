@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/page/repositori_search_page.dart';
+import 'package:yumemi_flutter_engineer_codecheck/view/page/repository_search_page.dart';
 
-import '../../../mock/mock_shared_preferences_async_plarform.dart';
+import '../../../mock/mock_shared_preferences_async_platform.dart';
 import '../../../util/test_util.dart';
 
 void main() {

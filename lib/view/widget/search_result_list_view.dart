@@ -22,7 +22,7 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
 
   @override
   Widget build(BuildContext context) {
-    final repositoriesAsyncValue = ref.watch(repositiesSearchResultProvider);
+    final repositoriesAsyncValue = ref.watch(repositoriesSearchResultProvider);
 
     if (repositoriesAsyncValue.isLoading) {
       return const Center(

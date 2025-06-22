@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/repository.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/page/repositori_search_page.dart';
+import 'package:yumemi_flutter_engineer_codecheck/view/page/repository_search_page.dart';
 import 'package:yumemi_flutter_engineer_codecheck/view/widget/search_result_list_view.dart';
 
 void main() {
@@ -31,7 +31,7 @@ void main() {
       ];
       await tester.pumpWidget(
         _buildTestWidget(
-          repositiesSearchResultProvider.overrideWith((_) => dummyList),
+          repositoriesSearchResultProvider.overrideWith((_) => dummyList),
         ),
       );
       await tester.pumpAndSettle();
@@ -42,7 +42,7 @@ void main() {
     testWidgets('空リスト時にメッセージが表示される', (tester) async {
       await tester.pumpWidget(
         _buildTestWidget(
-          repositiesSearchResultProvider.overrideWith(
+          repositoriesSearchResultProvider.overrideWith(
             (_) => <Repository>[],
           ),
         ),
@@ -55,7 +55,7 @@ void main() {
       final completer = Completer<List<Repository>>();
       await tester.pumpWidget(
         _buildTestWidget(
-          repositiesSearchResultProvider.overrideWith(
+          repositoriesSearchResultProvider.overrideWith(
             (_) => completer.future,
           ),
         ),
@@ -68,7 +68,7 @@ void main() {
     testWidgets('エラー時にエラーメッセージが表示される', (tester) async {
       await tester.pumpWidget(
         _buildTestWidget(
-          repositiesSearchResultProvider.overrideWith(
+          repositoriesSearchResultProvider.overrideWith(
             (_) => throw Exception('error'),
           ),
         ),
