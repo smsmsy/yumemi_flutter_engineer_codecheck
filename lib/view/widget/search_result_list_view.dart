@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/repository.dart';
 
 class SearchResultListView extends ConsumerStatefulWidget {
@@ -78,15 +79,10 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
             ),
             trailing: const Icon(Icons.chevron_right),
             contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-            onTap: () {
-              // TODO: リポジトリ詳細画面への遷移実装
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    'Tapped on ${repository.name}',
-                  ),
-                ),
-              );
+            onTap: () async {
+              await GoRouter.of(
+                context,
+              ).pushNamed('details', extra: repository);
             },
           ),
         );

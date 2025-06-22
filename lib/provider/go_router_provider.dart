@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/repository.dart';
@@ -26,7 +27,9 @@ GoRouter createGoRouter() {
             name: 'details',
             pageBuilder: (context, state) {
               final repository = state.extra! as Repository;
-              return CustomTransitionPage<RepositoryDetailsPage>(
+              return CustomTransitionPage(
+                transitionDuration: const Duration(milliseconds: 500),
+                reverseTransitionDuration: const Duration(milliseconds: 500),
                 child: RepositoryDetailsPage(repository: repository),
                 transitionsBuilder: (
                   context,
@@ -34,7 +37,10 @@ GoRouter createGoRouter() {
                   secondaryAnimation,
                   child,
                 ) {
-                  return child;
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
                 },
               );
             },
