@@ -16,8 +16,6 @@ class SearchPage extends ConsumerStatefulWidget {
 }
 
 class _SearchPageState extends ConsumerState<SearchPage> {
-  var _text = '';
-
   final controller = TextEditingController();
 
   @override
@@ -39,30 +37,18 @@ class _SearchPageState extends ConsumerState<SearchPage> {
             children: [
               SearchTextField(
                 controller: controller,
-                // TODO :
-                // 　onChanged を使用すると、入力中にAPIを叩いてしまうため、現状は onSubmitted のみを使用する。
-                // 　例えば、Debounceを使用して、一定時間入力がない場合にAPIを叩くようにするなどして改善後にコメント解除する。
-                // onChanged: (value) {
-                //   setState(() {
-                //     _text = value;
-                //   });
-                //   ref
-                //       .read(gitHubSearchQueryNotifierProvider.notifier)
-                //       .setQuery(q: _text);
-                // },
-                onSubmitted: (value) {
-                  setState(() {
-                    _text = value;
-                  });
+                onChanged: (value) {
                   ref
                       .read(gitHubSearchQueryNotifierProvider.notifier)
-                      .setQuery(q: _text);
+                      .setQuery(q: value);
+                },
+                onSubmitted: (value) {
+                  ref
+                      .read(gitHubSearchQueryNotifierProvider.notifier)
+                      .setQuery(q: value);
                 },
                 onCancelButtonPressed: () {
-                  setState(() {
-                    _text = '';
-                    controller.clear();
-                  });
+                  setState(controller.clear);
                   ref
                       .read(gitHubSearchQueryNotifierProvider.notifier)
                       .setQuery(q: '');
@@ -86,7 +72,6 @@ class _SearchPageState extends ConsumerState<SearchPage> {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
 
-    properties.add(StringProperty('text', _text));
     properties.add(
       DiagnosticsProperty<TextEditingController>('controller', controller),
     );

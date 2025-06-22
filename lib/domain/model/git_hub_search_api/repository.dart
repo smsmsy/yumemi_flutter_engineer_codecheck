@@ -6,14 +6,19 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/git_hub_search_api_repository.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/git_hub_search_query.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/owner.dart';
+import 'package:yumemi_flutter_engineer_codecheck/extension/debounce_and_cancel_extension.dart';
 
 part 'repository.freezed.dart';
 part 'repository.g.dart';
 
 @riverpod
-Future<List<Repository>> repositiesSearchResult(Ref ref) {
-  final repository = ref.watch(apiRepositoryProvider);
+Future<List<Repository>> repositiesSearchResult(Ref ref) async {
   final query = ref.watch(gitHubSearchQueryNotifierProvider);
+  if (query.q.isEmpty) {
+    return [];
+  }
+  final dio = await ref.getDebouncedHttpClient();
+  final repository = ref.watch(apiRepositoryProvider(dio));
   return repository.fetch(query);
 }
 

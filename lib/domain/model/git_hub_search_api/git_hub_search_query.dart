@@ -43,7 +43,7 @@ extension GitHubSearchOrderExtension on GitHubSearchOrder {
   String get value => toString().split('.').last;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class GitHubSearchQueryNotifier extends _$GitHubSearchQueryNotifier {
   @override
   GitHubSearchQuery build() {

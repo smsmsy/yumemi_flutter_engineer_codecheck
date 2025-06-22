@@ -6,9 +6,9 @@ import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_ap
 
 part 'git_hub_search_api_repository.g.dart';
 
-@riverpod
-GitHubSearchApiRepository apiRepository(Ref ref) {
-  return GitHubSearchApiRepository(dio: Dio());
+@Riverpod(keepAlive: true)
+GitHubSearchApiRepository apiRepository(Ref ref, Dio dio) {
+  return GitHubSearchApiRepository(dio: dio);
 }
 
 class GitHubSearchApiRepository {
