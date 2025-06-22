@@ -7,3 +7,9 @@ themeModeLight,The label for light theme mode.,Light,ライト
 themeModeDark,The label for dark theme mode.,Dark,ダーク
 themeModeSelect,The label for selecting theme mode.,Select Theme Mode,テーマモードを選択
 searchRepositories,The label for searching repositories.,Search repositories,リポジトリを検索
+repoLanguage,The programming language of the repository.,Language,言語
+repoStars,The number of stars of the repository.,Stars,スター
+repoWatchers,The number of watchers of the repository.,Watchers,ウォッチ
+repoForks,The number of forks of the repository.,Forks,フォーク
+repoIssues,The number of open issues of the repository.,Issues,イシュー
+repoDetailsInfo,The title for the repository details page.,Repository Details Info,リポジトリ詳細

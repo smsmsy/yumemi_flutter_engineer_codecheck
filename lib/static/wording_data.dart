@@ -16,4 +16,18 @@ class WordingData {
   static const themeModeSelect = 'Select Theme Mode';
 
   static const searchRepositories = 'Search repositories';
+
+  static const repoLanguage = 'Language';
+
+  static const repoStars = 'Stars';
+
+  static const repoWatchers = 'Watchers';
+
+  static const repoForks = 'Forks';
+
+  static const repoIssues = 'Issues';
+
+  static const unknownLanguage = 'N/A';
+
+  static const repoDetailsInfo = 'Repository Details Info';
 }

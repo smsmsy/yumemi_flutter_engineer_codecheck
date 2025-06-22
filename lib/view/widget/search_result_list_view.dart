@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/repository.dart';
 
 class SearchResultListView extends ConsumerStatefulWidget {
@@ -55,39 +56,40 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
       itemCount: repositories.length,
       itemBuilder: (context, index) {
         final repository = repositories[index];
-        return Card(
-          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          child: ListTile(
-            leading:
-                repository.owner == null
-                    ? const CircleAvatar(
-                      backgroundColor: Colors.grey,
-                      child: Icon(Icons.person, color: Colors.white),
-                    )
-                    : CircleAvatar(
-                      backgroundColor: const Color(0x00000000),
-                      backgroundImage: NetworkImage(
-                        repository.owner!.avatarUrl,
+        return Hero(
+          // ヒーローアニメーションを使用してリポジトリのリストを表示
+          // 詳細画面のHeroと同一のタグを使用することでアニメーションを実現している
+          transitionOnUserGestures: true,
+          tag: 'repository-${repository.name}',
+          child: Card(
+            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            child: ListTile(
+              leading:
+                  repository.owner == null
+                      ? const CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        child: Icon(Icons.person, color: Colors.white),
+                      )
+                      : CircleAvatar(
+                        backgroundColor: const Color(0x00000000),
+                        backgroundImage: NetworkImage(
+                          repository.owner!.avatarUrl,
+                        ),
                       ),
-                    ),
-            title: Text(
-              repository.name,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            trailing: const Icon(Icons.chevron_right),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-            onTap: () {
-              // TODO: リポジトリ詳細画面への遷移実装
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    'Tapped on ${repository.name}',
-                  ),
+              title: Text(
+                repository.name,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
-              );
-            },
+              ),
+              trailing: const Icon(Icons.chevron_right),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              onTap: () async {
+                await GoRouter.of(
+                  context,
+                ).pushNamed('details', extra: repository);
+              },
+            ),
           ),
         );
       },

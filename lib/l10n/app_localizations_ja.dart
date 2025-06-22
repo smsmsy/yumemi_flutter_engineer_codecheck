@@ -31,4 +31,22 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get searchRepositories => 'リポジトリを検索';
+
+  @override
+  String get repoLanguage => '言語';
+
+  @override
+  String get repoStars => 'スター';
+
+  @override
+  String get repoWatchers => 'ウォッチ';
+
+  @override
+  String get repoForks => 'フォーク';
+
+  @override
+  String get repoIssues => 'イシュー';
+
+  @override
+  String get repoDetailsInfo => 'リポジトリ詳細';
 }

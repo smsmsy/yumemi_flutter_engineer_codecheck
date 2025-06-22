@@ -145,6 +145,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search repositories'**
   String get searchRepositories;
+
+  /// The programming language of the repository.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get repoLanguage;
+
+  /// The number of stars of the repository.
+  ///
+  /// In en, this message translates to:
+  /// **'Stars'**
+  String get repoStars;
+
+  /// The number of watchers of the repository.
+  ///
+  /// In en, this message translates to:
+  /// **'Watchers'**
+  String get repoWatchers;
+
+  /// The number of forks of the repository.
+  ///
+  /// In en, this message translates to:
+  /// **'Forks'**
+  String get repoForks;
+
+  /// The number of open issues of the repository.
+  ///
+  /// In en, this message translates to:
+  /// **'Issues'**
+  String get repoIssues;
+
+  /// The title for the repository details page.
+  ///
+  /// In en, this message translates to:
+  /// **'Repository Details Info'**
+  String get repoDetailsInfo;
 }
 
 class _AppLocalizationsDelegate
