@@ -24,9 +24,19 @@ GoRouter createGoRouter() {
           GoRoute(
             path: AppRoutes.details,
             name: 'details',
-            builder: (context, state) {
+            pageBuilder: (context, state) {
               final repository = state.extra! as Repository;
-              return RepositoryDetailsPage(repository: repository);
+              return CustomTransitionPage<RepositoryDetailsPage>(
+                child: RepositoryDetailsPage(repository: repository),
+                transitionsBuilder: (
+                  context,
+                  animation,
+                  secondaryAnimation,
+                  child,
+                ) {
+                  return child;
+                },
+              );
             },
           ),
         ],
