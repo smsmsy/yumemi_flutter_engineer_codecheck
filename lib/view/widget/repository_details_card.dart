@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/repository.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
+import 'package:yumemi_flutter_engineer_codecheck/view/widget/owner_icon.dart';
 
 /// GitHubリポジトリ詳細表示ウィジェット
 ///
@@ -87,7 +88,7 @@ class _RepositoryInfoVerticalLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _OwnerIcon(repository: repository),
+        OwnerIcon(repository: repository, diameter: 80),
         const SizedBox(height: 12),
         _RepositoryTitle(repository: repository),
         const SizedBox(height: 16),
@@ -120,7 +121,7 @@ class _RepositoryInfoHorizontalLayout extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _OwnerIcon(repository: repository),
+            OwnerIcon(repository: repository, diameter: 80),
             const SizedBox(width: 24),
             Expanded(
               child: _RepositoryDetailsInfoView(repository: repository),
@@ -135,130 +136,6 @@ class _RepositoryInfoHorizontalLayout extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(DiagnosticsProperty<Repository>('repository', repository));
-  }
-}
-
-/// リポジトリのオーナーのアバター画像を表示するウィジェット
-///
-/// オーナーが設定されていない場合や画像の読み込みに失敗した場合はデフォルトのアイコンを表示
-/// 読み込み中はCircularProgressIndicatorを表示
-class _OwnerIcon extends StatelessWidget {
-  const _OwnerIcon({required this.repository});
-  final Repository repository;
-
-  @override
-  Widget build(BuildContext context) {
-    final avatarUrl = repository.owner?.avatarUrl;
-
-    if (avatarUrl == null || avatarUrl.isEmpty) {
-      return _buildDefaultAvatar(context);
-    }
-
-    return _DecoratedAvatarCircle(
-      child: ClipOval(
-        child: Image.network(
-          avatarUrl,
-          width: 80,
-          height: 80,
-          fit: BoxFit.cover,
-          errorBuilder: _buildDefaultAvatar,
-          loadingBuilder: _buildImageLoadingIndicator,
-        ),
-      ),
-    );
-  }
-
-  /// デフォルトのアバターを構築する
-  ///
-  /// Ownerがセットされてなかったりエラー時に表示されるウィジェット
-  Widget _buildDefaultAvatar(
-    BuildContext context, [
-    Object? error,
-    StackTrace? stackTrace,
-  ]) {
-    return _DecoratedAvatarCircle(
-      child: Icon(
-        Icons.person,
-        size: 40,
-        color: Theme.of(context).colorScheme.onSurfaceVariant,
-      ),
-    );
-  }
-
-  /// ネットワーク画像のローディング表示を構築する
-  ///
-  /// 読み込み中はCircularProgressIndicatorを表示し、完了時は子ウィジェットをそのまま表示
-  Widget _buildImageLoadingIndicator(
-    BuildContext context,
-    Widget child,
-    ImageChunkEvent? loadingProgress,
-  ) {
-    // 読み込み完了時は子ウィジェットをそのまま表示
-    if (loadingProgress == null) {
-      return child;
-    }
-
-    // 読み込み進捗を計算
-    final progress = _calculateLoadingProgress(loadingProgress);
-
-    return _DecoratedAvatarCircle(
-      child: CircularProgressIndicator(
-        value: progress,
-        strokeWidth: 2,
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-        valueColor: AlwaysStoppedAnimation<Color>(
-          Theme.of(context).colorScheme.primary,
-        ),
-      ),
-    );
-  }
-
-  /// 読み込み進捗を計算する（0.0〜1.0の範囲）
-  double? _calculateLoadingProgress(ImageChunkEvent loadingProgress) {
-    final expectedTotalBytes = loadingProgress.expectedTotalBytes;
-    if (expectedTotalBytes == null) {
-      return null; // 不定進捗
-    }
-
-    return loadingProgress.cumulativeBytesLoaded / expectedTotalBytes;
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Repository>('repository', repository));
-  }
-}
-
-/// 飾りが施されたCircleAvatarウィジェット
-///
-/// 影と背景色を持つ円形のアバターを表示
-class _DecoratedAvatarCircle extends StatelessWidget {
-  const _DecoratedAvatarCircle({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(
-              context,
-            ).colorScheme.shadow.withAlpha((255 * 0.3).round()),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: CircleAvatar(
-        radius: 40,
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-        child: child,
-      ),
-    );
   }
 }
 
