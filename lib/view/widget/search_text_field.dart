@@ -20,7 +20,7 @@ class SearchTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
       child: TextField(
         controller: controller ?? TextEditingController(),
         decoration: InputDecoration(
