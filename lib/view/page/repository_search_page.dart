@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/git_hub_search_query.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
+import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
 import 'package:yumemi_flutter_engineer_codecheck/view/widget/custom_drawer.dart';
 import 'package:yumemi_flutter_engineer_codecheck/view/widget/search_result_list_view.dart';
@@ -35,27 +36,32 @@ class _SearchPageState extends ConsumerState<RepositorySearchPage> {
         body: Center(
           child: Column(
             children: [
-              SearchTextField(
-                controller: controller,
-                onChanged: (value) {
-                  ref
-                      .read(gitHubSearchQueryNotifierProvider.notifier)
-                      .setQuery(q: value);
-                },
-                onSubmitted: (value) {
-                  ref
-                      .read(gitHubSearchQueryNotifierProvider.notifier)
-                      .setQuery(q: value);
-                },
-                onCancelButtonPressed: () {
-                  setState(controller.clear);
-                  ref
-                      .read(gitHubSearchQueryNotifierProvider.notifier)
-                      .setQuery(q: '');
-                },
-                labelText:
-                    AppLocalizations.of(context)?.searchRepositories ??
-                    WordingData.searchRepositories,
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: NumberData.horizontalLayoutThreshold,
+                ),
+                child: SearchTextField(
+                  controller: controller,
+                  onChanged: (value) {
+                    ref
+                        .read(gitHubSearchQueryNotifierProvider.notifier)
+                        .setQuery(q: value);
+                  },
+                  onSubmitted: (value) {
+                    ref
+                        .read(gitHubSearchQueryNotifierProvider.notifier)
+                        .setQuery(q: value);
+                  },
+                  onCancelButtonPressed: () {
+                    setState(controller.clear);
+                    ref
+                        .read(gitHubSearchQueryNotifierProvider.notifier)
+                        .setQuery(q: '');
+                  },
+                  labelText:
+                      AppLocalizations.of(context)?.searchRepositories ??
+                      WordingData.searchRepositories,
+                ),
               ),
               const SizedBox(height: 8),
               const Expanded(

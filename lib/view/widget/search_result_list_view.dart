@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
+import 'package:yumemi_flutter_engineer_codecheck/view/widget/owner_icon.dart';
 
 class SearchResultListView extends ConsumerStatefulWidget {
   const SearchResultListView({super.key});
@@ -24,75 +27,139 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
   Widget build(BuildContext context) {
     final repositoriesAsyncValue = ref.watch(repositoriesSearchResultProvider);
 
-    if (repositoriesAsyncValue.isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+    switch (repositoriesAsyncValue) {
+      case AsyncError(:final error):
+        return Center(
+          child: Text(
+            error.toString(),
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        );
+      case AsyncData(:final value):
+        if (value.isEmpty) {
+          return const Center(
+            child: Text('該当するリポジトリはありません'),
+          );
+        }
+        return AdaptiveRepositoryListView(
+          value: value,
+          scrollController: _scrollController,
+        );
+      case _:
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
     }
-    if (repositoriesAsyncValue.hasError) {
-      return Center(
-        child: Text(
-          'エラーが発生しました: ${repositoriesAsyncValue.error}',
-          style: const TextStyle(color: Colors.red),
-        ),
-      );
-    }
-    if (repositoriesAsyncValue.isRefreshing) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
+  }
+}
 
-    final repositories = repositoriesAsyncValue.requireValue;
+class AdaptiveRepositoryListView extends StatelessWidget {
+  const AdaptiveRepositoryListView({
+    required this.value,
+    required this.scrollController,
+    super.key,
+  });
 
-    if (repositories.isEmpty) {
-      return const Center(
-        child: Text('該当するリポジトリはありません'),
-      );
-    }
+  final List<Repository> value;
+  final ScrollController scrollController;
 
-    return ListView.builder(
-      controller: _scrollController,
-      itemCount: repositories.length,
-      itemBuilder: (context, index) {
-        final repository = repositories[index];
-        return Hero(
-          // ヒーローアニメーションを使用してリポジトリのリストを表示
-          // 詳細画面のHeroと同一のタグを使用することでアニメーションを実現している
-          transitionOnUserGestures: true,
-          tag: 'repository-${repository.name}',
-          child: Card(
-            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            child: ListTile(
-              leading:
-                  repository.owner == null
-                      ? const CircleAvatar(
-                        backgroundColor: Colors.grey,
-                        child: Icon(Icons.person, color: Colors.white),
-                      )
-                      : CircleAvatar(
-                        backgroundColor: const Color(0x00000000),
-                        backgroundImage: NetworkImage(
-                          repository.owner!.avatarUrl,
-                        ),
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final columnCount = (constraints.maxWidth /
+                NumberData.horizontalLayoutThreshold)
+            .floor()
+            .clamp(1, 4);
+        final rowCount = (value.length / columnCount).ceil();
+        return ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: NumberData.horizontalLayoutThreshold * columnCount,
+          ),
+          child: ListView.builder(
+            controller: scrollController,
+            itemCount: rowCount,
+            itemBuilder: (context, rowIndex) {
+              return Row(
+                children: List.generate(columnCount, (columnIndex) {
+                  final itemIndex = rowIndex * columnCount + columnIndex;
+                  if (itemIndex >= value.length) {
+                    return const SizedBox.expand();
+                  }
+                  return Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: columnCount > 1 ? 8 : 0,
                       ),
-              title: Text(
-                repository.name,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: const Icon(Icons.chevron_right),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-              onTap: () async {
-                await GoRouter.of(
-                  context,
-                ).pushNamed('details', extra: repository);
-              },
-            ),
+                      child: _SearchResultListItem(
+                        repository: value[itemIndex],
+                      ),
+                    ),
+                  );
+                }),
+              );
+            },
           ),
         );
       },
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(IterableProperty<Repository>('value', value));
+    properties.add(
+      DiagnosticsProperty<ScrollController>(
+        'scrollController',
+        scrollController,
+      ),
+    );
+  }
+}
+
+class _SearchResultListItem extends StatelessWidget {
+  const _SearchResultListItem({required this.repository});
+
+  final Repository repository;
+
+  @override
+  Widget build(BuildContext context) {
+    return Hero(
+      // ヒーローアニメーションを使用してリポジトリのリストを表示
+      // 詳細画面のHeroと同一のタグを使用することでアニメーションを実現している
+      transitionOnUserGestures: true,
+      tag: 'repository-${repository.name}',
+
+      child: Card(
+        // カードの影の深さ
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        child: ListTile(
+          leading: OwnerIcon(repository: repository, diameter: 20),
+          title: Text(
+            repository.name,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          trailing: const Icon(Icons.chevron_right),
+
+          onTap: () async {
+            await GoRouter.of(
+              context,
+            ).pushNamed('details', extra: repository);
+          },
+        ),
+      ),
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<Repository>('repository', repository));
   }
 }

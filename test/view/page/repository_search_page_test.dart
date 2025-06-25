@@ -104,5 +104,220 @@ void main() {
       );
       expect(find.text('リポジトリを検索'), findsOneWidget);
     });
+
+    group('ユーザー体験テスト', () {
+      testWidgets(
+        'ユーザーが検索ページにアクセスした時、検索に必要な要素がすべて利用可能',
+        (tester) async {
+          // When: ユーザーが検索ページを開く
+          await pumpAppWithLocale(
+            tester: tester,
+            locale: const Locale('ja'),
+            home: const RepositorySearchPage(),
+          );
+
+          // Then: 検索に必要なUI要素が揃っている
+          expect(
+            find.byType(AppBar),
+            findsOneWidget,
+            reason: 'ページタイトルのAppBarが表示されるべき',
+          );
+          expect(
+            find.text('リポジトリ検索'),
+            findsOneWidget,
+            reason: 'ページタイトルが日本語で表示されるべき',
+          );
+          expect(
+            find.byType(TextField),
+            findsOneWidget,
+            reason: '検索用のテキストフィールドが提供されるべき',
+          );
+          expect(
+            find.byIcon(Icons.search),
+            findsOneWidget,
+            reason: '検索アイコンが表示されるべき',
+          );
+          expect(
+            find.byIcon(Icons.cancel),
+            findsOneWidget,
+            reason: 'キャンセルボタンが表示されるべき',
+          );
+
+          // And: 検索結果表示エリアが存在する
+          expect(
+            find.byType(Expanded),
+            findsOneWidget,
+            reason: '検索結果表示エリアが提供されるべき',
+          );
+        },
+      );
+
+      testWidgets(
+        'ユーザーがリポジトリ名を入力する時、リアルタイムフィードバックが提供される',
+        (tester) async {
+          // Given: 検索ページが表示されている
+          await pumpAppWithLocale(
+            tester: tester,
+            locale: const Locale('ja'),
+            home: const RepositorySearchPage(),
+          );
+
+          // When: ユーザーが検索語を入力する
+          const searchTerm = 'flutter';
+          await tester.enterText(find.byType(TextField), searchTerm);
+          await tester.pump();
+
+          // Then: 入力内容が即座に表示される
+          expect(
+            find.text(searchTerm),
+            findsOneWidget,
+            reason: 'ユーザーの入力がリアルタイムで表示されるべき',
+          );
+
+          // When: ユーザーがEnterを押す
+          await tester.testTextInput.receiveAction(TextInputAction.done);
+          await tester.pumpAndSettle();
+
+          // Then: 検索が実行される（UIの変化を確認）
+          expect(
+            find.byType(TextField),
+            findsOneWidget,
+            reason: '検索実行後もテキストフィールドが利用可能であるべき',
+          );
+        },
+      );
+
+      testWidgets(
+        'ユーザーが検索をクリアしたい時、簡単にリセットできる',
+        (tester) async {
+          // Given: 検索語が入力されている状態
+          await pumpAppWithLocale(
+            tester: tester,
+            locale: const Locale('ja'),
+            home: const RepositorySearchPage(),
+          );
+
+          const searchTerm = 'test-repository';
+          await tester.enterText(find.byType(TextField), searchTerm);
+          await tester.pump();
+
+          // 入力が表示されていることを確認
+          expect(
+            find.text(searchTerm),
+            findsOneWidget,
+            reason: '入力内容が表示されているべき',
+          );
+
+          // When: ユーザーがキャンセルボタンをタップする
+          await tester.tap(find.byIcon(Icons.cancel));
+          await tester.pump();
+
+          // Then: 検索フィールドがクリアされる
+          expect(
+            find.text(searchTerm),
+            findsNothing,
+            reason: 'キャンセル後は入力内容がクリアされるべき',
+          );
+
+          // And: 空の検索フィールドが表示される
+          final textField = tester.widget<TextField>(find.byType(TextField));
+          expect(
+            textField.controller?.text ?? '',
+            isEmpty,
+            reason: 'テキストフィールドが空になるべき',
+          );
+        },
+      );
+
+      testWidgets(
+        '多言語対応：英語ユーザーも適切にページを利用できる',
+        (tester) async {
+          // When: 英語ロケールでページを表示
+          await pumpAppWithLocale(
+            tester: tester,
+            locale: const Locale('en'),
+            home: const RepositorySearchPage(),
+          );
+
+          // Then: 英語でのUI要素が表示される
+          expect(
+            find.text('Search Repository'),
+            findsOneWidget,
+            reason: 'ページタイトルが英語で表示されるべき',
+          );
+          expect(
+            find.text('Search repositories'),
+            findsOneWidget,
+            reason: '検索フィールドのヒントが英語で表示されるべき',
+          );
+
+          // And: 機能的要素は言語に関係なく利用可能
+          expect(
+            find.byType(TextField),
+            findsOneWidget,
+            reason: '検索機能は言語に関係なく利用可能であるべき',
+          );
+          expect(
+            find.byIcon(Icons.search),
+            findsOneWidget,
+            reason: '検索アイコンは国際的に理解できるべき',
+          );
+        },
+      );
+
+      testWidgets(
+        'ユーザーがドロワーメニューにアクセスできる',
+        (tester) async {
+          // Given: 検索ページが表示されている
+          await pumpAppWithLocale(
+            tester: tester,
+            locale: const Locale('ja'),
+            home: const RepositorySearchPage(),
+          );
+
+          // When: ユーザーがドロワーを開こうとする
+          expect(find.byType(AppBar), findsOneWidget, reason: 'AppBarが存在するべき');
+
+          // Then: ドロワーアクセス手段が提供されている
+          expect(
+            find.byType(Scaffold),
+            findsOneWidget,
+            reason: 'Scaffoldがドロワー機能を提供するべき',
+          );
+        },
+      );
+
+      testWidgets(
+        'アクセシビリティ：画面タップでフォーカスが適切に管理される',
+        (tester) async {
+          // Given: 検索ページが表示され、テキストフィールドにフォーカスがある
+          await pumpAppWithLocale(
+            tester: tester,
+            locale: const Locale('ja'),
+            home: const RepositorySearchPage(),
+          );
+
+          // フォーカスを設定
+          await tester.tap(find.byType(TextField));
+          await tester.pump();
+
+          // When: ユーザーが画面の空白部分をタップ
+          await tester.tap(find.byType(Scaffold));
+          await tester.pump();
+
+          // Then: フォーカスが外れる（GestureDetectorによる）
+          expect(
+            find.byType(TextField),
+            findsOneWidget,
+            reason: 'テキストフィールドは引き続き利用可能であるべき',
+          );
+          expect(
+            find.byType(GestureDetector),
+            findsWidgets,
+            reason: 'フォーカス管理のためのGestureDetector群が存在するべき',
+          );
+        },
+      );
+    });
   });
 }

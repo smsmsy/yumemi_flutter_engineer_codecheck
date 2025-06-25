@@ -1,17 +1,138 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/repository.dart';
-import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
-import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
+import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_card_ui_builder.dart';
+import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_hero_animation_builder.dart';
+import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_hero_animation_monitor.dart';
+import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_hero_animation_state.dart';
 
 /// GitHubリポジトリ詳細表示ウィジェット
 ///
 /// リポジトリの情報をカード形式で表示
 /// レイアウトは画面幅に応じて縦横切り替え
-class RepositoryDetailsCard extends StatelessWidget {
+class RepositoryDetailsCard extends StatefulWidget {
   const RepositoryDetailsCard({required this.repository, super.key});
   final Repository repository;
+
+  @override
+  State<RepositoryDetailsCard> createState() => _RepositoryDetailsCardState();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<Repository>('repository', repository));
+  }
+}
+
+class _RepositoryDetailsCardState extends State<RepositoryDetailsCard>
+    with TickerProviderStateMixin {
+  late AnimationController _heroAnimationController;
+  late HeroAnimationState _animationState;
+  late HeroAnimationMonitor _animationMonitor;
+
+  // Lazy initialization のためのキャッシュ
+  RepositoryCardUIBuilder? _cachedUIBuilder;
+  RepositoryHeroAnimationBuilder? _cachedHeroAnimationBuilder;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeComponents();
+    _setupAnimationController();
+  }
+
+  /// 全コンポーネントの初期化
+  ///
+  /// アニメーション状態管理とモニタリングクラスを初期化する
+  /// 初期化処理を一箇所にまとめることで保守性を向上
+  void _initializeComponents() {
+    _animationState = HeroAnimationState();
+    _animationMonitor = HeroAnimationMonitor(_animationState);
+  }
+
+  /// アニメーションコントローラーのセットアップ
+  ///
+  /// Heroアニメーションのコントローラーを作成し、状態監視を開始する
+  /// セットアップロジックを分離することで、責任を明確化
+  void _setupAnimationController() {
+    _heroAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
+    _animationMonitor.monitorControllerAnimation(_heroAnimationController);
+
+    // 状態変化の監視
+    _animationState.addListener(_onAnimationStateChanged);
+  }
+
+  /// アニメーション状態変化時のコールバック
+  ///
+  /// アニメーション状態が変わった時に呼ばれる処理
+  /// build中の呼び出しによるエラーを防ぐため、フレーム後に実行を延期している
+  ///
+  /// 【注意】setState()をbuild中に呼ぶとエラーになるため、
+  /// addPostFrameCallback()を使用して安全なタイミングで実行
+  void _onAnimationStateChanged() {
+    if (mounted) {
+      // build中の呼び出しを避けるため、フレーム後に実行を延期
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            // キャッシュをクリアして再生成を促す
+            _cachedUIBuilder = null;
+            _cachedHeroAnimationBuilder = null;
+          });
+        }
+      });
+    }
+  }
+
+  /// UIBuilderの遅延生成
+  ///
+  /// 必要になった時点でUIBuilderインスタンスを作成する
+  /// キャッシュ機能により、同じ状態なら再利用してパフォーマンスを向上
+  ///
+  /// 【利点】
+  /// - メモリ使用量の最適化
+  /// - 不要な再生成を防止
+  /// - アニメーション状態に応じた適切なUIBuilder生成
+  RepositoryCardUIBuilder get _uiBuilder {
+    _cachedUIBuilder ??= RepositoryCardUIBuilder(
+      repository: widget.repository,
+      isHeroAnimationCompleted: _animationState.isCompleted,
+      isHeroAnimationInProgress: _animationState.isInProgress,
+    );
+    return _cachedUIBuilder!;
+  }
+
+  /// HeroAnimationBuilderの遅延生成
+  ///
+  /// 必要になった時点でHeroAnimationBuilderインスタンスを作成する
+  /// UIBuilderに依存するため、UIBuilderが先に生成される
+  ///
+  /// 【設計上の注意】
+  /// - uiBuilderプロパティを通じてUIBuilderのgetterを呼び出す
+  /// - これにより依存関係が明確になり、適切な順序で初期化される
+  RepositoryHeroAnimationBuilder get _heroAnimationBuilder {
+    _cachedHeroAnimationBuilder ??= RepositoryHeroAnimationBuilder(
+      uiBuilder: _uiBuilder,
+      animationMonitor: _animationMonitor,
+    );
+    return _cachedHeroAnimationBuilder!;
+  }
+
+  /// アニメーション完了状態の取得
+  ///
+  /// 外部から直接 _animationState にアクセスするのを防ぐ
+  /// アニメーションが完了しているかどうかを安全に取得できる
+  bool get isHeroAnimationCompleted => _animationState.isCompleted;
+
+  /// アニメーション進行状態の取得
+  ///
+  /// 外部から直接 _animationState にアクセスするのを防ぐ
+  /// アニメーションが進行中かどうかを安全に取得できる
+  bool get isHeroAnimationInProgress => _animationState.isInProgress;
 
   @override
   Widget build(BuildContext context) {
@@ -20,405 +141,49 @@ class RepositoryDetailsCard extends StatelessWidget {
         // ヒーローアニメーションを使用してリポジトリの詳細を表示
         // 検索画面のリストビューと同一のタグを使用することで実現している
         transitionOnUserGestures: true,
-        tag: 'repository-${repository.name}',
-        child: SizedBox.expand(
-          child: Card(
-            margin: const EdgeInsets.all(8),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
-              child: SingleChildScrollView(
-                child: _RepositoryInfo(repository: repository),
-              ),
-            ),
-          ),
+        tag: 'repository-${widget.repository.name}',
+        // Hero アニメーションの詳細制御
+        flightShuttleBuilder: _heroAnimationBuilder.buildFlightShuttle,
+        child: AnimatedBuilder(
+          animation: _animationState,
+          builder: (context, child) {
+            // キャッシュされたUIBuilderを使用（状態変化時は自動で再作成される）
+            return _uiBuilder.buildCardContent(context);
+          },
         ),
       ),
     );
   }
 
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Repository>('repository', repository));
-  }
-}
-
-/// リポジトリ情報を表示するウィジェット
-///
-/// 画面幅に応じて縦横のレイアウトを切り替える
-/// - 横レイアウト: タイトルとオーナーアイコンを横並び
-/// - 縦レイアウト: タイトルの下にオーナーアイコン
-class _RepositoryInfo extends StatelessWidget {
-  const _RepositoryInfo({required this.repository});
-  final Repository repository;
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth >= 600) {
-          return _RepositoryInfoHorizontalLayout(repository: repository);
-        } else {
-          return _RepositoryInfoVerticalLayout(repository: repository);
-        }
-      },
-    );
+  void dispose() {
+    _disposeAnimationComponents();
+    super.dispose();
   }
 
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Repository>('repository', repository));
-  }
-}
-
-/// リポジトリ情報の縦方向に長いレイアウト用のウィジェット
-class _RepositoryInfoVerticalLayout extends StatelessWidget {
-  const _RepositoryInfoVerticalLayout({
-    required this.repository,
-  });
-
-  final Repository repository;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _OwnerIcon(repository: repository),
-        const SizedBox(height: 12),
-        _RepositoryTitle(repository: repository),
-        const SizedBox(height: 16),
-        _RepositoryDetailsInfoView(repository: repository),
-      ],
-    );
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Repository>('repository', repository));
-  }
-}
-
-/// リポジトリ情報の横方向に長いレイアウト用のウィジェット
-class _RepositoryInfoHorizontalLayout extends StatelessWidget {
-  const _RepositoryInfoHorizontalLayout({
-    required this.repository,
-  });
-
-  final Repository repository;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _RepositoryTitle(repository: repository),
-        const SizedBox(height: 16),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _OwnerIcon(repository: repository),
-            const SizedBox(width: 24),
-            Expanded(
-              child: _RepositoryDetailsInfoView(repository: repository),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Repository>('repository', repository));
-  }
-}
-
-/// リポジトリのオーナーのアバター画像を表示するウィジェット
-///
-/// オーナーが設定されていない場合や画像の読み込みに失敗した場合はデフォルトのアイコンを表示
-/// 読み込み中はCircularProgressIndicatorを表示
-class _OwnerIcon extends StatelessWidget {
-  const _OwnerIcon({required this.repository});
-  final Repository repository;
-
-  @override
-  Widget build(BuildContext context) {
-    final avatarUrl = repository.owner?.avatarUrl;
-
-    if (avatarUrl == null || avatarUrl.isEmpty) {
-      return _buildDefaultAvatar(context);
-    }
-
-    return _DecoratedAvatarCircle(
-      child: ClipOval(
-        child: Image.network(
-          avatarUrl,
-          width: 80,
-          height: 80,
-          fit: BoxFit.cover,
-          errorBuilder: _buildDefaultAvatar,
-          loadingBuilder: _buildImageLoadingIndicator,
-        ),
-      ),
-    );
-  }
-
-  /// デフォルトのアバターを構築する
+  /// アニメーション関連コンポーネントの破棄
   ///
-  /// Ownerがセットされてなかったりエラー時に表示されるウィジェット
-  Widget _buildDefaultAvatar(
-    BuildContext context, [
-    Object? error,
-    StackTrace? stackTrace,
-  ]) {
-    return _DecoratedAvatarCircle(
-      child: Icon(
-        Icons.person,
-        size: 40,
-        color: Theme.of(context).colorScheme.onSurfaceVariant,
-      ),
-    );
-  }
-
-  /// ネットワーク画像のローディング表示を構築する
-  ///
-  /// 読み込み中はCircularProgressIndicatorを表示し、完了時は子ウィジェットをそのまま表示
-  Widget _buildImageLoadingIndicator(
-    BuildContext context,
-    Widget child,
-    ImageChunkEvent? loadingProgress,
-  ) {
-    // 読み込み完了時は子ウィジェットをそのまま表示
-    if (loadingProgress == null) {
-      return child;
-    }
-
-    // 読み込み進捗を計算
-    final progress = _calculateLoadingProgress(loadingProgress);
-
-    return _DecoratedAvatarCircle(
-      child: CircularProgressIndicator(
-        value: progress,
-        strokeWidth: 2,
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-        valueColor: AlwaysStoppedAnimation<Color>(
-          Theme.of(context).colorScheme.primary,
-        ),
-      ),
-    );
-  }
-
-  /// 読み込み進捗を計算する（0.0〜1.0の範囲）
-  double? _calculateLoadingProgress(ImageChunkEvent loadingProgress) {
-    final expectedTotalBytes = loadingProgress.expectedTotalBytes;
-    if (expectedTotalBytes == null) {
-      return null; // 不定進捗
-    }
-
-    return loadingProgress.cumulativeBytesLoaded / expectedTotalBytes;
+  /// ウィジェットが破棄される際にリソースを適切に解放する
+  /// メモリリークを防ぐため、AnimationControllerとStateを破棄
+  void _disposeAnimationComponents() {
+    _heroAnimationController.dispose();
+    _animationState.dispose();
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Repository>('repository', repository));
-  }
-}
-
-/// 飾りが施されたCircleAvatarウィジェット
-///
-/// 影と背景色を持つ円形のアバターを表示
-class _DecoratedAvatarCircle extends StatelessWidget {
-  const _DecoratedAvatarCircle({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(
-              context,
-            ).colorScheme.shadow.withAlpha((255 * 0.3).round()),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: CircleAvatar(
-        radius: 40,
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-        child: child,
+    properties.add(
+      DiagnosticsProperty<bool>(
+        'isHeroAnimationCompleted',
+        isHeroAnimationCompleted,
       ),
     );
-  }
-}
-
-/// リポジトリの詳細情報を表示するウィジェット
-///
-/// リポジトリの言語、スター数、ウォッチャー数、フォーク数、オープンイシュー数を表示
-/// 情報はアイコンとラベル付きでカード形式で表示される
-class _RepositoryDetailsInfoView extends StatelessWidget {
-  const _RepositoryDetailsInfoView({required this.repository});
-
-  final Repository repository;
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      runSpacing: 8,
-      children:
-          _buildInfoItems(
-            context,
-            AppLocalizations.of(context),
-          ).map((item) => _InfoRow(item: item)).toList(),
-    );
-  }
-
-  /// リポジトリ情報項目のリストを構築
-  ///
-  /// 各項目はアイコン、ラベル、値を持つ
-  /// プロジェクト言語、スター数、ウォッチャー数、フォーク数、オープンイシュー数の順で表示
-  List<_InfoRowItem> _buildInfoItems(
-    BuildContext context,
-    AppLocalizations? l10n,
-  ) {
-    return [
-      _InfoRowItem(
-        icon: Icons.code,
-        label: l10n?.repoLanguage ?? WordingData.repoLanguage,
-        value: repository.language ?? WordingData.unknownLanguage,
-      ),
-      _InfoRowItem(
-        icon: Icons.star,
-        label: l10n?.repoStars ?? WordingData.repoStars,
-        value: _formatNumber(context, repository.stargazersCount),
-      ),
-      _InfoRowItem(
-        icon: Icons.visibility,
-        label: l10n?.repoWatchers ?? WordingData.repoWatchers,
-        value: _formatNumber(context, repository.watchersCount),
-      ),
-      _InfoRowItem(
-        icon: Icons.call_split,
-        label: l10n?.repoForks ?? WordingData.repoForks,
-        value: _formatNumber(context, repository.forksCount),
-      ),
-      _InfoRowItem(
-        icon: Icons.error_outline,
-        label: l10n?.repoIssues ?? WordingData.repoIssues,
-        value: _formatNumber(context, repository.openIssuesCount),
-      ),
-    ];
-  }
-
-  String _formatNumber(BuildContext context, int number) {
-    final localeString = Localizations.localeOf(context).toString();
-    return NumberFormat.compact(locale: localeString).format(number);
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Repository>('repository', repository));
-  }
-}
-
-/// リポジトリ情報項目のデータクラス
-class _InfoRowItem {
-  const _InfoRowItem({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
-
-  final IconData icon;
-  final String label;
-  final String value;
-}
-
-/// リポジトリ情報項目を表示するウィジェット
-///
-/// アイコン、ラベル、値を横並びで表示
-class _InfoRow extends StatelessWidget {
-  const _InfoRow({required this.item});
-
-  final _InfoRowItem item;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card.filled(
-      margin: EdgeInsets.zero,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Row(
-          children: [
-            Icon(
-              item.icon,
-              size: 20,
-            ),
-            const SizedBox(width: 18),
-            Expanded(
-              child: Text(
-                item.label,
-                style: Theme.of(context).textTheme.bodyMedium,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Text(
-              item.value,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
+    properties.add(
+      DiagnosticsProperty<bool>(
+        'isHeroAnimationInProgress',
+        isHeroAnimationInProgress,
       ),
     );
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<_InfoRowItem>('item', item));
-  }
-}
-
-/// リポジトリのタイトルを表示するウィジェット
-///
-/// タイトルは太字で、最大2行まで表示
-/// オーバーフロー時は省略記号を表示
-/// テキストは中央揃え
-class _RepositoryTitle extends StatelessWidget {
-  const _RepositoryTitle({required this.repository});
-  final Repository repository;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Text(
-      repository.name,
-      style: theme.textTheme.headlineSmall?.copyWith(
-        fontWeight: FontWeight.bold,
-      ),
-      overflow: TextOverflow.ellipsis,
-      maxLines: 2,
-      textAlign: TextAlign.center,
-    );
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Repository>('repository', repository));
   }
 }
