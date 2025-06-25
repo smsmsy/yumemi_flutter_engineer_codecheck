@@ -74,7 +74,7 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      expect(find.textContaining('エラーが発生しました'), findsOneWidget);
+      expect(find.textContaining('Exception: error'), findsOneWidget);
     });
   });
 
