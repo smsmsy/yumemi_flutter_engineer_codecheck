@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
 import 'package:yumemi_flutter_engineer_codecheck/view/widget/owner_icon.dart';
 import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_details_info_view.dart';
 
@@ -58,7 +59,7 @@ class _RepositoryInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth >= 600) {
+        if (constraints.maxWidth >= NumberData.horizontalLayoutThreshold) {
           return _RepositoryInfoHorizontalLayout(repository: repository);
         } else {
           return _RepositoryInfoVerticalLayout(repository: repository);

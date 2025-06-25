@@ -38,7 +38,7 @@ class _SearchPageState extends ConsumerState<RepositorySearchPage> {
             children: [
               ConstrainedBox(
                 constraints: const BoxConstraints(
-                  maxWidth: NumberData.textFieldConstraintWidth,
+                  maxWidth: NumberData.horizontalLayoutThreshold,
                 ),
                 child: SearchTextField(
                   controller: controller,
