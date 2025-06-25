@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/git_hub_search_query.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/providers/repository_providers.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
