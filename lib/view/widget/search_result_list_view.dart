@@ -41,38 +41,9 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
             child: Text('該当するリポジトリはありません'),
           );
         }
-        return LayoutBuilder(
-          builder: (context, constraints) {
-            final columnCount = (constraints.maxWidth /
-                    NumberData.horizontalLayoutThreshold)
-                .floor()
-                .clamp(1, 4);
-            final rowCount = (value.length / columnCount).ceil();
-            return ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: NumberData.horizontalLayoutThreshold * columnCount,
-              ),
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount: rowCount,
-                itemBuilder: (context, rowIndex) {
-                  return Row(
-                    children: List.generate(columnCount, (columnIndex) {
-                      final itemIndex = rowIndex * columnCount + columnIndex;
-                      if (itemIndex >= value.length) {
-                        return const SizedBox.expand();
-                      }
-                      return Flexible(
-                        child: _SearchResultListItem(
-                          repository: value[itemIndex],
-                        ),
-                      );
-                    }),
-                  );
-                },
-              ),
-            );
-          },
+        return AdaptiveRepositoryListView(
+          value: value,
+          scrollController: _scrollController,
         );
       case _:
         return const Center(
@@ -82,8 +53,68 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
   }
 }
 
+class AdaptiveRepositoryListView extends StatelessWidget {
+  const AdaptiveRepositoryListView({
+    required this.value,
+    required this.scrollController,
+    super.key,
+  });
+
+  final List<Repository> value;
+  final ScrollController scrollController;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final columnCount = (constraints.maxWidth /
+                NumberData.horizontalLayoutThreshold)
+            .floor()
+            .clamp(1, 4);
+        final rowCount = (value.length / columnCount).ceil();
+        return ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: NumberData.horizontalLayoutThreshold * columnCount,
+          ),
+          child: ListView.builder(
+            controller: scrollController,
+            itemCount: rowCount,
+            itemBuilder: (context, rowIndex) {
+              return Row(
+                children: List.generate(columnCount, (columnIndex) {
+                  final itemIndex = rowIndex * columnCount + columnIndex;
+                  if (itemIndex >= value.length) {
+                    return const SizedBox.expand();
+                  }
+                  return Expanded(
+                    child: _SearchResultListItem(
+                      repository: value[itemIndex],
+                    ),
+                  );
+                }),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(IterableProperty<Repository>('value', value));
+    properties.add(
+      DiagnosticsProperty<ScrollController>(
+        'scrollController',
+        scrollController,
+      ),
+    );
+  }
+}
+
 class _SearchResultListItem extends StatelessWidget {
-  const _SearchResultListItem({required this.repository, super.key});
+  const _SearchResultListItem({required this.repository});
 
   final Repository repository;
 
@@ -98,7 +129,7 @@ class _SearchResultListItem extends StatelessWidget {
       child: Card(
         // カードの影の深さ
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        margin: const EdgeInsets.symmetric(vertical: 6),
         child: ListTile(
           leading: OwnerIcon(repository: repository, diameter: 20),
           title: Text(
@@ -110,7 +141,7 @@ class _SearchResultListItem extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           trailing: const Icon(Icons.chevron_right),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+
           onTap: () async {
             await GoRouter.of(
               context,
