@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/repository.dart';
 import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_layout_strategy.dart';
 
 import '../../test_util/test_util.dart';
