@@ -1,3 +1,3 @@
 class NumberData {
-  static const textFieldConstraintWidth = 600.0;
+  static const horizontalLayoutThreshold = 600.0;
 }
