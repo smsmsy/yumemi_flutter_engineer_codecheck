@@ -178,7 +178,7 @@ void main() {
       );
       expect(decoration.boxShadow, isNotEmpty, reason: 'シャドウ効果が設定されるべき');
       expect(
-        decoration.boxShadow!.first.color.alpha,
+        decoration.boxShadow!.first.color.a,
         greaterThan(0),
         reason: 'シャドウに透明度が設定されるべき',
       );
