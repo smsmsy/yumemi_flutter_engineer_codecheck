@@ -87,8 +87,13 @@ class AdaptiveRepositoryListView extends StatelessWidget {
                     return const SizedBox.expand();
                   }
                   return Expanded(
-                    child: _SearchResultListItem(
-                      repository: value[itemIndex],
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: columnCount > 1 ? 8 : 0,
+                      ),
+                      child: _SearchResultListItem(
+                        repository: value[itemIndex],
+                      ),
                     ),
                   );
                 }),
