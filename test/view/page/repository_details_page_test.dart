@@ -72,7 +72,11 @@ void main() {
             findsOneWidget,
             reason: 'リポジトリ名が表示されるべき',
           );
-          expect(find.text('Dart'), findsOneWidget, reason: 'プログラミング言語が表示されるべき');
+          expect(
+            find.text('Dart'),
+            findsOneWidget,
+            reason: 'プログラミング言語が表示されるべき',
+          );
 
           // 日本語ロケールでのNumberFormat.compactフォーマットに合わせたテスト
           expect(

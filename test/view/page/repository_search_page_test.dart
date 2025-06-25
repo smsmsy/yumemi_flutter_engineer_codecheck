@@ -202,7 +202,11 @@ void main() {
           await tester.pump();
 
           // 入力が表示されていることを確認
-          expect(find.text(searchTerm), findsOneWidget, reason: '入力内容が表示されているべき');
+          expect(
+            find.text(searchTerm),
+            findsOneWidget,
+            reason: '入力内容が表示されているべき',
+          );
 
           // When: ユーザーがキャンセルボタンをタップする
           await tester.tap(find.byIcon(Icons.cancel));
