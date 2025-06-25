@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -58,12 +56,11 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final columnCount = max(
-          (constraints.maxWidth / NumberData.horizontalLayoutThreshold).floor(),
-          1,
-        );
+        final columnCount = (constraints.maxWidth /
+                NumberData.horizontalLayoutThreshold)
+            .floor()
+            .clamp(1, 4);
         final rowCount = (repositories.length / columnCount).ceil();
-
         return ConstrainedBox(
           constraints: BoxConstraints(
             maxWidth: NumberData.horizontalLayoutThreshold * columnCount,
