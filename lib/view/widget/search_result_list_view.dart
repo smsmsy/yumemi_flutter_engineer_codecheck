@@ -27,66 +27,58 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
   Widget build(BuildContext context) {
     final repositoriesAsyncValue = ref.watch(repositoriesSearchResultProvider);
 
-    if (repositoriesAsyncValue.isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-    if (repositoriesAsyncValue.hasError) {
-      return Center(
-        child: Text(
-          'エラーが発生しました: ${repositoriesAsyncValue.error}',
-          style: const TextStyle(color: Colors.red),
-        ),
-      );
-    }
-    if (repositoriesAsyncValue.isRefreshing) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    final repositories = repositoriesAsyncValue.requireValue;
-
-    if (repositories.isEmpty) {
-      return const Center(
-        child: Text('該当するリポジトリはありません'),
-      );
-    }
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final columnCount = (constraints.maxWidth /
-                NumberData.horizontalLayoutThreshold)
-            .floor()
-            .clamp(1, 4);
-        final rowCount = (repositories.length / columnCount).ceil();
-        return ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: NumberData.horizontalLayoutThreshold * columnCount,
-          ),
-          child: ListView.builder(
-            controller: _scrollController,
-            itemCount: rowCount,
-            itemBuilder: (context, rowIndex) {
-              return Row(
-                children: List.generate(columnCount, (columnIndex) {
-                  final itemIndex = rowIndex * columnCount + columnIndex;
-                  if (itemIndex >= repositories.length) {
-                    return const SizedBox.expand();
-                  }
-                  return Flexible(
-                    child: _SearchResultListItem(
-                      repository: repositories[itemIndex],
-                    ),
-                  );
-                }),
-              );
-            },
+    switch (repositoriesAsyncValue) {
+      case AsyncError(:final error):
+        return Center(
+          child: Text(
+            error.toString(),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         );
-      },
-    );
+      case AsyncData(:final value):
+        if (value.isEmpty) {
+          return const Center(
+            child: Text('該当するリポジトリはありません'),
+          );
+        }
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final columnCount = (constraints.maxWidth /
+                    NumberData.horizontalLayoutThreshold)
+                .floor()
+                .clamp(1, 4);
+            final rowCount = (value.length / columnCount).ceil();
+            return ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: NumberData.horizontalLayoutThreshold * columnCount,
+              ),
+              child: ListView.builder(
+                controller: _scrollController,
+                itemCount: rowCount,
+                itemBuilder: (context, rowIndex) {
+                  return Row(
+                    children: List.generate(columnCount, (columnIndex) {
+                      final itemIndex = rowIndex * columnCount + columnIndex;
+                      if (itemIndex >= value.length) {
+                        return const SizedBox.expand();
+                      }
+                      return Flexible(
+                        child: _SearchResultListItem(
+                          repository: value[itemIndex],
+                        ),
+                      );
+                    }),
+                  );
+                },
+              ),
+            );
+          },
+        );
+      case _:
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+    }
   }
 }
 
