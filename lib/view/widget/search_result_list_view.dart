@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -56,28 +58,35 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final columnCount =
-            (constraints.maxWidth / NumberData.textFieldConstraintWidth).ceil();
+        final columnCount = max(
+          (constraints.maxWidth / NumberData.horizontalLayoutThreshold).floor(),
+          1,
+        );
         final rowCount = (repositories.length / columnCount).ceil();
 
-        return ListView.builder(
-          controller: _scrollController,
-          itemCount: rowCount,
-          itemBuilder: (context, rowIndex) {
-            return Row(
-              children: List.generate(columnCount, (columnIndex) {
-                final itemIndex = rowIndex * columnCount + columnIndex;
-                if (itemIndex >= repositories.length) {
-                  return const Expanded(child: SizedBox.shrink());
-                }
-                return Expanded(
-                  child: _SearchResultListItem(
-                    repository: repositories[itemIndex],
-                  ),
-                );
-              }),
-            );
-          },
+        return ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: NumberData.horizontalLayoutThreshold * columnCount,
+          ),
+          child: ListView.builder(
+            controller: _scrollController,
+            itemCount: rowCount,
+            itemBuilder: (context, rowIndex) {
+              return Row(
+                children: List.generate(columnCount, (columnIndex) {
+                  final itemIndex = rowIndex * columnCount + columnIndex;
+                  if (itemIndex >= repositories.length) {
+                    return const SizedBox.expand();
+                  }
+                  return Flexible(
+                    child: _SearchResultListItem(
+                      repository: repositories[itemIndex],
+                    ),
+                  );
+                }),
+              );
+            },
+          ),
         );
       },
     );
@@ -85,7 +94,7 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
 }
 
 class _SearchResultListItem extends StatelessWidget {
-  const _SearchResultListItem({required this.repository});
+  const _SearchResultListItem({required this.repository, super.key});
 
   final Repository repository;
 
@@ -98,8 +107,6 @@ class _SearchResultListItem extends StatelessWidget {
       tag: 'repository-${repository.name}',
 
       child: Card(
-        // リポジトリのカード
-        elevation: 2,
         // カードの影の深さ
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
