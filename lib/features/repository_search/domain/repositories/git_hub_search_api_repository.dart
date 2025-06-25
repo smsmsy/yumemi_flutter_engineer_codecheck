@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/git_hub_search_query.dart';
-import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/git_hub_search_query.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/repository.dart';
 
 part 'git_hub_search_api_repository.g.dart';
 

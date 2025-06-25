@@ -2,21 +2,21 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/git_hub_search_api_repository.dart';
-import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/git_hub_search_query.dart';
-import 'package:yumemi_flutter_engineer_codecheck/domain/model/git_hub_search_api/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/search_query.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/infrastructure/repositories/github_api_repository.dart';
 
 import 'git_hub_search_api_repository_test.mocks.dart';
 
 @GenerateMocks([Dio])
 void main() {
-  group('GitHubSearchApiRepository.fetch', () {
+  group('GitHubApiRepository.searchRepositories', () {
     late MockDio mockDio;
-    late GitHubSearchApiRepository repository;
+    late GitHubApiRepository repository;
 
     setUp(() {
       mockDio = MockDio();
-      repository = GitHubSearchApiRepository(dio: mockDio);
+      repository = GitHubApiRepository(dio: mockDio);
     });
 
     test('正常系: レスポンスがList<Repository>として返る', () async {
@@ -60,7 +60,7 @@ void main() {
         ),
       );
 
-      final result = await repository.fetch(query);
+      final result = await repository.searchRepositories(query);
       expect(result, isA<List<Repository>>());
       expect(result.length, 2);
       expect(result[0].name, 'repo1');
@@ -82,7 +82,10 @@ void main() {
         ),
       );
 
-      expect(() => repository.fetch(query), throwsA(isA<Exception>()));
+      expect(
+        () => repository.searchRepositories(query),
+        throwsA(isA<Exception>()),
+      );
     });
 
     test('空リスト返却: itemsが空配列の場合', () async {
@@ -100,7 +103,7 @@ void main() {
           requestOptions: RequestOptions(),
         ),
       );
-      final result = await repository.fetch(query);
+      final result = await repository.searchRepositories(query);
       expect(result, isA<List<Repository>>());
       expect(result, isEmpty);
     });
@@ -120,7 +123,7 @@ void main() {
           requestOptions: RequestOptions(),
         ),
       );
-      final result = await repository.fetch(query);
+      final result = await repository.searchRepositories(query);
       expect(result, isA<List<Repository>>());
       expect(result, isEmpty);
     });
@@ -159,7 +162,10 @@ void main() {
           requestOptions: RequestOptions(),
         ),
       );
-      expect(() => repository.fetch(query), throwsA(isA<Exception>()));
+      expect(
+        () => repository.searchRepositories(query),
+        throwsA(isA<Exception>()),
+      );
     });
 
     test('Dioのタイムアウト時に例外が投げられる', () {
@@ -175,7 +181,10 @@ void main() {
           type: DioExceptionType.connectionTimeout,
         ),
       );
-      expect(() => repository.fetch(query), throwsA(isA<Exception>()));
+      expect(
+        () => repository.searchRepositories(query),
+        throwsA(isA<Exception>()),
+      );
     });
 
     test('APIのrate limit超過時(403)に例外が投げられる', () {
@@ -192,7 +201,10 @@ void main() {
           requestOptions: RequestOptions(),
         ),
       );
-      expect(() => repository.fetch(query), throwsA(isA<Exception>()));
+      expect(
+        () => repository.searchRepositories(query),
+        throwsA(isA<Exception>()),
+      );
     });
 
     test('sort/orderをenumで指定した場合に正しく渡される', () async {
@@ -228,7 +240,7 @@ void main() {
           requestOptions: RequestOptions(),
         ),
       );
-      final result = await repository.fetch(query);
+      final result = await repository.searchRepositories(query);
       expect(result, isA<List<Repository>>());
       expect(result.length, 1);
       expect(result[0].name, 'repo1');
@@ -263,7 +275,7 @@ void main() {
           requestOptions: RequestOptions(),
         ),
       );
-      final result = await repository.fetch(query);
+      final result = await repository.searchRepositories(query);
       expect(result, isA<List<Repository>>());
       expect(result.length, 1);
       expect(result[0].name, 'repo1');
@@ -299,7 +311,7 @@ void main() {
           requestOptions: RequestOptions(),
         ),
       );
-      final result = await repository.fetch(query);
+      final result = await repository.searchRepositories(query);
       expect(result, isA<List<Repository>>());
       expect(result.length, 1);
       expect(result[0].name, 'repo1');
