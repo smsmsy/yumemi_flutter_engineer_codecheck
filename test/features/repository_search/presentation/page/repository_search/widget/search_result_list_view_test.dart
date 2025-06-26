@@ -17,6 +17,8 @@ void main() {
       final dummyList = [
         const Repository(
           name: 'repo1',
+          fullName: 'user/repo1',
+          id: 1,
           stargazersCount: 10,
           watchersCount: 5,
           forksCount: 2,
@@ -24,6 +26,8 @@ void main() {
         ),
         const Repository(
           name: 'repo2',
+          fullName: 'user/repo2',
+          id: 2,
           stargazersCount: 20,
           watchersCount: 10,
           forksCount: 4,

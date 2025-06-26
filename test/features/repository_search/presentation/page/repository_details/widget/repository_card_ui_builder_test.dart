@@ -14,6 +14,8 @@ void main() {
         // Given: 豊富な情報を持つリポジトリ
         const repository = Repository(
           name: 'awesome-flutter-app',
+          fullName: 'flutter/awesome-flutter-app',
+          id: 123456,
           language: 'Dart',
           stargazersCount: 25000,
           watchersCount: 1500,
@@ -69,6 +71,8 @@ void main() {
         // Given: 同じリポジトリデータで異なるアニメーション状態
         const repository = Repository(
           name: 'animation-test-repo',
+          fullName: 'flutter/animation-test-repo',
+          id: 789012,
           language: 'JavaScript',
           stargazersCount: 1000,
           watchersCount: 100,
@@ -113,6 +117,8 @@ void main() {
         // Given: 最小限のリポジトリ情報
         const minimalRepository = Repository(
           name: 'minimal-info-repo',
+          fullName: 'minimal/minimal-info-repo',
+          id: 999999,
           // language, ownerは null
           stargazersCount: 0,
           watchersCount: 0,
@@ -152,6 +158,8 @@ void main() {
       // Given: UIビルダーとアニメーションオブジェクト
       const repository = Repository(
         name: 'decoration-test',
+        fullName: 'flutter/decoration-test',
+        id: 1234567,
         stargazersCount: 100,
         watchersCount: 50,
         forksCount: 25,

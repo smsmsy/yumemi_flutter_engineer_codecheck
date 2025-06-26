@@ -15,6 +15,8 @@ void main() {
         // Given: ユーザーがリポジトリ検索結果を見ている
         const testRepository = Repository(
           name: 'flutter',
+          fullName: 'flutter/flutter',
+          id: 123456,
           language: 'Dart',
           stargazersCount: 100000,
           watchersCount: 5000,
@@ -88,9 +90,12 @@ void main() {
       'リポジトリ名が同じならば同一のHeroタグが使用され、アニメーションが実行される',
       (tester) async {
         // Given: 同じ名前のリポジトリが2つの画面に存在する
-        const repositoryName = 'awesome-repo';
+        const repositoryFullName = 'awesome/awesome-repo';
+        const id = 789012;
         const testRepository = Repository(
-          name: repositoryName,
+          name: 'awesome-repo',
+          fullName: repositoryFullName,
+          id: id,
           language: 'JavaScript',
           stargazersCount: 42,
           watchersCount: 12,
@@ -112,7 +117,7 @@ void main() {
 
         // Then: 適切なタグを持つHeroウィジェットが存在する
         final listHero = tester.widget<Hero>(find.byType(Hero));
-        expect(listHero.tag, equals('repository-$repositoryName'));
+        expect(listHero.tag, equals('repository-$id-$repositoryFullName'));
 
         // When: 詳細画面のHeroウィジェットを確認
         await pumpAppWithLocale(
@@ -125,7 +130,7 @@ void main() {
 
         // Then: 同じタグを持つHeroウィジェットが存在する
         final detailHero = tester.widget<Hero>(find.byType(Hero));
-        expect(detailHero.tag, equals('repository-$repositoryName'));
+        expect(detailHero.tag, equals('repository-$id-$repositoryFullName'));
         expect(detailHero.tag, equals(listHero.tag));
       },
     );
@@ -136,6 +141,8 @@ void main() {
         // Given: ユーザージェスチャーに対応したHeroアニメーション設定
         const testRepository = Repository(
           name: 'gesture-test-repo',
+          fullName: 'test/gesture-test-repo',
+          id: 654321,
           language: 'Swift',
           stargazersCount: 777,
           watchersCount: 111,
@@ -180,6 +187,8 @@ void main() {
         // Given: 最小限の情報しか持たないリポジトリ
         const minimalRepository = Repository(
           name: 'minimal-repo',
+          fullName: 'minimal/minimal-repo',
+          id: 999999,
           stargazersCount: 0,
           watchersCount: 0,
           forksCount: 0,
@@ -211,6 +220,8 @@ void main() {
         // Given: Hero アニメーションを持つリポジトリ詳細カード
         const testRepository = Repository(
           name: 'animation-test',
+          fullName: 'test/animation-test',
+          id: 1234567,
           language: 'Flutter',
           stargazersCount: 1000,
           watchersCount: 500,
@@ -241,6 +252,8 @@ void main() {
         // Given: アニメーション性能を測定するためのリポジトリ
         const testRepository = Repository(
           name: 'performance-test',
+          fullName: 'test/performance-test',
+          id: 987654,
           language: 'Dart',
           stargazersCount: 50000,
           watchersCount: 10000,
@@ -284,6 +297,8 @@ void main() {
         // Given: アクセシビリティ設定でアニメーション無効
         const testRepository = Repository(
           name: 'accessibility-test',
+          fullName: 'test/accessibility-test',
+          id: 112233,
           language: 'Python',
           stargazersCount: 123,
           watchersCount: 45,

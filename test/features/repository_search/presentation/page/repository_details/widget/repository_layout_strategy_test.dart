@@ -13,6 +13,8 @@ void main() {
         // Given: 表示するリポジトリ情報
         const repository = Repository(
           name: 'layout-test-repo',
+          fullName: 'test/layout-test-repo',
+          id: 1,
           language: 'TypeScript',
           stargazersCount: 5000,
           watchersCount: 500,
@@ -63,6 +65,8 @@ void main() {
         // Given: アニメーション進行中のシナリオ
         const repository = Repository(
           name: 'animation-layout-test',
+          fullName: 'test/animation-layout-test',
+          id: 2,
           language: 'Go',
           stargazersCount: 2000,
           watchersCount: 200,
@@ -110,6 +114,8 @@ void main() {
         // Given: テスト用リポジトリ
         const repository = Repository(
           name: 'responsive-test',
+          fullName: 'test/responsive-test',
+          id: 3,
           language: 'Python',
           stargazersCount: 15000,
           watchersCount: 1000,
@@ -161,6 +167,8 @@ void main() {
         // Given: ファクトリーメソッドのテスト
         const repository = Repository(
           name: 'factory-pattern-test',
+          fullName: 'test/factory-pattern-test',
+          id: 4,
           language: 'Rust',
           stargazersCount: 3000,
           watchersCount: 300,
