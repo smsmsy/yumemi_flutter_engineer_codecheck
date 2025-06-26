@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/git_hub_search_query.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/git_hub_search_query.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
 
 part 'git_hub_search_api_repository.g.dart';
 
@@ -15,7 +15,7 @@ class GitHubSearchApiRepository {
   GitHubSearchApiRepository({required this.dio});
   final Dio dio;
 
-  Future<List<Repository>> fetch(GitHubSearchQuery query) async {
+  Future<List<Repository>> searchRepositories(GitHubSearchQuery query) async {
     if (query.q.isEmpty) {
       return [];
     }

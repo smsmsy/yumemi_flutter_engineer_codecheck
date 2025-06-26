@@ -1,7 +1,7 @@
 // ignore_for_file: invalid_annotation_target, document_ignores
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/owner.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/owner.dart';
 
 part 'repository.freezed.dart';
 part 'repository.g.dart';
