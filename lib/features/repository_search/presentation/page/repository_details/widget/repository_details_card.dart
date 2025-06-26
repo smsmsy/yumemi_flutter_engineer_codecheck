@@ -133,7 +133,7 @@ class _RepositoryDetailsCardState extends State<RepositoryDetailsCard>
     return Center(
       child: Hero(
         transitionOnUserGestures: true,
-        tag: 'repository-${widget.repository.name}',
+        tag: 'repository-${widget.repository.id}-${widget.repository.fullName}',
         flightShuttleBuilder: _heroAnimationBuilder.buildFlightShuttle,
         child: AnimatedBuilder(
           animation: _animationState,

@@ -14,6 +14,8 @@ void main() {
     testWidgets('AppBarタイトルと戻るボタン、RepositoryDetailsCardが表示される', (tester) async {
       const repository = Repository(
         name: 'test_repo',
+        fullName: 'test_repo/test_repo',
+        id: 1,
         language: 'Dart',
         stargazersCount: 10,
         watchersCount: 5,
@@ -49,6 +51,8 @@ void main() {
           // Given: 詳細なリポジトリ情報
           const repository = Repository(
             name: 'flutter-samples',
+            fullName: 'flutter/flutter-samples',
+            id: 123456,
             language: 'Dart',
             stargazersCount: 15000,
             watchersCount: 1000,
@@ -108,6 +112,8 @@ void main() {
           // Given: リポジトリ詳細画面が表示されている
           const repository = Repository(
             name: 'test-repo',
+            fullName: 'test-repo/test-repo',
+            id: 1,
             language: 'JavaScript',
             stargazersCount: 100,
             watchersCount: 50,
@@ -140,6 +146,8 @@ void main() {
           // Given: 最小限の情報を持つリポジトリ
           const minimalRepository = Repository(
             name: 'minimal-repo',
+            fullName: 'minimal-repo/minimal-repo',
+            id: 999999,
             // 言語は null
             stargazersCount: 0,
             watchersCount: 0,

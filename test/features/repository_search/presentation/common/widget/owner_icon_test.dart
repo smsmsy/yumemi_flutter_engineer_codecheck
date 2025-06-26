@@ -11,6 +11,8 @@ void main() {
     testWidgets('オーナーがnullの場合、デフォルトアイコンが表示される', (tester) async {
       const repository = Repository(
         name: 'repo',
+        fullName: 'repo/repo',
+        id: 1,
         stargazersCount: 0,
         watchersCount: 0,
         forksCount: 0,
@@ -27,6 +29,8 @@ void main() {
     testWidgets('オーナーのavatarUrlが空文字の場合、デフォルトアイコンが表示される', (tester) async {
       const repository = Repository(
         name: 'repo',
+        fullName: 'repo/repo',
+        id: 1,
         stargazersCount: 0,
         watchersCount: 0,
         forksCount: 0,
@@ -44,6 +48,8 @@ void main() {
     testWidgets('オーナーのavatarUrlが有効な場合、Image.networkが表示される', (tester) async {
       const repository = Repository(
         name: 'repo',
+        fullName: 'repo/repo',
+        id: 1,
         stargazersCount: 0,
         watchersCount: 0,
         forksCount: 0,

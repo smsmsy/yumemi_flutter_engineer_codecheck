@@ -6,6 +6,8 @@ void main() {
   group('GitHubリポジトリ検索APIのモデルに関するテスト', () {
     const response = Repository(
       name: 'flutter',
+      fullName: 'flutter/flutter',
+      id: 123456,
       owner: Owner(
         avatarUrl: 'https://avatars.githubusercontent.com/u/14101776?v=4',
       ),
@@ -18,6 +20,8 @@ void main() {
 
     final json = {
       'name': 'flutter',
+      'full_name': 'flutter/flutter',
+      'id': 123456,
       'owner': {
         'avatar_url': 'https://avatars.githubusercontent.com/u/14101776?v=4',
       },
@@ -44,6 +48,8 @@ void main() {
       final response = Repository.fromJson(json);
 
       expect(response.name, 'flutter');
+      expect(response.fullName, 'flutter/flutter');
+      expect(response.id, 123456);
       expect(response.owner, isNotNull);
       expect(
         response.owner!.avatarUrl,
@@ -74,6 +80,8 @@ void main() {
     test('ownerがnullでもパースできる', () {
       final json = {
         'name': 'test-repo',
+        'full_name': 'test-repo/test-repo',
+        'id': 1,
         'owner': null,
         'language': 'Dart',
         'stargazers_count': 10,
@@ -94,6 +102,8 @@ void main() {
     test('languageがnullでもパースできる', () {
       final json = {
         'name': 'test-repo',
+        'full_name': 'test-repo/test-repo',
+        'id': 1,
         'owner': null,
         'language': null,
         'stargazers_count': 10,
@@ -103,6 +113,8 @@ void main() {
       };
       final repo = Repository.fromJson(json);
       expect(repo.name, 'test-repo');
+      expect(repo.fullName, 'test-repo/test-repo');
+      expect(repo.id, 1);
       expect(repo.owner, isNull);
       expect(repo.language, isNull);
       expect(repo.stargazersCount, 10);
@@ -114,6 +126,8 @@ void main() {
     test('toJsonでownerがnullの場合も正しく出力される', () {
       const repo = Repository(
         name: 'test-repo',
+        fullName: 'test-repo/test-repo',
+        id: 1,
         language: 'Dart',
         stargazersCount: 10,
         watchersCount: 10,
@@ -133,6 +147,8 @@ void main() {
     test('toJsonでlanguageがnullの場合も正しく出力される', () {
       const repo = Repository(
         name: 'test-repo',
+        fullName: 'test-repo/test-repo',
+        id: 1,
         stargazersCount: 10,
         watchersCount: 10,
         forksCount: 1,

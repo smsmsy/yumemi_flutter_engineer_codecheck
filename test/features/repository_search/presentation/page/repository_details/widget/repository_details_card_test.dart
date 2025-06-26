@@ -11,6 +11,8 @@ void main() {
     testWidgets('リポジトリ情報が正しく表示される', (tester) async {
       const repository = Repository(
         name: 'test_repo',
+        fullName: 'test_repo/test_repo',
+        id: 1,
         language: 'Dart',
         stargazersCount: 10,
         watchersCount: 5,
@@ -46,6 +48,8 @@ void main() {
     testWidgets('オーナー情報がnullの場合はデフォルトアイコンが表示される', (tester) async {
       const repository = Repository(
         name: 'test_repo',
+        fullName: 'test_repo/test_repo',
+        id: 1,
         language: 'Dart',
         stargazersCount: 10,
         watchersCount: 5,
@@ -63,6 +67,8 @@ void main() {
     testWidgets('オーナー情報のavatarUrlが空の場合もデフォルトアイコンが表示される', (tester) async {
       const repository = Repository(
         name: 'test_repo',
+        fullName: 'test_repo/test_repo',
+        id: 1,
         language: 'Dart',
         stargazersCount: 10,
         watchersCount: 5,
@@ -81,6 +87,8 @@ void main() {
     testWidgets('スター数などが大きい場合はNumberFormatで省略表示される', (tester) async {
       const repository = Repository(
         name: 'test_repo',
+        fullName: 'test_repo/test_repo',
+        id: 1,
         language: 'Dart',
         stargazersCount: 12345,
         watchersCount: 67890,
@@ -99,6 +107,8 @@ void main() {
     testWidgets('画面幅600以上で横レイアウト、未満で縦レイアウト', (tester) async {
       const repository = Repository(
         name: 'test_repo',
+        fullName: 'test_repo/test_repo',
+        id: 1,
         language: 'Dart',
         stargazersCount: 10,
         watchersCount: 5,
