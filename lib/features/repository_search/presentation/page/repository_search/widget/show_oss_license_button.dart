@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
 
+/// OSSライセンスページを表示するボタンのウィジェットです。
+///
+/// このウィジェットはリストタイルとしてOSSライセンスページへの遷移ボタンを提供します。
 class ShowOssLicenseButton extends StatelessWidget {
-  const ShowOssLicenseButton({
-    super.key,
-  });
+  /// ShowOssLicenseButtonのコンストラクタ。
+  ///
+  /// [key]はウィジェットの一意性を識別するために使用されます。
+  const ShowOssLicenseButton({super.key});
 
+  /// OSSライセンスページを表示するListTileを構築します。
+  ///
+  /// タップ時にOSSライセンスページへ遷移します。
   @override
   Widget build(BuildContext context) {
     return ListTile(

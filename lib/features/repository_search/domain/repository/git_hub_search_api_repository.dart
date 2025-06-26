@@ -6,15 +6,28 @@ import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/dom
 
 part 'git_hub_search_api_repository.g.dart';
 
+/// GitHubリポジトリ検索APIのリポジトリProviderです。
+///
+/// Riverpodの依存解決を利用してAPIリポジトリを提供します。
 @Riverpod(keepAlive: true)
 GitHubSearchApiRepository apiRepository(Ref ref, Dio dio) {
   return GitHubSearchApiRepository(dio: dio);
 }
 
+/// GitHubのリポジトリ検索APIへのアクセスを担当するリポジトリクラスです。
+///
+/// Dioを用いてGitHub APIと通信し、リポジトリ情報の取得を行います。
 class GitHubSearchApiRepository {
+  /// [dio]を利用してインスタンスを生成します。
   GitHubSearchApiRepository({required this.dio});
+
+  /// API通信に利用するDioインスタンス
   final Dio dio;
 
+  /// GitHubリポジトリを検索し、結果のリストを返します。
+  ///
+  /// [query]で指定した条件に基づきAPIリクエストを行い、該当するリポジトリ一覧を取得します。
+  /// 検索ワードが空の場合は空リストを返します。
   Future<List<Repository>> searchRepositories(GitHubSearchQuery query) async {
     if (query.q.isEmpty) {
       return [];

@@ -1,39 +1,37 @@
 import 'package:flutter/material.dart';
 
-/// Hero アニメーションの状態を管理するクラス
+/// Heroアニメーションの状態を管理するクラス。
 ///
-/// Martin Fowler's Extract Class リファクタリングを適用
-/// アニメーション状態の管理責任を単一のクラスに集約
+/// アニメーションの進行状況や監視状態を一元的に管理し、通知機能を提供します。
 class HeroAnimationState extends ChangeNotifier {
   AnimationStatus? _lastAnimationStatus;
   var _isMonitoring = false;
   var _isDisposed = false;
 
-  /// アニメーションが完了しているかどうか
+  /// アニメーションが完了しているかどうかを返します。
   bool get isCompleted => _lastAnimationStatus == AnimationStatus.completed;
 
-  /// アニメーションが進行中かどうか
+  /// アニメーションが進行中かどうかを返します。
   bool get isInProgress =>
       _lastAnimationStatus == AnimationStatus.forward ||
       _lastAnimationStatus == AnimationStatus.reverse;
 
-  /// アニメーションが初期状態かどうか
+  /// アニメーションが初期状態かどうかを返します。
   bool get isDismissed => _lastAnimationStatus == AnimationStatus.dismissed;
 
-  /// 現在の状態
+  /// 現在のアニメーション状態を返します。
   AnimationStatus? get currentStatus => _lastAnimationStatus;
 
-  /// 監視中かどうか
+  /// 監視中かどうかを返します。
   bool get isMonitoring => _isMonitoring;
 
-  /// アニメーション状態を更新
+  /// アニメーション状態を更新します。
+  ///
+  /// 状態が変化した場合のみリスナーに通知します。
   void updateStatus(AnimationStatus status) {
     if (_lastAnimationStatus != status) {
       _lastAnimationStatus = status;
-
-      // build中の呼び出しを避けるため、フレーム後に通知を延期
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        // dispose済みでない場合のみ通知
         if (!_isDisposed) {
           notifyListeners();
         }
@@ -41,38 +39,31 @@ class HeroAnimationState extends ChangeNotifier {
     }
   }
 
-  /// 監視開始
+  /// 監視を開始します。
   void startMonitoring() {
     _isMonitoring = true;
-
-    // build中の呼び出しを避けるため、フレーム後に通知を延期
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // dispose済みでない場合のみ通知
       if (!_isDisposed) {
         notifyListeners();
       }
     });
   }
 
-  /// 監視終了
+  /// 監視を終了します。
   void stopMonitoring() {
     _isMonitoring = false;
-    // build中の呼び出しを避けるため、フレーム後に通知を延期
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // dispose済みでない場合のみ通知
       if (!_isDisposed) {
         notifyListeners();
       }
     });
   }
 
-  /// 状態をリセット
+  /// 状態をリセットします。
   void reset() {
     _lastAnimationStatus = null;
     _isMonitoring = false;
-    // build中の呼び出しを避けるため、フレーム後に通知を延期
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // dispose済みでない場合のみ通知
       if (!_isDisposed) {
         notifyListeners();
       }

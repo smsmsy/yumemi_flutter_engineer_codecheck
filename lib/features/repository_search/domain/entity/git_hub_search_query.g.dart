@@ -9,7 +9,11 @@ part of 'git_hub_search_query.dart';
 String _$gitHubSearchQueryNotifierHash() =>
     r'745bb2a26f8d0a5ab6a491b1922a482ecae2e5c2';
 
-/// See also [GitHubSearchQueryNotifier].
+/// GitHubのリポジトリ検索クエリを管理するRiverpodのNotifierクラスです。
+///
+/// 検索条件の状態管理や更新を行います。
+///
+/// Copied from [GitHubSearchQueryNotifier].
 @ProviderFor(GitHubSearchQueryNotifier)
 final gitHubSearchQueryNotifierProvider =
     NotifierProvider<GitHubSearchQueryNotifier, GitHubSearchQuery>.internal(

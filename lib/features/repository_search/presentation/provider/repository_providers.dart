@@ -10,7 +10,7 @@ part 'repository_providers.g.dart';
 
 /// GitHubリポジトリの具象実装を提供するプロバイダー
 ///
-/// DIコンテナとしてRiverpodを使用し、依存関係を管理
+/// DIコンテナとしてRiverpodを使用し、依存関係を管理します。
 @Riverpod(keepAlive: true)
 GitHubSearchApiRepository githubRepository(Ref ref, Dio dio) {
   return GitHubSearchApiRepository(dio: dio);
@@ -18,7 +18,7 @@ GitHubSearchApiRepository githubRepository(Ref ref, Dio dio) {
 
 /// GitHub検索クエリの状態管理プロバイダー
 ///
-/// ユーザーの検索入力を管理し、UIレイヤーから利用される
+/// ユーザーの検索入力を管理し、UIレイヤーから利用されます。
 @Riverpod(keepAlive: true)
 class GitHubSearchQueryNotifier extends _$GitHubSearchQueryNotifier {
   @override
@@ -26,6 +26,10 @@ class GitHubSearchQueryNotifier extends _$GitHubSearchQueryNotifier {
     return const GitHubSearchQuery(q: '');
   }
 
+  /// 検索クエリを設定します。
+  ///
+  /// [q]は検索ワード、[sort]はソート順、[order]は並び順、[perPage]は1ページあたりの件数、[page]はページ番号を指定します。
+  /// これらの値をもとに新しい[GitHubSearchQuery]を生成し、状態を更新します。
   void setQuery({
     required String q,
     GitHubSearchSort? sort,
@@ -45,8 +49,8 @@ class GitHubSearchQueryNotifier extends _$GitHubSearchQueryNotifier {
 
 /// リポジトリ検索結果を提供するプロバイダー
 ///
-/// ユーザーの検索クエリに基づいてリポジトリを取得
-/// デバウンス機能付きHTTPクライアントを使用してAPI呼び出しを最適化
+/// ユーザーの検索クエリに基づいてリポジトリを取得します。
+/// デバウンス機能付きHTTPクライアントを使用してAPI呼び出しを最適化します。
 @riverpod
 Future<List<Repository>> repositoriesSearchResult(Ref ref) async {
   final query = ref.watch(gitHubSearchQueryNotifierProvider);

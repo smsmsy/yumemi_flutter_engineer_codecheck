@@ -1,76 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_hero_animation_state.dart';
 
-/// Hero アニメーション監視の責任を担うクラス
+/// Heroアニメーションの監視・管理を担うユーティリティクラス。
 ///
-/// Martin Fowler's Extract Class と Strategy Pattern を適用
-/// アニメーション監視のロジックを分離し、再利用可能にする
+/// アニメーションの状態監視やリスナー管理を分離し、再利用性と保守性を高めます。
 class HeroAnimationMonitor {
+  /// [_state]を受け取り、アニメーション監視の状態管理に利用します。
   HeroAnimationMonitor(this._state);
 
+  /// アニメーション状態を管理する内部状態クラス。
   final HeroAnimationState _state;
 
-  /// Hero flight アニメーションの監視を開始
+  /// Heroアニメーションのflightアニメーション監視を開始します。
   ///
-  /// HeroアニメーションのFlightの監視を開始
-  ///
-  /// Extract Method リファクタリングを適用
-  /// 複雑な監視ロジックを単一の責任を持つメソッドに分離
+  /// アニメーションの状態変化や値変化を監視し、必要に応じて状態を更新します。
   void monitorFlightAnimation(
     Animation<double> animation,
     HeroFlightDirection direction,
   ) {
     _state.startMonitoring();
-
-    // 現在の状態を遅延実行で反映（build中の呼び出しを避ける）
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _state.updateStatus(animation.status);
     });
-
     _attachStatusListener(animation);
     _attachValueListener(animation);
   }
 
-  /// コントローラーアニメーションの監視を開始
+  /// AnimationControllerによるアニメーション監視を開始します。
   void monitorControllerAnimation(AnimationController controller) {
     _attachStatusListener(controller);
     _attachValueListener(controller);
   }
 
-  /// 状態変化リスナーの追加
-  ///
-  /// Extract Method リファクタリングを適用
-  /// リスナー追加の重複コードを統合
+  /// アニメーションの状態変化リスナーを追加します。
   void _attachStatusListener(Animation<double> animation) {
     animation.addStatusListener(_state.updateStatus);
   }
 
-  /// 値変化リスナーの追加
-  ///
-  /// Extract Method リファクタリングを適用
-  /// 必要に応じて拡張可能な構造に変更
+  /// アニメーションの値変化リスナーを追加します。
   void _attachValueListener(Animation<double> animation) {
     animation.addListener(() {
-      // 値の変化に応じた処理（必要に応じて拡張）
       _onAnimationValueChanged(animation.value, animation.status);
     });
   }
 
-  /// アニメーション値変化時の処理
+  /// アニメーション値変化時の処理。
   ///
-  /// Template Method パターンの適用ポイント
-  /// サブクラスでオーバーライド可能
+  /// 必要に応じてサブクラスでオーバーライドして拡張可能です。
   void _onAnimationValueChanged(double value, AnimationStatus status) {
-    // デフォルトでは何もしない
-    // 必要に応じてサブクラスで実装
+    // デフォルトでは何もしません。
   }
 
-  /// 監視を停止
+  /// 監視を停止します。
   void stopMonitoring() {
     _state.stopMonitoring();
   }
 
-  /// 状態をリセット
+  /// 状態をリセットします。
   void reset() {
     _state.reset();
   }

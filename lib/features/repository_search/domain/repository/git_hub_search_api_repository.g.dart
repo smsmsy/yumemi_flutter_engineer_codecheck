@@ -29,16 +29,32 @@ class _SystemHash {
   }
 }
 
-/// See also [apiRepository].
+/// GitHubリポジトリ検索APIのリポジトリProviderです。
+///
+/// Riverpodの依存解決を利用してAPIリポジトリを提供します。
+///
+/// Copied from [apiRepository].
 @ProviderFor(apiRepository)
 const apiRepositoryProvider = ApiRepositoryFamily();
 
-/// See also [apiRepository].
+/// GitHubリポジトリ検索APIのリポジトリProviderです。
+///
+/// Riverpodの依存解決を利用してAPIリポジトリを提供します。
+///
+/// Copied from [apiRepository].
 class ApiRepositoryFamily extends Family<GitHubSearchApiRepository> {
-  /// See also [apiRepository].
+  /// GitHubリポジトリ検索APIのリポジトリProviderです。
+  ///
+  /// Riverpodの依存解決を利用してAPIリポジトリを提供します。
+  ///
+  /// Copied from [apiRepository].
   const ApiRepositoryFamily();
 
-  /// See also [apiRepository].
+  /// GitHubリポジトリ検索APIのリポジトリProviderです。
+  ///
+  /// Riverpodの依存解決を利用してAPIリポジトリを提供します。
+  ///
+  /// Copied from [apiRepository].
   ApiRepositoryProvider call(Dio dio) {
     return ApiRepositoryProvider(dio);
   }
@@ -65,9 +81,17 @@ class ApiRepositoryFamily extends Family<GitHubSearchApiRepository> {
   String? get name => r'apiRepositoryProvider';
 }
 
-/// See also [apiRepository].
+/// GitHubリポジトリ検索APIのリポジトリProviderです。
+///
+/// Riverpodの依存解決を利用してAPIリポジトリを提供します。
+///
+/// Copied from [apiRepository].
 class ApiRepositoryProvider extends Provider<GitHubSearchApiRepository> {
-  /// See also [apiRepository].
+  /// GitHubリポジトリ検索APIのリポジトリProviderです。
+  ///
+  /// Riverpodの依存解決を利用してAPIリポジトリを提供します。
+  ///
+  /// Copied from [apiRepository].
   ApiRepositoryProvider(Dio dio)
     : this._internal(
         (ref) => apiRepository(ref as ApiRepositoryRef, dio),

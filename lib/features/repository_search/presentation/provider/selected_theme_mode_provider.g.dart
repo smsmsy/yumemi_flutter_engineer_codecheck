@@ -8,7 +8,12 @@ part of 'selected_theme_mode_provider.dart';
 
 String _$selectedThemeModeHash() => r'59251d24f3155218ead9e3e190c41c3e29ee116f';
 
-/// See also [SelectedThemeMode].
+/// 選択されたテーマモードを管理するRiverpodのStateNotifierクラスです。
+///
+/// ユーザーが選択したテーマモード（ライト・ダーク・システム）を永続化し、
+/// アプリ全体で一貫したテーマ設定を提供します。
+///
+/// Copied from [SelectedThemeMode].
 @ProviderFor(SelectedThemeMode)
 final selectedThemeModeProvider =
     AutoDisposeAsyncNotifierProvider<SelectedThemeMode, ThemeMode>.internal(

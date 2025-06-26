@@ -7,12 +7,24 @@ import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
 
 /// リポジトリの詳細情報を表示するページウィジェット
+///
+/// 指定されたリポジトリの詳細情報を画面に表示します。
+/// AppBarにはリポジトリ詳細のタイトルと戻るボタンが表示されます。
 class RepositoryDetailsPage extends StatelessWidget {
+  /// [repository]の詳細情報を表示するページのコンストラクタ
+  ///
+  /// [repository]には表示対象のリポジトリ情報を渡します。
   const RepositoryDetailsPage({required this.repository, super.key});
 
+  /// 表示対象のリポジトリ情報
+  ///
+  /// 詳細カードやタイトル表示に利用されます。
   final Repository repository;
 
   @override
+  /// リポジトリ詳細ページのウィジェットツリーを構築します。
+  ///
+  /// AppBarやリポジトリ詳細カードを含む画面全体のレイアウトを返します。
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
