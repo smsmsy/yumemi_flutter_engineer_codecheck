@@ -4,7 +4,7 @@
 
 ## コーディングガイドについて
 
-[docs/styles_guideline.md](docs/styles_guideline.md) をご確認ください。
+[styles_guideline.md](documents/styles_guideline.md) をご確認ください。
 
 ## 動作確認方法
 
@@ -34,4 +34,4 @@ flutter pub run build_runner watch --delete-conflicting-outputs
 sh l10n-generate.sh
 ```
 
-さらに詳しい言語追加対応については、 [docs/how-to-add-strings.md](docs/how-to-add-strings.md) をご確認ください。
+さらに詳しい言語追加対応については、 [how-to-add-strings.md](documents/how-to-add-strings.md) をご確認ください。
