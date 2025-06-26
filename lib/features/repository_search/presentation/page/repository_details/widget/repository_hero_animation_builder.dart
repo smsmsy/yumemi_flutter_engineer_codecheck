@@ -2,32 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_card_ui_builder.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_hero_animation_monitor.dart';
 
-/// Hero Animation Flight Shuttle の構築を担当するクラス
+/// HeroアニメーションのFlight Shuttle構築を担うユーティリティクラス。
 ///
-/// Heroアニメーション中の表示効果を管理する専用クラス
-/// アニメーション構築の複雑なロジックを分離し、再利用可能にする
+/// アニメーションの視覚効果や遷移ロジックを分離し、再利用性と保守性を高めます。
 class RepositoryHeroAnimationBuilder {
+  /// [uiBuilder]と[animationMonitor]を受け取り、アニメーション構築に利用します。
   const RepositoryHeroAnimationBuilder({
     required this.uiBuilder,
     required this.animationMonitor,
   });
 
+  /// UI構築用ユーティリティ。
   final RepositoryCardUIBuilder uiBuilder;
+
+  /// アニメーション状態監視用ユーティリティ。
   final HeroAnimationMonitor animationMonitor;
 
-  /// Hero アニメーションのflightShuttleBuilderのコールバック
+  /// HeroアニメーションのflightShuttleBuilder用コールバック。
   ///
-  /// 遷移前後のウィジェットを滑らかにブレンドするアニメーションを構築する
-  ///
-  /// 【Hero Animation の特徴】
-  /// - 遷移開始時: fromHero（遷移元）のウィジェットから開始
-  /// - 遷移途中: 両方のウィジェットをブレンド表示
-  /// - 遷移完了時: toHero（遷移先）のウィジェットに変化
-  ///
-  /// 【実装のポイント】
-  /// - アニメーション監視は build 処理後に遅延実行
-  /// - CrossFadeTransition で遷移前後のウィジェットを滑らかに切り替え
-  /// - Transform とDecorationで追加の視覚効果を演出
+  /// 遷移前後のウィジェットを滑らかにブレンドし、視覚効果を付与します。
+  /// アニメーション監視やクロスフェード、スケール効果を組み合わせて演出します。
   Widget buildFlightShuttle(
     BuildContext flightContext,
     Animation<double> animation,
@@ -56,10 +50,10 @@ class RepositoryHeroAnimationBuilder {
     );
   }
 
-  /// コンテキストからウィジェットを抽出する
+  /// コンテキストからウィジェットを抽出します。
   ///
-  /// HeroアニメーションのコンテキストからWidget情報を安全に取得する
-  /// コンテキストが無効な場合は空のContainerを返す
+  /// HeroアニメーションのコンテキストからWidget情報を安全に取得します。
+  /// コンテキストが無効な場合は空のSizedBoxを返します。
   Widget _extractWidgetFromContext(BuildContext context) {
     try {
       final widget = context.widget;
@@ -70,16 +64,10 @@ class RepositoryHeroAnimationBuilder {
     }
   }
 
-  /// アニメーション遷移効果を構築する
+  /// アニメーション遷移効果を構築します。
   ///
-  /// 標準的なHeroアニメーションのクロスフェード効果を実現する
-  ///
-  /// 【標準的なHero Animation】
-  /// - fromWidget と toWidget を同時に重ねて配置
-  /// - アニメーション進行に応じて透明度を反転
-  /// - fromWidget: opacity 1.0 → 0.0
-  /// - toWidget: opacity 0.0 → 1.0
-  /// - 微細なスケール効果で奥行き感を演出
+  /// fromWidget/toWidgetをクロスフェードし、スケール効果と装飾を付与します。
+  /// 遷移方向に応じてアニメーションカーブや重なり順を調整します。
   Widget _buildAnimatedTransition({
     required Animation<double> animation,
     required Widget fromWidget,
@@ -87,22 +75,17 @@ class RepositoryHeroAnimationBuilder {
     required HeroFlightDirection direction,
   }) {
     // 方向に応じて適切なアニメーションカーブを選択
-    // push: easeOut - 最初速く、後でゆっくり（ユーザーの操作感を重視）
-    // pop: easeIn - 最初ゆっくり、後で速く（戻る操作の自然さを重視）
     final curve =
         direction == HeroFlightDirection.push
             ? Curves.easeOutCubic
             : Curves.easeInCubic;
     final curvedValue = curve.transform(animation.value);
 
-    // 遷移方向に応じた適切なスケール効果の修正
-    // push: 詳細画面への移動 - 小さく始まって大きくなる (0.98 → 1.02)
-    // pop: 検索画面への戻り - 大きく始まって小さくなる (1.02 → 0.98)
+    // 遷移方向に応じたスケール効果
     final scaleValue =
         direction == HeroFlightDirection.push
-            ? 0.98 +
-                (0.04 * curvedValue) // push: 0.98 → 1.02
-            : 1.02 - (0.04 * curvedValue); // pop: 1.02 → 0.98
+            ? 0.98 + (0.04 * curvedValue)
+            : 1.02 - (0.04 * curvedValue);
 
     return Transform.scale(
       scale: scaleValue,
@@ -113,7 +96,6 @@ class RepositoryHeroAnimationBuilder {
           children:
               direction == HeroFlightDirection.push
                   ? [
-                    // push: 詳細画面へ - 検索画面のカードが下、詳細画面のカードが上
                     Opacity(
                       opacity: 1.0 - curvedValue,
                       child: fromWidget,
@@ -124,7 +106,6 @@ class RepositoryHeroAnimationBuilder {
                     ),
                   ]
                   : [
-                    // pop: 検索画面へ戻る - 詳細画面のカードが下、検索画面のカードが上
                     Opacity(
                       opacity: curvedValue,
                       child: fromWidget,

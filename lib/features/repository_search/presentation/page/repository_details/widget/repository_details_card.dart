@@ -6,12 +6,16 @@ import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/pre
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_hero_animation_monitor.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_hero_animation_state.dart';
 
-/// GitHubリポジトリ詳細表示ウィジェット
+/// GitHubリポジトリの詳細情報をカード形式で表示するウィジェットです。
 ///
-/// リポジトリの情報をカード形式で表示
-/// レイアウトは画面幅に応じて縦横切り替え
+/// 画面幅に応じて縦横レイアウトを切り替え、アニメーション付きでリポジトリ情報を表示します。
 class RepositoryDetailsCard extends StatefulWidget {
+  /// [repository]の情報を表示するカードを生成します。
+  ///
+  /// [repository]：表示対象のリポジトリ情報
   const RepositoryDetailsCard({required this.repository, super.key});
+
+  /// 表示するリポジトリ情報
   final Repository repository;
 
   @override
@@ -24,14 +28,37 @@ class RepositoryDetailsCard extends StatefulWidget {
   }
 }
 
+/// RepositoryDetailsCardの状態管理クラスです。
+///
+/// アニメーションやUIビルダーのキャッシュ管理を行います。
 class _RepositoryDetailsCardState extends State<RepositoryDetailsCard>
     with TickerProviderStateMixin {
+  /// Heroアニメーション用のコントローラー
+  /// 
+  /// リポジトリカードのHeroアニメーションを制御するためのコントローラーです。
+  /// アニメーションの進行状況を管理し、UIの更新を行います。
   late AnimationController _heroAnimationController;
+
+  /// アニメーション状態とモニターを管理するためのインスタンス
+  /// 
+  /// Heroアニメーションの進行状況を追跡し、UIの更新を行います。
   late HeroAnimationState _animationState;
+
+  /// Heroアニメーションの状態を監視するモニター
+  ///
+  /// アニメーションの進行状況を管理し、UIの更新をトリガーします。
   late HeroAnimationMonitor _animationMonitor;
 
-  // Lazy initialization のためのキャッシュ
+  /// UIBuilderのキャッシュ
+  /// 
+  /// リポジトリカードのUIを構築するためのビルダーをキャッシュします。
+  /// 同じ状態であれば再利用し、パフォーマンスを向上させます。
   RepositoryCardUIBuilder? _cachedUIBuilder;
+
+  /// HeroAnimationBuilderのキャッシュ
+  /// 
+  /// Heroアニメーションのビルダーをキャッシュします。
+  /// 同じ状態であれば再利用し、パフォーマンスを向上させます。
   RepositoryHeroAnimationBuilder? _cachedHeroAnimationBuilder;
 
   @override
@@ -41,45 +68,30 @@ class _RepositoryDetailsCardState extends State<RepositoryDetailsCard>
     _setupAnimationController();
   }
 
-  /// 全コンポーネントの初期化
-  ///
-  /// アニメーション状態管理とモニタリングクラスを初期化する
-  /// 初期化処理を一箇所にまとめることで保守性を向上
+  /// アニメーション状態やモニターの初期化を行います。
   void _initializeComponents() {
     _animationState = HeroAnimationState();
     _animationMonitor = HeroAnimationMonitor(_animationState);
   }
 
-  /// アニメーションコントローラーのセットアップ
-  ///
-  /// Heroアニメーションのコントローラーを作成し、状態監視を開始する
-  /// セットアップロジックを分離することで、責任を明確化
+  /// Heroアニメーション用コントローラーのセットアップを行います。
   void _setupAnimationController() {
     _heroAnimationController = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
-
     _animationMonitor.monitorControllerAnimation(_heroAnimationController);
-
-    // 状態変化の監視
     _animationState.addListener(_onAnimationStateChanged);
   }
 
-  /// アニメーション状態変化時のコールバック
+  /// アニメーション状態が変化した際のコールバックです。
   ///
-  /// アニメーション状態が変わった時に呼ばれる処理
-  /// build中の呼び出しによるエラーを防ぐため、フレーム後に実行を延期している
-  ///
-  /// 【注意】setState()をbuild中に呼ぶとエラーになるため、
-  /// addPostFrameCallback()を使用して安全なタイミングで実行
+  /// build中のsetState呼び出しによるエラーを防ぐため、addPostFrameCallbackで遅延実行します。
   void _onAnimationStateChanged() {
     if (mounted) {
-      // build中の呼び出しを避けるため、フレーム後に実行を延期
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           setState(() {
-            // キャッシュをクリアして再生成を促す
             _cachedUIBuilder = null;
             _cachedHeroAnimationBuilder = null;
           });
@@ -88,15 +100,7 @@ class _RepositoryDetailsCardState extends State<RepositoryDetailsCard>
     }
   }
 
-  /// UIBuilderの遅延生成
-  ///
-  /// 必要になった時点でUIBuilderインスタンスを作成する
-  /// キャッシュ機能により、同じ状態なら再利用してパフォーマンスを向上
-  ///
-  /// 【利点】
-  /// - メモリ使用量の最適化
-  /// - 不要な再生成を防止
-  /// - アニメーション状態に応じた適切なUIBuilder生成
+  /// UIBuilderを必要時に生成し、同じ状態ならキャッシュを再利用します。
   RepositoryCardUIBuilder get _uiBuilder {
     _cachedUIBuilder ??= RepositoryCardUIBuilder(
       repository: widget.repository,
@@ -106,14 +110,7 @@ class _RepositoryDetailsCardState extends State<RepositoryDetailsCard>
     return _cachedUIBuilder!;
   }
 
-  /// HeroAnimationBuilderの遅延生成
-  ///
-  /// 必要になった時点でHeroAnimationBuilderインスタンスを作成する
-  /// UIBuilderに依存するため、UIBuilderが先に生成される
-  ///
-  /// 【設計上の注意】
-  /// - uiBuilderプロパティを通じてUIBuilderのgetterを呼び出す
-  /// - これにより依存関係が明確になり、適切な順序で初期化される
+  /// HeroAnimationBuilderを必要時に生成し、同じ状態ならキャッシュを再利用します。
   RepositoryHeroAnimationBuilder get _heroAnimationBuilder {
     _cachedHeroAnimationBuilder ??= RepositoryHeroAnimationBuilder(
       uiBuilder: _uiBuilder,
@@ -122,32 +119,25 @@ class _RepositoryDetailsCardState extends State<RepositoryDetailsCard>
     return _cachedHeroAnimationBuilder!;
   }
 
-  /// アニメーション完了状態の取得
-  ///
-  /// 外部から直接 _animationState にアクセスするのを防ぐ
-  /// アニメーションが完了しているかどうかを安全に取得できる
+  /// アニメーションが完了しているかどうかを返します。
   bool get isHeroAnimationCompleted => _animationState.isCompleted;
 
-  /// アニメーション進行状態の取得
-  ///
-  /// 外部から直接 _animationState にアクセスするのを防ぐ
-  /// アニメーションが進行中かどうかを安全に取得できる
+  /// アニメーションが進行中かどうかを返します。
   bool get isHeroAnimationInProgress => _animationState.isInProgress;
 
+  /// リポジトリ詳細カードのUIを構築します。
+  ///
+  /// HeroアニメーションとAnimatedBuilderを組み合わせて、状態変化に応じたUIを表示します。
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Hero(
-        // ヒーローアニメーションを使用してリポジトリの詳細を表示
-        // 検索画面のリストビューと同一のタグを使用することで実現している
         transitionOnUserGestures: true,
-        tag: 'repository-${widget.repository.name}',
-        // Hero アニメーションの詳細制御
+        tag: 'repository-${widget.repository.name}',
         flightShuttleBuilder: _heroAnimationBuilder.buildFlightShuttle,
         child: AnimatedBuilder(
           animation: _animationState,
           builder: (context, child) {
-            // キャッシュされたUIBuilderを使用（状態変化時は自動で再作成される）
             return _uiBuilder.buildCardContent(context);
           },
         ),
@@ -161,10 +151,7 @@ class _RepositoryDetailsCardState extends State<RepositoryDetailsCard>
     super.dispose();
   }
 
-  /// アニメーション関連コンポーネントの破棄
-  ///
-  /// ウィジェットが破棄される際にリソースを適切に解放する
-  /// メモリリークを防ぐため、AnimationControllerとStateを破棄
+  /// アニメーション関連のリソースを破棄します。
   void _disposeAnimationComponents() {
     _heroAnimationController.dispose();
     _animationState.dispose();

@@ -5,13 +5,16 @@ import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/pre
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_details_info_view.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
 
-/// レイアウト判定の戦略インターフェース
+/// レイアウト判定の戦略を表現する抽象クラスです。
 ///
-/// Flutter最適化されたStrategy Pattern を適用
-/// StatelessWidgetベースで効率的なウィジェットツリーを構築
+/// Flutter向けのStrategyパターンを適用し、StatelessWidgetとして効率的なウィジェットツリー構築を実現します。
 abstract class LayoutStrategyWidget extends StatelessWidget {
+  /// [repository]を受け取り、レイアウト戦略ウィジェットを初期化します。
+  ///
+  /// [repository]はレイアウト判定や子ウィジェット生成に利用されます。
   const LayoutStrategyWidget({required this.repository, super.key});
 
+  /// レイアウト判定対象のリポジトリ情報
   final Repository repository;
 
   @override
@@ -21,18 +24,21 @@ abstract class LayoutStrategyWidget extends StatelessWidget {
   }
 }
 
-/// MediaQuery ベースのレイアウト判定戦略
+/// MediaQueryを用いたレイアウト判定戦略を提供するウィジェットです。
 ///
-/// StatelessWidgetベースのStrategy Pattern
-/// アニメーション中の安定した判定に特化
+/// アニメーション中の安定したレイアウト判定に特化しています。
 class MediaQueryLayoutStrategy extends LayoutStrategyWidget {
+  /// [repository]を受け取りMediaQueryベースのレイアウト戦略を初期化します。
+  ///
+  /// [repository]はレイアウト判定や子ウィジェット生成に利用されます。
   const MediaQueryLayoutStrategy({required super.repository, super.key});
 
+  /// 画面幅に応じてレイアウトを切り替えます。
+  ///
+  /// MediaQueryから取得した画面幅をもとに、横レイアウトまたは縦レイアウトのウィジェットを返します。
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    // final availableWidth = screenWidth - 32; // マージンとパディングを考慮
-
     return _createLayoutWidget(screenWidth);
   }
 
@@ -51,13 +57,18 @@ class MediaQueryLayoutStrategy extends LayoutStrategyWidget {
   }
 }
 
-/// LayoutBuilder ベースのレイアウト判定戦略
+/// LayoutBuilderを用いたレイアウト判定戦略を提供するウィジェットです。
 ///
-/// StatelessWidgetベースのStrategy Pattern
-/// アニメーション完了後の正確な判定に特化
+/// アニメーション完了後の正確なレイアウト判定に特化しています。
 class LayoutBuilderLayoutStrategy extends LayoutStrategyWidget {
+  /// [repository]を受け取りLayoutBuilderベースのレイアウト戦略を初期化します。
+  ///
+  /// [repository]はレイアウト判定や子ウィジェット生成に利用されます。
   const LayoutBuilderLayoutStrategy({required super.repository, super.key});
 
+  /// LayoutBuilderの制約幅に応じてレイアウトを切り替えます。
+  ///
+  /// 制約幅が閾値以上なら横レイアウト、それ以外は縦レイアウトのウィジェットを返します。
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -82,13 +93,15 @@ class LayoutBuilderLayoutStrategy extends LayoutStrategyWidget {
   }
 }
 
-/// レイアウト戦略を管理するファクトリークラス
+/// レイアウト戦略を管理するファクトリーmixinです。
 ///
-/// StatelessWidgetベースのFactory Method Pattern
-/// アニメーション状態に応じて適切な戦略ウィジェットを生成
-///
-/// Note: このクラスは名前空間として機能し、インスタンス化を想定していません
+/// アニメーション状態に応じて適切なレイアウト戦略ウィジェットを生成します。
+/// インスタンス化は想定していません。
 mixin LayoutStrategyFactory {
+  /// アニメーション状態に応じてレイアウト戦略ウィジェットを生成します。
+  ///
+  /// [isAnimationInProgress]がtrueの場合はMediaQueryベース、
+  /// それ以外はLayoutBuilderベースの戦略を返します。
   static LayoutStrategyWidget createStrategy({
     required bool isAnimationInProgress,
     required bool isAnimationCompleted,
@@ -102,14 +115,21 @@ mixin LayoutStrategyFactory {
   }
 }
 
-/// リポジトリ情報の横方向に長いレイアウト用のウィジェット
+/// リポジトリ情報を横方向レイアウトで表示するウィジェットです。
 ///
-/// Martin Fowler's Extract Class を適用
-/// レイアウト責任を分離し、再利用性を向上
+/// レイアウト責任を分離し、再利用性を高めるためのクラスです。
 class RepositoryInfoHorizontalLayout extends StatelessWidget {
+  /// [repository]を受け取り横レイアウトウィジェットを初期化します。
+  ///
+  /// [repository]は横レイアウトの各子ウィジェット生成に利用されます。
   const RepositoryInfoHorizontalLayout({required this.repository, super.key});
+
+  /// レイアウト判定対象のリポジトリ情報
   final Repository repository;
 
+  /// 横方向レイアウトのウィジェットツリーを構築します。
+  ///
+  /// タイトル、アイコン、詳細情報を横並びで表示します。
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -137,14 +157,21 @@ class RepositoryInfoHorizontalLayout extends StatelessWidget {
   }
 }
 
-/// リポジトリ情報の縦方向に長いレイアウト用のウィジェット
+/// リポジトリ情報を縦方向レイアウトで表示するウィジェットです。
 ///
-/// Martin Fowler's Extract Class を適用
-/// レイアウト責任を分離し、再利用性を向上
+/// レイアウト責任を分離し、再利用性を高めるためのクラスです。
 class RepositoryInfoVerticalLayout extends StatelessWidget {
+  /// [repository]を受け取り縦レイアウトウィジェットを初期化します。
+  ///
+  /// [repository]は縦レイアウトの各子ウィジェット生成に利用されます。
   const RepositoryInfoVerticalLayout({required this.repository, super.key});
+
+  /// レイアウト判定対象のリポジトリ情報
   final Repository repository;
 
+  /// 縦方向レイアウトのウィジェットツリーを構築します。
+  ///
+  /// アイコン、タイトル、詳細情報を縦並びで表示します。
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -165,20 +192,21 @@ class RepositoryInfoVerticalLayout extends StatelessWidget {
   }
 }
 
-/// リポジトリのタイトルを表示するウィジェット
+/// リポジトリのタイトルを表示するウィジェットです。
 ///
-/// Martin Fowler's Extract Class を適用
-/// タイトル表示の責任を分離し、統一したスタイルを適用
-///
-/// テキストスタイル:
-/// - 太字ヘッドライン
-/// - 最大2行表示
-/// - オーバーフロー時は省略記号
-/// - 中央揃え
+/// タイトル表示の責任を分離し、統一したスタイルでリポジトリ名を表示します。
 class RepositoryTitle extends StatelessWidget {
+  /// [repository]を受け取りタイトル表示ウィジェットを初期化します。
+  ///
+  /// [repository]はタイトルテキストの内容に利用されます。
   const RepositoryTitle({required this.repository, super.key});
+
+  /// 表示対象のリポジトリ情報
   final Repository repository;
 
+  /// リポジトリ名をスタイル付きテキストで表示します。
+  ///
+  /// 太字・最大2行・中央揃え・省略記号付きで表示されます。
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

@@ -7,7 +7,13 @@ import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/pre
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/repository_providers.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
 
+/// 検索結果のリポジトリ一覧を表示するウィジェット
+///
+/// RiverpodのProviderから取得したリポジトリ一覧をリスト表示します。
 class SearchResultListView extends ConsumerStatefulWidget {
+  /// 検索結果リストビューのコンストラクタ
+  ///
+  /// 必要に応じてkeyを指定できます。
   const SearchResultListView({super.key});
 
   @override
@@ -15,7 +21,9 @@ class SearchResultListView extends ConsumerStatefulWidget {
       _SearchResultListViewState();
 }
 
+/// [SearchResultListView]の状態を管理するStateクラス
 class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
+  /// 検索結果リストのスクロール制御用コントローラー
   final _scrollController = ScrollController();
 
   @override
@@ -25,6 +33,9 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
   }
 
   @override
+  /// 検索結果の状態に応じてリストやエラー・ローディング表示を切り替えます。
+  ///
+  /// Providerから取得したリポジトリ一覧をリスト表示し、該当なしやエラー時はメッセージを表示します。
   Widget build(BuildContext context) {
     final repositoriesAsyncValue = ref.watch(repositoriesSearchResultProvider);
 
@@ -54,17 +65,29 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
   }
 }
 
+/// レイアウト幅に応じてカラム数が変化するリポジトリ一覧リスト
+///
+/// 横幅に応じて1〜4カラムでリポジトリをグリッド状に表示します。
 class AdaptiveRepositoryListView extends StatelessWidget {
+  /// レスポンシブなリポジトリリストのコンストラクタ
+  ///
+  /// [value]は表示するリポジトリ一覧、[scrollController]はリストのスクロール制御に使用します。
   const AdaptiveRepositoryListView({
     required this.value,
     required this.scrollController,
     super.key,
   });
 
+  /// 表示するリポジトリ一覧
   final List<Repository> value;
+
+  /// リストのスクロール制御用コントローラー
   final ScrollController scrollController;
 
   @override
+  /// レイアウト幅に応じてカラム数を調整し、リポジトリをグリッド状に表示します。
+  ///
+  /// 横幅に応じて1〜4カラムでリストを構築します。
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -119,12 +142,22 @@ class AdaptiveRepositoryListView extends StatelessWidget {
   }
 }
 
+/// 検索結果リスト内のリポジトリアイテムを表示するウィジェット
+///
+/// リポジトリ名やオーナーアイコン、詳細画面への遷移アクションを含みます。
 class _SearchResultListItem extends StatelessWidget {
+  /// 検索結果リストアイテムのコンストラクタ
+  ///
+  /// [repository]は表示対象のリポジトリ情報です。
   const _SearchResultListItem({required this.repository});
 
+  /// 表示対象のリポジトリ情報
   final Repository repository;
 
   @override
+  /// リポジトリアイテムのウィジェットツリーを構築します。
+  ///
+  /// ヒーローアニメーションや詳細画面への遷移を含むリストアイテムを返します。
   Widget build(BuildContext context) {
     return Hero(
       // ヒーローアニメーションを使用してリポジトリのリストを表示

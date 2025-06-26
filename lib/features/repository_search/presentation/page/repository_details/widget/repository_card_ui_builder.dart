@@ -3,29 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_layout_strategy.dart';
 
-/// Repository Details Card のUI構築を担当するクラス
+/// リポジトリ詳細カードのUI構築を担うユーティリティ。
 ///
-/// カードの見た目と構造を管理する専用クラス
-/// UI構築の責任を分離し、メインのStateクラスをシンプルに保つ
+/// Stateクラスの肥大化を防ぎ、UI構築の責務を分離します。
+/// アニメーション状態やリポジトリ情報に応じて柔軟にUIを生成します。
 class RepositoryCardUIBuilder {
+  /// [repository]の情報とHeroアニメーション状態を受け取り、UI構築に利用します。
+  ///
+  /// [repository]は表示対象のリポジトリ情報、
+  /// [isHeroAnimationCompleted]・[isHeroAnimationInProgress]はアニメーション状態を示します。
   const RepositoryCardUIBuilder({
     required this.repository,
     required this.isHeroAnimationCompleted,
     required this.isHeroAnimationInProgress,
   });
 
+  /// 表示するリポジトリ情報。
   final Repository repository;
+
+  /// Heroアニメーションが完了しているかどうか。
   final bool isHeroAnimationCompleted;
+
+  /// Heroアニメーションが進行中かどうか。
   final bool isHeroAnimationInProgress;
 
-  /// カードコンテンツの構築
+  /// カード全体のUIを構築します。
   ///
-  /// リポジトリ情報を表示するカードウィジェットを作成する
-  ///
-  /// 【構成要素】
-  /// - SizedBox.expand: 利用可能な全領域を使用
-  /// - Card: マテリアルデザインのカード
-  /// - 内容: リポジトリ情報とレイアウト戦略による表示切替
+  /// リポジトリ情報をカード形式で表示し、アニメーション状態に応じて見た目を調整します。
   Widget buildCardContent(BuildContext context) {
     return SizedBox.expand(
       child: Card(
@@ -37,14 +41,9 @@ class RepositoryCardUIBuilder {
     );
   }
 
-  /// アニメーション時のDecoration構築
+  /// アニメーション中の装飾（影や角丸）を生成します。
   ///
-  /// Heroアニメーション中に表示される装飾効果を作成する
-  ///
-  /// 【効果】
-  /// - ボーダー: 角丸16pxの四角形
-  /// - 影: アニメーション進行に応じて濃さ・ぼかし・広がりが変化
-  /// - 色: 黒色ベース、透明度は animation.value * 0.3
+  /// Heroアニメーションの進行度に応じて影や透明度を動的に変化させます。
   BoxDecoration buildAnimationDecoration(Animation<double> animation) {
     return BoxDecoration(
       borderRadius: BorderRadius.circular(16),
@@ -58,39 +57,28 @@ class RepositoryCardUIBuilder {
     );
   }
 
-  /// カードの形状を決定
+  /// カードの角丸形状を返します。
   ///
-  /// 角丸16pxの四角形カードを作成する
-  /// 統一されたデザインを保つため、角丸値は固定
+  /// デザイン統一のため、角丸は16pxで固定です。
   RoundedRectangleBorder _buildCardShape() {
     return RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(16),
     );
   }
 
-  /// アニメーション状態に応じたカード色を決定
+  /// アニメーション状態に応じてカードの色を決定します。
   ///
-  /// アニメーションの進行状況によってカードの透明度を調整する
-  ///
-  /// 【色の変化】
-  /// - 完了時: テーマのカード色をそのまま使用
-  /// - 進行中: テーマのカード色を80%の透明度で表示
+  /// アニメーション進行中は透明度を下げて強調を抑えます。
   Color _determineCardColor(BuildContext context) {
     final cardColor = Theme.of(context).cardColor;
-
     return isHeroAnimationCompleted
         ? cardColor
         : cardColor.withAlpha((255 * 0.8).round());
   }
 
-  /// カード本体の構築
+  /// カード内部の本体ウィジェットを構築します。
   ///
-  /// カード内に表示するコンテンツを作成する
-  ///
-  /// 【構成】
-  /// - Padding: 左右18px、上下18pxの余白
-  /// - SingleChildScrollView: 内容が溢れた場合のスクロール対応
-  /// - _RepositoryInfo: 実際のリポジトリ情報表示ウィジェット
+  /// パディングやスクロール対応、リポジトリ情報表示ウィジェットを内包します。
   Widget _buildCardBody() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
@@ -105,32 +93,33 @@ class RepositoryCardUIBuilder {
   }
 }
 
-/// リポジトリ情報を表示するウィジェット
+/// リポジトリ情報を表示する内部ウィジェット。
 ///
-/// 画面サイズとアニメーション状態に応じてレイアウト戦略を切り替える
-///
-/// 【レイアウト戦略】
-/// - アニメーション中: MediaQueryで判定（安定性重視）
-/// - アニメーション完了後: LayoutBuilderで判定（精度重視）
-///
-/// 【表示パターン】
-/// - 横レイアウト: タイトル上部、左にアイコン、右に詳細情報
-/// - 縦レイアウト: アイコン上部、その下にタイトルと詳細情報
+/// アニメーション状態や画面サイズに応じてレイアウト戦略を切り替えます。
+/// レイアウト戦略の選択はファクトリーパターンで実装されています。
 class _RepositoryInfo extends StatelessWidget {
+  /// リポジトリ情報を表示するウィジェット。
+  ///
+  /// [repository]は表示対象を示し、
+  /// [isHeroAnimationCompleted]・[isHeroAnimationInProgress]はアニメーション状態を示します。
   const _RepositoryInfo({
     required this.repository,
     required this.isHeroAnimationCompleted,
     required this.isHeroAnimationInProgress,
   });
 
+  /// 表示するリポジトリ情報。
   final Repository repository;
+
+  /// Heroアニメーションが完了しているかどうか。
   final bool isHeroAnimationCompleted;
+
+  /// Heroアニメーションが進行中かどうか。
   final bool isHeroAnimationInProgress;
 
   @override
   Widget build(BuildContext context) {
-    // アニメーション状態に基づいてレイアウト戦略ウィジェットを選択
-    // StatelessWidgetベースのファクトリーパターンで効率的なウィジェットツリーを構築
+    /// レイアウト戦略を選択し、最適なUIを構築します。
     return LayoutStrategyFactory.createStrategy(
       isAnimationInProgress: isHeroAnimationInProgress,
       isAnimationCompleted: isHeroAnimationCompleted,

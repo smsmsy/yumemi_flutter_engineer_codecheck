@@ -9,7 +9,13 @@ import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
 
+/// リポジトリ検索ページのウィジェットです。
+///
+/// このウィジェットは、GitHubリポジトリの検索機能を提供するページ全体の構成を担います。
 class RepositorySearchPage extends ConsumerStatefulWidget {
+  /// RepositorySearchPageのコンストラクタ。
+  ///
+  /// [key]はウィジェットの一意性を識別するために使用されます。
   const RepositorySearchPage({super.key});
 
   @override
@@ -17,8 +23,12 @@ class RepositorySearchPage extends ConsumerStatefulWidget {
 }
 
 class _SearchPageState extends ConsumerState<RepositorySearchPage> {
+  /// 検索テキストフィールドの入力内容を管理するコントローラーです。
   final controller = TextEditingController();
 
+  /// リポジトリ検索ページのUIを構築します。
+  ///
+  /// 検索テキストフィールドや検索結果リストなど、ページ全体のレイアウトを定義します。
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

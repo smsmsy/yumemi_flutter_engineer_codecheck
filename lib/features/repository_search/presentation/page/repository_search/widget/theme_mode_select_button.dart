@@ -4,9 +4,18 @@ import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/pre
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
 
+/// テーマモードを選択するためのボタンウィジェットです。
+///
+/// このウィジェットは、ユーザーがシステム・ライト・ダークのテーマモードを選択できるポップアップメニューを提供します。
 class ThemeModeSelectButton extends ConsumerWidget {
+  /// ThemeModeSelectButtonのコンストラクタ。
+  ///
+  /// [key]はウィジェットの一意性を識別するために使用されます。
   const ThemeModeSelectButton({super.key});
 
+  /// テーマモード選択用のポップアップメニューを構築します。
+  ///
+  /// ユーザーがテーマモードを選択すると、選択内容が状態管理プロバイダーに反映されます。
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(selectedThemeModeProvider);

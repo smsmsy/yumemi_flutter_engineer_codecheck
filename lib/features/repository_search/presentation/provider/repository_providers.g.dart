@@ -31,7 +31,7 @@ class _SystemHash {
 
 /// GitHubリポジトリの具象実装を提供するプロバイダー
 ///
-/// DIコンテナとしてRiverpodを使用し、依存関係を管理
+/// DIコンテナとしてRiverpodを使用し、依存関係を管理します。
 ///
 /// Copied from [githubRepository].
 @ProviderFor(githubRepository)
@@ -39,20 +39,20 @@ const githubRepositoryProvider = GithubRepositoryFamily();
 
 /// GitHubリポジトリの具象実装を提供するプロバイダー
 ///
-/// DIコンテナとしてRiverpodを使用し、依存関係を管理
+/// DIコンテナとしてRiverpodを使用し、依存関係を管理します。
 ///
 /// Copied from [githubRepository].
 class GithubRepositoryFamily extends Family<GitHubSearchApiRepository> {
   /// GitHubリポジトリの具象実装を提供するプロバイダー
   ///
-  /// DIコンテナとしてRiverpodを使用し、依存関係を管理
+  /// DIコンテナとしてRiverpodを使用し、依存関係を管理します。
   ///
   /// Copied from [githubRepository].
   const GithubRepositoryFamily();
 
   /// GitHubリポジトリの具象実装を提供するプロバイダー
   ///
-  /// DIコンテナとしてRiverpodを使用し、依存関係を管理
+  /// DIコンテナとしてRiverpodを使用し、依存関係を管理します。
   ///
   /// Copied from [githubRepository].
   GithubRepositoryProvider call(Dio dio) {
@@ -83,13 +83,13 @@ class GithubRepositoryFamily extends Family<GitHubSearchApiRepository> {
 
 /// GitHubリポジトリの具象実装を提供するプロバイダー
 ///
-/// DIコンテナとしてRiverpodを使用し、依存関係を管理
+/// DIコンテナとしてRiverpodを使用し、依存関係を管理します。
 ///
 /// Copied from [githubRepository].
 class GithubRepositoryProvider extends Provider<GitHubSearchApiRepository> {
   /// GitHubリポジトリの具象実装を提供するプロバイダー
   ///
-  /// DIコンテナとしてRiverpodを使用し、依存関係を管理
+  /// DIコンテナとしてRiverpodを使用し、依存関係を管理します。
   ///
   /// Copied from [githubRepository].
   GithubRepositoryProvider(Dio dio)
@@ -177,8 +177,8 @@ String _$repositoriesSearchResultHash() =>
 
 /// リポジトリ検索結果を提供するプロバイダー
 ///
-/// ユーザーの検索クエリに基づいてリポジトリを取得
-/// デバウンス機能付きHTTPクライアントを使用してAPI呼び出しを最適化
+/// ユーザーの検索クエリに基づいてリポジトリを取得します。
+/// デバウンス機能付きHTTPクライアントを使用してAPI呼び出しを最適化します。
 ///
 /// Copied from [repositoriesSearchResult].
 @ProviderFor(repositoriesSearchResult)
@@ -203,7 +203,7 @@ String _$gitHubSearchQueryNotifierHash() =>
 
 /// GitHub検索クエリの状態管理プロバイダー
 ///
-/// ユーザーの検索入力を管理し、UIレイヤーから利用される
+/// ユーザーの検索入力を管理し、UIレイヤーから利用されます。
 ///
 /// Copied from [GitHubSearchQueryNotifier].
 @ProviderFor(GitHubSearchQueryNotifier)
