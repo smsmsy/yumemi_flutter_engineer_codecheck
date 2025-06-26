@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/search_query.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/git_hub_search_query.dart';
 
 void main() {
   group('GitHubSearchQuery.toQueryParameters', () {

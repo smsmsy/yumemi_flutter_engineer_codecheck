@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/search_text_field.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/search_text_field.dart';
 
 void main() {
   group('SearchTextField', () {

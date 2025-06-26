@@ -5,11 +5,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/repository.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/providers/repository_providers.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/repository_search_page.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/search_result_list_view.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/repository_providers.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/page/repository_search_page.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/search_result_list_view.dart';
 
 void main() {
   group('SearchResultListView UIテスト', () {

@@ -2,21 +2,21 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/repository.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/search_query.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/infrastructure/repositories/github_api_repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/git_hub_search_query.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/repository/git_hub_search_api_repository.dart';
 
 import 'git_hub_search_api_repository_query_test.mocks.dart';
 
 @GenerateMocks([Dio])
 void main() {
-  group('GitHubApiRepository.fetch (with GitHubSearchQuery)', () {
+  group('GitHubSearchApiRepository.fetch (with GitHubSearchQuery)', () {
     late MockDio mockDio;
-    late GitHubApiRepository repository;
+    late GitHubSearchApiRepository repository;
 
     setUp(() {
       mockDio = MockDio();
-      repository = GitHubApiRepository(dio: mockDio);
+      repository = GitHubSearchApiRepository(dio: mockDio);
     });
 
     test('クエリパラメータが正しく渡される', () async {

@@ -4,17 +4,17 @@ library;
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:simple_logger/simple_logger.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/search_query.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/infrastructure/repositories/github_api_repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/git_hub_search_query.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/repository/git_hub_search_api_repository.dart';
 
 void main() {
-  group('GitHubApiRepository Integration', () {
-    late GitHubApiRepository repository;
+  group('GitHubSearchApiRepository Integration', () {
+    late GitHubSearchApiRepository repository;
     final logger =
         SimpleLogger()..setLevel(Level.INFO, includeCallerInfo: true);
 
     setUp(() {
-      repository = GitHubApiRepository(dio: Dio());
+      repository = GitHubSearchApiRepository(dio: Dio());
     });
 
     test('q: flutter でリポジトリ一覧が取得できる', () async {

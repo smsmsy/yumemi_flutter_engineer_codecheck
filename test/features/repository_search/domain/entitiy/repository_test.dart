@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/owner.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/owner.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
 
 void main() {
   group('GitHubリポジトリ検索APIのモデルに関するテスト', () {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/owner.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/repository.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_details_card.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/search_result_list_view.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/owner.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_details_card.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/search_result_list_view.dart';
 
-import '../../test_util/test_util.dart';
+import '../../../../../../test_util/test_util.dart';
 
 void main() {
   group('HeroアニメーションのUXテスト', () {
