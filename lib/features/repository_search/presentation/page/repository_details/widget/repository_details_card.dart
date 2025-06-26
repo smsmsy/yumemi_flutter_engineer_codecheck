@@ -34,13 +34,13 @@ class RepositoryDetailsCard extends StatefulWidget {
 class _RepositoryDetailsCardState extends State<RepositoryDetailsCard>
     with TickerProviderStateMixin {
   /// Heroアニメーション用のコントローラー
-  /// 
+  ///
   /// リポジトリカードのHeroアニメーションを制御するためのコントローラーです。
   /// アニメーションの進行状況を管理し、UIの更新を行います。
   late AnimationController _heroAnimationController;
 
   /// アニメーション状態とモニターを管理するためのインスタンス
-  /// 
+  ///
   /// Heroアニメーションの進行状況を追跡し、UIの更新を行います。
   late HeroAnimationState _animationState;
 
@@ -50,13 +50,13 @@ class _RepositoryDetailsCardState extends State<RepositoryDetailsCard>
   late HeroAnimationMonitor _animationMonitor;
 
   /// UIBuilderのキャッシュ
-  /// 
+  ///
   /// リポジトリカードのUIを構築するためのビルダーをキャッシュします。
   /// 同じ状態であれば再利用し、パフォーマンスを向上させます。
   RepositoryCardUIBuilder? _cachedUIBuilder;
 
   /// HeroAnimationBuilderのキャッシュ
-  /// 
+  ///
   /// Heroアニメーションのビルダーをキャッシュします。
   /// 同じ状態であれば再利用し、パフォーマンスを向上させます。
   RepositoryHeroAnimationBuilder? _cachedHeroAnimationBuilder;
@@ -133,7 +133,7 @@ class _RepositoryDetailsCardState extends State<RepositoryDetailsCard>
     return Center(
       child: Hero(
         transitionOnUserGestures: true,
-        tag: 'repository-${widget.repository.name}',
+        tag: 'repository-${widget.repository.name}',
         flightShuttleBuilder: _heroAnimationBuilder.buildFlightShuttle,
         child: AnimatedBuilder(
           animation: _animationState,
