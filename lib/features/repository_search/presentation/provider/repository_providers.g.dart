@@ -6,7 +6,7 @@ part of 'repository_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$githubRepositoryHash() => r'3122c2858a0ee65df4be80ca412b2249be8edd22';
+String _$githubRepositoryHash() => r'9e52b78198bc626ef458f138b5c75d224549bf86';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -42,7 +42,7 @@ const githubRepositoryProvider = GithubRepositoryFamily();
 /// DIコンテナとしてRiverpodを使用し、依存関係を管理
 ///
 /// Copied from [githubRepository].
-class GithubRepositoryFamily extends Family<GitHubRepository> {
+class GithubRepositoryFamily extends Family<GitHubSearchApiRepository> {
   /// GitHubリポジトリの具象実装を提供するプロバイダー
   ///
   /// DIコンテナとしてRiverpodを使用し、依存関係を管理
@@ -86,7 +86,7 @@ class GithubRepositoryFamily extends Family<GitHubRepository> {
 /// DIコンテナとしてRiverpodを使用し、依存関係を管理
 ///
 /// Copied from [githubRepository].
-class GithubRepositoryProvider extends Provider<GitHubRepository> {
+class GithubRepositoryProvider extends Provider<GitHubSearchApiRepository> {
   /// GitHubリポジトリの具象実装を提供するプロバイダー
   ///
   /// DIコンテナとしてRiverpodを使用し、依存関係を管理
@@ -121,7 +121,7 @@ class GithubRepositoryProvider extends Provider<GitHubRepository> {
 
   @override
   Override overrideWith(
-    GitHubRepository Function(GithubRepositoryRef provider) create,
+    GitHubSearchApiRepository Function(GithubRepositoryRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -138,7 +138,7 @@ class GithubRepositoryProvider extends Provider<GitHubRepository> {
   }
 
   @override
-  ProviderElement<GitHubRepository> createElement() {
+  ProviderElement<GitHubSearchApiRepository> createElement() {
     return _GithubRepositoryProviderElement(this);
   }
 
@@ -158,12 +158,13 @@ class GithubRepositoryProvider extends Provider<GitHubRepository> {
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin GithubRepositoryRef on ProviderRef<GitHubRepository> {
+mixin GithubRepositoryRef on ProviderRef<GitHubSearchApiRepository> {
   /// The parameter `dio` of this provider.
   Dio get dio;
 }
 
-class _GithubRepositoryProviderElement extends ProviderElement<GitHubRepository>
+class _GithubRepositoryProviderElement
+    extends ProviderElement<GitHubSearchApiRepository>
     with GithubRepositoryRef {
   _GithubRepositoryProviderElement(super.provider);
 

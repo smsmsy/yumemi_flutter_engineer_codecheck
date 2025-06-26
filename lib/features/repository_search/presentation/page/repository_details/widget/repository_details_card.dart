@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/repository.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_card_ui_builder.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_hero_animation_builder.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_hero_animation_monitor.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_hero_animation_state.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_card_ui_builder.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_hero_animation_builder.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_hero_animation_monitor.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_hero_animation_state.dart';
 
 /// GitHubリポジトリ詳細表示ウィジェット
 ///

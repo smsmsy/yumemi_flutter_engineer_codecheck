@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_card_ui_builder.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_hero_animation_monitor.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_card_ui_builder.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_hero_animation_monitor.dart';
 
 /// Hero Animation Flight Shuttle の構築を担当するクラス
 ///

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_hero_animation_state.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_hero_animation_state.dart';
 
 /// Hero アニメーション監視の責任を担うクラス
 ///

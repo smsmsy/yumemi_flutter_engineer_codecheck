@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/repository.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_layout_strategy.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_layout_strategy.dart';
 
 /// Repository Details Card のUI構築を担当するクラス
 ///

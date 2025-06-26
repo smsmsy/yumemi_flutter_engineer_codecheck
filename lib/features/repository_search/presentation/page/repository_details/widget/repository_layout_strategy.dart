@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/common/widget/owner_icon.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_details_info_view.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/owner_icon.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/repository_details_info_view.dart';
 
 /// レイアウト判定の戦略インターフェース
 ///

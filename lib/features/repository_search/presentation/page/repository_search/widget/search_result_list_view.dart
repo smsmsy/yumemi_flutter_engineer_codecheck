@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/repository.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/providers/repository_providers.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/common/widget/owner_icon.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/repository_providers.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/owner_icon.dart';
 
 class SearchResultListView extends ConsumerStatefulWidget {
   const SearchResultListView({super.key});

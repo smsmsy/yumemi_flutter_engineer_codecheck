@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/providers/repository_providers.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/custom_drawer.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/search_result_list_view.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/search_text_field.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/repository_providers.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/custom_drawer.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/search_result_list_view.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/search_text_field.dart';
 
 class RepositorySearchPage extends ConsumerStatefulWidget {
   const RepositorySearchPage({super.key});

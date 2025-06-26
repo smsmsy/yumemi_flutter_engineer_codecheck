@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/show_oss_license_button.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/theme_mode_select_button.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/show_oss_license_button.dart';
-import 'package:yumemi_flutter_engineer_codecheck/view/widget/theme_mode_select_button.dart';
 
 class CustomDrawer extends ConsumerWidget {
   const CustomDrawer({super.key});

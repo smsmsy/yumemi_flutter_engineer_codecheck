@@ -2,10 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yumemi_flutter_engineer_codecheck/extension/debounce_and_cancel_extension.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/repository.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entities/search_query.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/repositories/github_repository.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/infrastructure/repositories/github_api_repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/git_hub_search_query.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/repository/git_hub_search_api_repository.dart';
 
 part 'repository_providers.g.dart';
 
@@ -13,8 +12,8 @@ part 'repository_providers.g.dart';
 ///
 /// DIコンテナとしてRiverpodを使用し、依存関係を管理
 @Riverpod(keepAlive: true)
-GitHubRepository githubRepository(Ref ref, Dio dio) {
-  return GitHubApiRepository(dio: dio);
+GitHubSearchApiRepository githubRepository(Ref ref, Dio dio) {
+  return GitHubSearchApiRepository(dio: dio);
 }
 
 /// GitHub検索クエリの状態管理プロバイダー
