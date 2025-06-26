@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/custom_theme_data_provider.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/go_router_provider.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/selected_theme_mode_provider.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
-import 'package:yumemi_flutter_engineer_codecheck/provider/custom_theme_data_provider.dart';
-import 'package:yumemi_flutter_engineer_codecheck/provider/go_router_provider.dart';
-import 'package:yumemi_flutter_engineer_codecheck/provider/selected_theme_mode_provider.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
 
 void main() {
