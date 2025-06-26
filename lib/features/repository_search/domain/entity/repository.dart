@@ -15,6 +15,8 @@ sealed class Repository with _$Repository {
   @JsonSerializable(explicitToJson: true)
   const factory Repository({
     required String name,
+    @JsonKey(name: 'full_name') required String fullName,
+    required int id,
     @JsonKey(name: 'stargazers_count') required int stargazersCount,
     @JsonKey(name: 'watchers_count') required int watchersCount,
     @JsonKey(name: 'forks_count') required int forksCount,
