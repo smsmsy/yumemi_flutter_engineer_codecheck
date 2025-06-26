@@ -163,7 +163,7 @@ class _SearchResultListItem extends StatelessWidget {
       // ヒーローアニメーションを使用してリポジトリのリストを表示
       // 詳細画面のHeroと同一のタグを使用することでアニメーションを実現している
       transitionOnUserGestures: true,
-      tag: 'repository-${repository.name}',
+      tag: 'repository-${repository.id}-${repository.fullName}',
 
       child: Card(
         // カードの影の深さ
