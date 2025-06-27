@@ -54,13 +54,21 @@ class RepositoryCardUIBuilder {
   ///
   /// Heroアニメーションの進行度に応じて影や透明度を動的に変化させます。
   BoxDecoration buildAnimationDecoration(Animation<double> animation) {
+    // アニメーション中は影を消す（animation.value <= 1.0）
+    if (animation.value <= 1.0) {
+      return BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [],
+      );
+    }
+    // アニメーション完了時のみ影を付与
     return BoxDecoration(
       borderRadius: BorderRadius.circular(16),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withValues(alpha: 0.3 * animation.value),
-          blurRadius: 10 * animation.value,
-          spreadRadius: 2 * animation.value,
+          color: Colors.black.withValues(alpha: 0.3),
+          blurRadius: 10,
+          spreadRadius: 2,
         ),
       ],
     );
