@@ -13,3 +13,4 @@ repoWatchers,The number of watchers of the repository.,Watchers,ウォッチ
 repoForks,The number of forks of the repository.,Forks,フォーク
 repoIssues,The number of open issues of the repository.,Issues,イシュー
 repoDetailsInfo,The title for the repository details page.,Repository Details Info,リポジトリ詳細
+inputKeyword,Label for prompting user to input search keyword.,Input search keyword,検索キーワードを入力してください

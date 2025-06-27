@@ -181,6 +181,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Repository Details Info'**
   String get repoDetailsInfo;
+
+  /// Label for prompting user to input search keyword.
+  ///
+  /// In en, this message translates to:
+  /// **'Input search keyword'**
+  String get inputKeyword;
 }
 
 class _AppLocalizationsDelegate

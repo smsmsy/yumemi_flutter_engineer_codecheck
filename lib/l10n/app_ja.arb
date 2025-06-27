@@ -1,5 +1,4 @@
 {
-  "@@locale": "ja",
   "appTitle": "Yumemi Flutter Engineer Codecheck",
   "searchPageTitle": "リポジトリ検索",
   "ossLicense": "OSSライセンス",
@@ -13,5 +12,6 @@
   "repoWatchers": "ウォッチ",
   "repoForks": "フォーク",
   "repoIssues": "イシュー",
-  "repoDetailsInfo": "リポジトリ詳細"
+  "repoDetailsInfo": "リポジトリ詳細",
+  "inputKeyword": "検索キーワードを入力してください"
 }

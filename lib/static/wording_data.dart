@@ -49,4 +49,7 @@ class WordingData {
 
   /// リポジトリ詳細情報の見出し。詳細画面のセクションタイトルなどで利用されます。
   static const repoDetailsInfo = 'Repository Details Info';
+
+  /// 未検索状態の表示用ラベル。リポジトリがまだ検索されていない場合に利用されます。
+  static const inputKeyword = 'Input search keyword';
 }

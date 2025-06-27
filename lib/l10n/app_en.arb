@@ -1,5 +1,4 @@
 {
-  "@@locale": "en",
   "appTitle": "Yumemi Flutter Engineer Codecheck",
   "@appTitle": {
     "description": "The title of the application."
@@ -55,5 +54,9 @@
   "repoDetailsInfo": "Repository Details Info",
   "@repoDetailsInfo": {
     "description": "The title for the repository details page."
+  },
+  "inputKeyword": "Input search keyword",
+  "@inputKeyword": {
+    "description": "Label for prompting user to input search keyword."
   }
 }

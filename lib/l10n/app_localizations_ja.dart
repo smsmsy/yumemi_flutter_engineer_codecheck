@@ -49,4 +49,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get repoDetailsInfo => 'リポジトリ詳細';
+
+  @override
+  String get inputKeyword => '検索キーワードを入力してください';
 }
