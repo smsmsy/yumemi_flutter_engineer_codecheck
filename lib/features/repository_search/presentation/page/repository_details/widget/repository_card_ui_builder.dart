@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/common/widget/common_repository_card.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_details/widget/repository_layout_strategy.dart';
 
 /// リポジトリ詳細カードのUI構築を担うユーティリティ。
@@ -32,11 +33,19 @@ class RepositoryCardUIBuilder {
   /// リポジトリ情報をカード形式で表示し、アニメーション状態に応じて見た目を調整します。
   Widget buildCardContent(BuildContext context) {
     return SizedBox.expand(
-      child: Card(
-        margin: const EdgeInsets.all(8),
-        shape: _buildCardShape(),
-        color: _determineCardColor(context),
-        child: _buildCardBody(),
+      child: CommonRepositoryCard(
+        repository: repository,
+        useListTile: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+          child: SingleChildScrollView(
+            child: _RepositoryInfo(
+              repository: repository,
+              isHeroAnimationCompleted: isHeroAnimationCompleted,
+              isHeroAnimationInProgress: isHeroAnimationInProgress,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -45,50 +54,23 @@ class RepositoryCardUIBuilder {
   ///
   /// Heroアニメーションの進行度に応じて影や透明度を動的に変化させます。
   BoxDecoration buildAnimationDecoration(Animation<double> animation) {
+    // アニメーション中は影を消す（animation.value <= 1.0）
+    if (animation.value <= 1.0) {
+      return BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [],
+      );
+    }
+    // アニメーション完了時のみ影を付与
     return BoxDecoration(
       borderRadius: BorderRadius.circular(16),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withValues(alpha: 0.3 * animation.value),
-          blurRadius: 10 * animation.value,
-          spreadRadius: 2 * animation.value,
+          color: Colors.black.withValues(alpha: 0.3),
+          blurRadius: 10,
+          spreadRadius: 2,
         ),
       ],
-    );
-  }
-
-  /// カードの角丸形状を返します。
-  ///
-  /// デザイン統一のため、角丸は16pxで固定です。
-  RoundedRectangleBorder _buildCardShape() {
-    return RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16),
-    );
-  }
-
-  /// アニメーション状態に応じてカードの色を決定します。
-  ///
-  /// アニメーション進行中は透明度を下げて強調を抑えます。
-  Color _determineCardColor(BuildContext context) {
-    final cardColor = Theme.of(context).cardColor;
-    return isHeroAnimationCompleted
-        ? cardColor
-        : cardColor.withAlpha((255 * 0.8).round());
-  }
-
-  /// カード内部の本体ウィジェットを構築します。
-  ///
-  /// パディングやスクロール対応、リポジトリ情報表示ウィジェットを内包します。
-  Widget _buildCardBody() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
-      child: SingleChildScrollView(
-        child: _RepositoryInfo(
-          repository: repository,
-          isHeroAnimationCompleted: isHeroAnimationCompleted,
-          isHeroAnimationInProgress: isHeroAnimationInProgress,
-        ),
-      ),
     );
   }
 }

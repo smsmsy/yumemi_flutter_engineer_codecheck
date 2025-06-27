@@ -172,21 +172,38 @@ void main() {
         isHeroAnimationInProgress: true,
       );
 
-      // Mock Animation
-      const mockAnimation = AlwaysStoppedAnimation<double>(0.5);
+      // When: アニメーション進行中（animation.value <= 1.0）
+      const mockAnimationInProgress = AlwaysStoppedAnimation<double>(0.5);
+      final decorationInProgress = uiBuilder.buildAnimationDecoration(
+        mockAnimationInProgress,
+      );
 
-      // When: アニメーション装飾を構築
-      final decoration = uiBuilder.buildAnimationDecoration(mockAnimation);
-
-      // Then: 適切な装飾設定が生成される
+      // Then: シャドウは付与されない
       expect(
-        decoration.borderRadius,
+        decorationInProgress.boxShadow,
+        isEmpty,
+        reason: 'アニメーション中はシャドウが消えるべき',
+      );
+
+      // When: アニメーション完了（animation.value > 1.0）
+      const mockAnimationCompleted = AlwaysStoppedAnimation<double>(1.1);
+      final decorationCompleted = uiBuilder.buildAnimationDecoration(
+        mockAnimationCompleted,
+      );
+
+      // Then: シャドウが付与される
+      expect(
+        decorationCompleted.borderRadius,
         equals(BorderRadius.circular(16)),
         reason: '角丸16pxが設定されるべき',
       );
-      expect(decoration.boxShadow, isNotEmpty, reason: 'シャドウ効果が設定されるべき');
       expect(
-        decoration.boxShadow!.first.color.a,
+        decorationCompleted.boxShadow,
+        isNotEmpty,
+        reason: 'アニメーション完了時はシャドウ効果が設定されるべき',
+      );
+      expect(
+        decorationCompleted.boxShadow!.first.color.a,
         greaterThan(0),
         reason: 'シャドウに透明度が設定されるべき',
       );

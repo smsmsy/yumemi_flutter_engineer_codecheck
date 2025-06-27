@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/common/widget/owner_icon.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/common/widget/common_repository_card.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/repository_providers.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
@@ -179,28 +179,14 @@ class _SearchResultListItem extends StatelessWidget {
       transitionOnUserGestures: true,
       tag: 'repository-${repository.id}-${repository.fullName}',
 
-      child: Card(
-        // カードの影の深さ
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      child: CommonRepositoryCard(
+        repository: repository,
+        borderRadius: 8,
         margin: const EdgeInsets.symmetric(vertical: 6),
-        child: ListTile(
-          leading: OwnerIcon(repository: repository, diameter: 20),
-          title: Text(
-            repository.name,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          trailing: const Icon(Icons.chevron_right),
-
-          onTap: () async {
-            await GoRouter.of(
-              context,
-            ).pushNamed('details', extra: repository);
-          },
-        ),
+        showChevron: true,
+        onTap: () async {
+          await GoRouter.of(context).pushNamed('details', extra: repository);
+        },
       ),
     );
   }
