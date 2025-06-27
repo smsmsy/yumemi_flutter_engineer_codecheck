@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/common/widget/owner_icon.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/repository_providers.dart';
+import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
+import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
 
 /// 検索結果のリポジトリ一覧を表示するウィジェット
 ///
@@ -37,6 +39,18 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
   ///
   /// Providerから取得したリポジトリ一覧をリスト表示し、該当なしやエラー時はメッセージを表示します。
   Widget build(BuildContext context) {
+    final queryString = ref.watch(
+      gitHubSearchQueryNotifierProvider.select((e) => e.q),
+    );
+    if (queryString.isEmpty) {
+      return Center(
+        child: Text(
+          AppLocalizations.of(context)?.inputKeyword ??
+              WordingData.inputKeyword,
+        ),
+      );
+    }
+
     final repositoriesAsyncValue = ref.watch(repositoriesSearchResultProvider);
 
     switch (repositoriesAsyncValue) {
