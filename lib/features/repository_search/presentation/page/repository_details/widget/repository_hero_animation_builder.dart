@@ -84,8 +84,8 @@ class RepositoryHeroAnimationBuilder {
     // 遷移方向に応じたスケール効果
     final scaleValue =
         direction == HeroFlightDirection.push
-            ? 0.98 + (0.04 * curvedValue)
-            : 1.02 - (0.04 * curvedValue);
+            ? 0.96 + (0.04 * curvedValue)
+            : 1.04 - (0.04 * curvedValue);
 
     return Transform.scale(
       scale: scaleValue,
