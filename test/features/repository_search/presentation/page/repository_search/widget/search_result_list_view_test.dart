@@ -5,11 +5,19 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/git_hub_search_query.dart'
+    as entity;
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/repository_search_page.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/search_result_list_view.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/repository_providers.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
+
+class _TestGitHubSearchQueryNotifier extends GitHubSearchQueryNotifier {
+  @override
+  entity.GitHubSearchQuery build() =>
+      const entity.GitHubSearchQuery(q: 'flutter');
+}
 
 void main() {
   group('SearchResultListView UIテスト', () {
@@ -37,6 +45,9 @@ void main() {
       await tester.pumpWidget(
         _buildTestWidget(
           repositoriesSearchResultProvider.overrideWith((_) => dummyList),
+          gitHubSearchQueryNotifierProvider.overrideWith(
+            _TestGitHubSearchQueryNotifier.new,
+          ),
         ),
       );
       await tester.pumpAndSettle();
@@ -47,8 +58,9 @@ void main() {
     testWidgets('空リスト時にメッセージが表示される', (tester) async {
       await tester.pumpWidget(
         _buildTestWidget(
-          repositoriesSearchResultProvider.overrideWith(
-            (_) => <Repository>[],
+          repositoriesSearchResultProvider.overrideWith((_) => <Repository>[]),
+          gitHubSearchQueryNotifierProvider.overrideWith(
+            _TestGitHubSearchQueryNotifier.new,
           ),
         ),
       );
@@ -63,6 +75,9 @@ void main() {
           repositoriesSearchResultProvider.overrideWith(
             (_) => completer.future,
           ),
+          gitHubSearchQueryNotifierProvider.overrideWith(
+            _TestGitHubSearchQueryNotifier.new,
+          ),
         ),
       );
       await tester.pump();
@@ -75,6 +90,9 @@ void main() {
         _buildTestWidget(
           repositoriesSearchResultProvider.overrideWith(
             (_) => throw Exception('error'),
+          ),
+          gitHubSearchQueryNotifierProvider.overrideWith(
+            _TestGitHubSearchQueryNotifier.new,
           ),
         ),
       );
@@ -138,9 +156,9 @@ void main() {
   });
 }
 
-Widget _buildTestWidget(Override override) {
+Widget _buildTestWidget(Override override1, [Override? override2]) {
   return ProviderScope(
-    overrides: [override],
+    overrides: override2 != null ? [override1, override2] : [override1],
     child: const MaterialApp(
       localizationsDelegates: [
         AppLocalizations.delegate,
