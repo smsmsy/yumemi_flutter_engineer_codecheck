@@ -85,7 +85,7 @@ class RepositoryHeroAnimationBuilder {
     final scaleValue =
         direction == HeroFlightDirection.push
             ? 0.96 + (0.04 * curvedValue)
-            : 1.04 - (0.04 * curvedValue);
+            : 1.00 - (0.04 * curvedValue);
 
     return Transform.scale(
       scale: scaleValue,
