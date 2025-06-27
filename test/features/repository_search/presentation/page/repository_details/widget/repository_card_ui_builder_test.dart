@@ -203,7 +203,7 @@ void main() {
         reason: 'アニメーション完了時はシャドウ効果が設定されるべき',
       );
       expect(
-        decorationCompleted.boxShadow!.first.color.alpha,
+        decorationCompleted.boxShadow!.first.color.a,
         greaterThan(0),
         reason: 'シャドウに透明度が設定されるべき',
       );
