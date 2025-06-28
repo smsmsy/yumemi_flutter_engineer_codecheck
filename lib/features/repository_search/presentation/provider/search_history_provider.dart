@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,7 +36,7 @@ class SearchHistory extends _$SearchHistory {
     if (keyword.isEmpty) {
       return;
     }
-    final current = state.value ?? [];
+    final current = await _readStateSync();
     final newHistory = [keyword, ...current.where((e) => e != keyword)];
     final limitedHistory = newHistory.take(_maxHistoryLength).toList();
     await _prefs.setStringList(_historyKey, limitedHistory);
@@ -49,10 +51,41 @@ class SearchHistory extends _$SearchHistory {
     state = const AsyncData([]);
   }
 
+  /// 指定したデータを検索履歴から削除します。
+  ///
+  /// 指定した文字列と一致する履歴のみを除外し、残りを保存します。
   Future<void> removeTo(String data) async {
-    final current = state.value ?? [];
+    final current = await _readStateSync();
     final newHistory = current.where((e) => e != data).toList();
     await _prefs.setStringList(_historyKey, newHistory);
     state = AsyncData(newHistory);
+  }
+
+  /// 現在の状態から履歴リストを同期的に取得します。
+  ///
+  /// stateがローディング中の場合は完了まで待機し、エラー時は空リストを返します。
+  Future<List<String>> _readStateSync() async {
+    await _waitUntil(condition: () => !state.isLoading);
+    if (state.hasError) {
+      return [];
+    } else {
+      return state.requireValue;
+    }
+  }
+}
+
+/// 指定した条件がtrueになるまで待機するユーティリティ関数です。
+///
+/// 最大[retryCount]回、[waitDuration]間隔で条件を監視します。
+Future<void> _waitUntil({
+  required bool Function() condition,
+  int retryCount = 10,
+  Duration waitDuration = const Duration(milliseconds: 100),
+}) async {
+  for (var i = 0; i < retryCount; i++) {
+    if (condition()) {
+      break;
+    }
+    await Future<void>.delayed(waitDuration);
   }
 }
