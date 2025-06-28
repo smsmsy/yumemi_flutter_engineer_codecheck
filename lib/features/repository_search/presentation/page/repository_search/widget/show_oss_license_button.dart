@@ -17,6 +17,11 @@ class ShowOssLicenseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      dense: true,
+      visualDensity: const VisualDensity(
+        vertical: VisualDensity.minimumDensity,
+        horizontal: VisualDensity.minimumDensity,
+      ),
       leading: const Icon(Icons.info),
       title: Text(
         AppLocalizations.of(context)?.ossLicense ?? WordingData.ossLicense,
