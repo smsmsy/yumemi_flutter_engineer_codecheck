@@ -1,37 +1,113 @@
 # yumemi_flutter_engineer_codecheck
 
+- [yumemi\_flutter\_engineer\_codecheck](#yumemi_flutter_engineer_codecheck)
+  - [概要](#概要)
+  - [開発環境](#開発環境)
+  - [動作確認方法](#動作確認方法)
+  - [Riverpod/Freezed/JsonSerialization の自動生成](#riverpodfreezedjsonserialization-の自動生成)
+  - [多言語対応（l10n）ファイルの自動生成](#多言語対応l10nファイルの自動生成)
+  - [コーディングガイドについて](#コーディングガイドについて)
+  - [機能について](#機能について)
+  - [設計について](#設計について)
+
+## 概要
+
 本プロジェクトは[株式会社ゆめみ Flutter エンジニアコードチェック課題](https://github.com/yumemi-inc/flutter-engineer-codecheck)を実装したものです。
 
-## コーディングガイドについて
+下記の機能を実装しています。
 
-[styles_guideline.md](documents/styles_guideline.md) をご確認ください。
+- GitHubリポジトリの検索機能
+- リポジトリの詳細情報表示機能
+- 検索履歴機能
+- テーマモードの変更機能
+- OSSライセンス表示機能
+
+## 開発環境
+
+2025/6/28時点での開発環境は以下の通りです。
+
+| 環境名 | バージョン | 備考 |
+| --- | --- | --- |
+| Flutter SDK | 3.32.4 | fvmを利用 |
+| Dart SDK | 3.8.1 | fvmを利用 |
+| macOS | Sequoia 15.5（24F74） | |
+| Xcode | 16.4 (16F6) | |
+| Android Studio | 2024.1.2 | |
+| Visual Studio Code | 1.101.2 | 随時更新 |
 
 ## 動作確認方法
 
-動作確認するためには下記コマンドを順に実行してください。
+前提として Flutter SDKがインストールされていて、`flutter doctor` コマンドによって環境が整っていることを確認してください。
 
-```terminal
+その上で、動作確認するためには下記コマンドを順に実行してください。(環境によって異なる内容は適宜読み替えてください)
+
+```bash
+# アプリを自分の環境にクローンする (例 : HTTPS)
+git clone https://github.com/smsmsy/yumemi_flutter_engineer_codecheck.git
+
+# アプリが置いてある場所までディレクトリ移動する
+cd yumemi_flutter_engineer_codecheck
+
+# アプリが導入しているパッケージ導入
 flutter pub get
+
+# アプリの起動
 flutter run
 ```
 
 ## Riverpod/Freezed/JsonSerialization の自動生成
 
-上記のようなbuild_runnerによるコード自動生成を実行するには下記コマンドを使用してください。
+本プロジェクトでは、[`build_runner`](https://pub.dev/packages/build_runner) によって、プロダクトコードを自動生成しています。  
 
-```terminal
-flutter pub run build_runner watch --delete-conflicting-outputs
+例えば下記のパッケージにおいて、コード生成を行っています。
+
+- [`riverpod`](https://pub.dev/packages/riverpod)
+- [`freezed`](https://pub.dev/packages/freezed)
+- [`json_serializable`](https://pub.dev/packages/json_serializable)
+
+上記が関わるコードを修正した後など、コード自動生成を行うためには、下記コマンドを使用してください。
+
+```bash
+# プロダクトコードの自動生成する
+# コードの変更を監視し、変更があれば自動で再生成する
+#  (競合するファイルがある場合は削除して再生成するオプション付き)
+dart pub run build_runner watch --delete-conflicting-outputs
 ```
 
-- パッケージ追加などの影響でたまに失敗していることがあるので、気がついたら再実行してください。
-- `--delete-conflicting-outputs` オプションは競合するファイルを自動で削除します。
+> このコマンドではコードの変更を監視し自動的にコード生成が行われますが、パッケージ追加などの影響でたまに失敗していることがあるので、気がついたら再実行してください。
 
 ## 多言語対応（l10n）ファイルの自動生成
 
 言語ファイル（lib/l10n/*.arb）を編集・追加した場合は、下記のバッチファイルを実行して下さい。
 
-```shell
+```bash
+# 多言語対応のファイルを自動生成する
 sh l10n-generate.sh
 ```
 
-さらに詳しい言語追加対応については、 [how-to-add-strings.md](documents/how-to-add-strings.md) をご確認ください。
+詳しい言語追加対応については [how-to-add-strings.md](documents/how-to-add-strings.md) をご確認ください。
+
+## コーディングガイドについて
+
+基本的には、Dart公式ドキュメントである [Effective Dart](https://dart.dev/effective-dart) に従って実装します。
+
+詳しいコーディングガイドについては [styles_guideline.md](documents/styles_guideline.md) をご確認ください。
+
+## 機能について
+
+本プロジェクトでは、以下の機能を実装しています。
+
+- GitHubリポジトリの検索機能
+- リポジトリの詳細情報表示機能
+- 検索履歴機能
+- テーマモードの変更機能
+- OSSライセンス表示機能
+
+詳しい内容やスクリーンショットについては [features.md](documents/features.md) をご確認ください。
+
+## 設計について
+
+本プロジェクトは「feature-first」構成で、機能ごとにdomain/infrastructure/presentation等のレイヤーを分割し、単方向データフローとRiverpodによる状態管理を徹底しています。  
+UI・API・ドメインロジック・多言語対応・テストなども、拡張性と可読性を重視したディレクトリ構成・設計方針に基づいています。
+
+詳しい設計情報については [ARCHITECTURE.md](documents/ARCHITECTURE.md) をご確認ください。
