@@ -42,7 +42,12 @@ class _SearchPageState extends ConsumerState<RepositorySearchPage> {
                 WordingData.searchPageTitle,
           ),
         ),
-        drawer: const CustomDrawer(),
+        drawer: CustomDrawer(
+          onHistoryTap: (value) {
+            controller.text = value;
+            _setQuery(value);
+          },
+        ),
         body: Center(
           child: Column(
             children: [
