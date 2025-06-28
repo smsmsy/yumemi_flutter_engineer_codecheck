@@ -44,7 +44,7 @@ jobs:
         run: flutter build web
 
       - name: Update base href in index.html
-        run: sed -i '' 's|<base href=\"/\">|<base href=\"/yumemi-flutter-engineer-codecheck/\">|' docs/index.html
+        run: sed -i '' 's|<base href=\"/\">|<base href=\"/yumemi-flutter-engineer-codecheck/\">|' build/web/index.html
 
       - name: Remove old docs
         run: rm -rf docs
