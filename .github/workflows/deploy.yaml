@@ -41,16 +41,7 @@ jobs:
         run: flutter pub get
 
       - name: Build web
-        run: flutter build web
-
-      - name: Update base href in index.html
-        run: sed -i 's|<base href=\"/\">|<base href=\"/yumemi-flutter-engineer-codecheck/\">|' build/web/index.html
-
-      - name: Remove old docs
-        run: rm -rf docs
-
-      - name: Move build to docs
-        run: mv build/web ../docs
+        run: flutter build web --no-strip-wasm --base-href "/yumemi-flutter-engineer-codecheck/" -o docs/
 
       - name: Commit and push to release
         run: |
