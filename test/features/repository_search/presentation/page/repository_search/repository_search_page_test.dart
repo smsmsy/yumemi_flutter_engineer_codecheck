@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/repository_search_page.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/search_history_provider.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 
 import '../../../../../mock/mock_shared_preferences_async_platform.dart';
@@ -318,6 +319,82 @@ void main() {
           );
         },
       );
+
+      testWidgets('ドロワーで検索履歴をタップするとドロワーが閉じ、タップした履歴で再検索される', (tester) async {
+        // Given: ProviderScopeで履歴をテスト用に上書き
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [
+              searchHistoryProvider.overrideWith(
+                () => TestSearchHistory(['flutter riverpod', 'yumemi']),
+              ),
+            ],
+            child: const MaterialApp(
+              home: RepositorySearchPage(),
+            ),
+          ),
+        );
+        // ドロワーを開く
+        final scaffoldState = tester.state<ScaffoldState>(
+          find.byType(Scaffold),
+        );
+        scaffoldState.openDrawer();
+        await tester.pumpAndSettle();
+
+        // 検索履歴リストの先頭項目が現れるまで最大1秒待つ (10ms * 100回 = 1秒)
+        const firstHistory = 'flutter riverpod';
+        final firstHistoryTile = find.widgetWithText(ListTile, firstHistory);
+        var found = false;
+        for (var i = 0; i < 100; i++) {
+          await tester.pump(const Duration(milliseconds: 10));
+          if (firstHistoryTile.evaluate().isNotEmpty) {
+            found = true;
+            break;
+          }
+        }
+        expect(found, isTrue, reason: '検索履歴リストの先頭項目が表示されること');
+        expect(firstHistoryTile, findsOneWidget);
+
+        // When: 履歴をタップ
+        await tester.tap(firstHistoryTile);
+        await tester.pumpAndSettle();
+
+        // Then: ドロワーが閉じている
+        expect(find.byType(Drawer), findsNothing);
+        // TextFieldに履歴文字列がセットされている
+        expect(find.text(firstHistory), findsOneWidget);
+      });
     });
   });
+}
+
+// テスト用の検索履歴管理クラス
+class TestSearchHistory extends SearchHistory {
+  TestSearchHistory([List<String>? initial]) : _history = initial ?? [];
+  List<String> _history;
+
+  @override
+  Future<List<String>> build() async {
+    return _history;
+  }
+
+  @override
+  Future<void> add(String keyword) async {
+    if (keyword.isEmpty) return;
+    _history = [keyword, ..._history.where((e) => e != keyword)];
+    _history = _history.take(10).toList();
+    state = AsyncData(_history);
+  }
+
+  @override
+  Future<void> clear() async {
+    _history = [];
+    state = const AsyncData([]);
+  }
+
+  @override
+  Future<void> removeTo(String data) async {
+    _history = _history.where((e) => e != data).toList();
+    state = AsyncData(_history);
+  }
 }
