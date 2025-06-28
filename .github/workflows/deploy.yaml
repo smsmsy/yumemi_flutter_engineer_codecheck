@@ -20,6 +20,11 @@ jobs:
           git fetch origin release:release || git checkout --orphan release
           git checkout release
 
+      - name: Set git committer
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
       - name: Merge main into release
         run: git merge --no-ff origin/main
 
@@ -44,8 +49,6 @@ jobs:
 
       - name: Commit and push to release
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
           git add docs
           git commit -m "chore: update docs with latest web build [skip ci]" || echo "No changes to commit"
           git push origin release
