@@ -1,4 +1,4 @@
-name: Deploy Flutter Web to docs
+name: Deploy docs to release branch
 
 on:
   push:
@@ -12,7 +12,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Checkout release branch
+        run: |
+          git fetch origin release:release || git checkout --orphan release
+          git checkout release
+
+      - name: Merge main into release
+        run: git merge --no-ff origin/main
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -21,26 +30,24 @@ jobs:
           flutter-version-file: "pubspec.yaml"
           cache: true
 
-      - name: Clean docs directory
-        run: |
-          rm -rf ./docs/*  # docsディレクトリを空にする
-          mkdir -p ./docs
+      - name: Install dependencies
+        run: flutter pub get
 
       - name: Build web
         run: flutter build web
 
-      - name: Copy build output to docs
-        run: |
-          cp -r ./build/web/* ./docs/  # build/web配下をdocsへコピー
+      - name: Remove old docs
+        run: rm -rf docs
 
-      - name: Commit and push changes
+      - name: Move build to docs
+        run: mv build/web docs
+
+      - name: Commit and push to release
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add docs/
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: update docs with latest web build [skip ci]"
-            git push origin main
-          fi  # 変更があればmainへ自動コミット
+          git add docs
+          git commit -m "chore: update docs with latest web build [skip ci]" || echo "No changes to commit"
+          git push origin release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
