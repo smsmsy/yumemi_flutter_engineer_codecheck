@@ -9,6 +9,13 @@ import '../../../../../../test_util/test_util.dart';
 
 void main() {
   group('HeroアニメーションのUXテスト', () {
+    late ScrollController controller;
+    setUp(() {
+      controller = ScrollController();
+    });
+    tearDown(() {
+      controller.dispose();
+    });
     testWidgets(
       'ユーザーがリポジトリリストから詳細画面に遷移する時、自然なアニメーションが実行される',
       (tester) async {
@@ -29,7 +36,7 @@ void main() {
           appBar: AppBar(title: const Text('検索結果')),
           body: AdaptiveRepositoryListView(
             value: const [testRepository],
-            scrollController: ScrollController(),
+            scrollController: controller,
           ),
         );
 
@@ -110,7 +117,7 @@ void main() {
           home: Scaffold(
             body: AdaptiveRepositoryListView(
               value: const [testRepository],
-              scrollController: ScrollController(),
+              scrollController: controller,
             ),
           ),
         );
@@ -157,7 +164,7 @@ void main() {
           home: Scaffold(
             body: AdaptiveRepositoryListView(
               value: const [testRepository],
-              scrollController: ScrollController(),
+              scrollController: controller,
             ),
           ),
         );
