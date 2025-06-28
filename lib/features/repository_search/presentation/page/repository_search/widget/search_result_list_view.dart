@@ -188,10 +188,9 @@ class _SearchResultListItem extends ConsumerWidget {
         onTap: () async {
           // 検索キーワードを履歴に追加
           final query = ref.read(gitHubSearchQueryNotifierProvider).q;
-          final a = ref.read(searchHistoryProvider.notifier).add;
           if (query.isNotEmpty) {
-            Future.delayed(const Duration(milliseconds: 1000), () {
-              a(query);
+            Future.delayed(const Duration(milliseconds: 1000), () async {
+              await ref.read(searchHistoryProvider.notifier).add(query);
             });
           }
           await GoRouter.of(context).pushNamed('details', extra: repository);

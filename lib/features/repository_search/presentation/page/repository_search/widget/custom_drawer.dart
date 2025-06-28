@@ -289,7 +289,7 @@ class _ApplyTestDataButton extends ConsumerWidget {
           'freezed',
           'json serialization',
           'yumemi flutter engineer codecheck',
-          'WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW',
+          'WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW',
         ];
         await ref.read(searchHistoryProvider.notifier).clear();
         for (final s in searchHistories) {

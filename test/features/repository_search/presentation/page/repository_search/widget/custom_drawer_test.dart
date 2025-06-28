@@ -213,7 +213,9 @@ class TestSearchHistory extends SearchHistory {
 
   @override
   Future<void> add(String keyword) async {
-    if (keyword.isEmpty) return;
+    if (keyword.isEmpty) {
+      return;
+    }
     _history = [keyword, ..._history.where((e) => e != keyword)];
     _history = _history.take(10).toList();
     state = AsyncData(_history);
