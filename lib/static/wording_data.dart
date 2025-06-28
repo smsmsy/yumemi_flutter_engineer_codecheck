@@ -58,4 +58,7 @@ class WordingData {
 
   /// 検索履歴セクションのタイトル。ドロワーや履歴表示で利用されます。
   static const searchHistory = 'Search History';
+
+  /// 検索履歴が空の場合の表示文言。検索履歴が存在しない場合に利用されます。
+  static const noSearchHistory = 'No search history.';
 }

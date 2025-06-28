@@ -199,6 +199,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search History'**
   String get searchHistory;
+
+  /// Message shown when there is no search history.
+  ///
+  /// In en, this message translates to:
+  /// **'No search history.'**
+  String get noSearchHistory;
 }
 
 class _AppLocalizationsDelegate

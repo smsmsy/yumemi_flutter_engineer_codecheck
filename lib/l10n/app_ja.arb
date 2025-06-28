@@ -15,5 +15,6 @@
   "repoDetailsInfo": "リポジトリ詳細",
   "inputKeyword": "検索キーワードを入力してください",
   "clearHistory": "検索履歴をクリアします",
-  "searchHistory": "検索履歴"
+  "searchHistory": "検索履歴",
+  "noSearchHistory": "検索履歴はありません。"
 }

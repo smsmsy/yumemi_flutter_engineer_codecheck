@@ -58,4 +58,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchHistory => 'Search History';
+
+  @override
+  String get noSearchHistory => 'No search history.';
 }

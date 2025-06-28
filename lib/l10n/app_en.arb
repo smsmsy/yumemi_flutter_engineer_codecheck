@@ -66,5 +66,9 @@
   "searchHistory": "Search History",
   "@searchHistory": {
     "description": "The title for the search history section."
+  },
+  "noSearchHistory": "No search history.",
+  "@noSearchHistory": {
+    "description": "Message shown when there is no search history."
   }
 }

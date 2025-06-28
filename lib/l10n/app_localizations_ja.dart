@@ -58,4 +58,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get searchHistory => '検索履歴';
+
+  @override
+  String get noSearchHistory => '検索履歴はありません。';
 }
