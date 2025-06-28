@@ -1,0 +1,46 @@
+name: Deploy Flutter Web to docs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          flutter-version-file: "pubspec.yaml"
+          cache: true
+
+      - name: Clean docs directory
+        run: |
+          rm -rf ./docs/*  # docsディレクトリを空にする
+          mkdir -p ./docs
+
+      - name: Build web
+        run: flutter build web
+
+      - name: Copy build output to docs
+        run: |
+          cp -r ./build/web/* ./docs/  # build/web配下をdocsへコピー
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update docs with latest web build [skip ci]"
+            git push origin main
+          fi  # 変更があればmainへ自動コミット
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
