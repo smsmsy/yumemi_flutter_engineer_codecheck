@@ -6,7 +6,7 @@ part of 'search_history_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$searchHistoryHash() => r'641b591ed75d6eb22798352de7f8cd65f250d7f9';
+String _$searchHistoryHash() => r'2fc37c170660987940da30dfa1a7a256a4029b7e';
 
 /// 検索履歴を管理するRiverpodプロバイダのクラス。
 ///

@@ -48,4 +48,11 @@ class SearchHistory extends _$SearchHistory {
     await _prefs.setStringList(_historyKey, []);
     state = const AsyncData([]);
   }
+
+  Future<void> removeTo(String data) async {
+    final current = state.value ?? [];
+    final newHistory = current.where((e) => e != data).toList();
+    await _prefs.setStringList(_historyKey, newHistory);
+    state = AsyncData(newHistory);
+  }
 }
