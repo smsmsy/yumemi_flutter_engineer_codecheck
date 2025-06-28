@@ -40,11 +40,22 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
   ///
   /// Providerから取得したリポジトリ一覧をリスト表示し、該当なしやエラー時はメッセージを表示します。
   Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      transitionBuilder: (child, animation) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+      child: _buildContent,
+    );
+  }
+
+  Widget get _buildContent {
     final queryString = ref.watch(
       gitHubSearchQueryNotifierProvider.select((e) => e.q),
     );
     if (queryString.isEmpty) {
       return Center(
+        key: const ValueKey('queryEmpty'),
         child: Text(
           AppLocalizations.of(context)?.inputKeyword ??
               WordingData.inputKeyword,
@@ -57,6 +68,7 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
     switch (repositoriesAsyncValue) {
       case AsyncError(:final error):
         return Center(
+          key: const ValueKey('error'),
           child: Text(
             error.toString(),
             style: Theme.of(context).textTheme.bodyMedium,
@@ -64,16 +76,22 @@ class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
         );
       case AsyncData(:final value):
         if (value.isEmpty) {
-          return const Center(
-            child: Text('該当するリポジトリはありません'),
+          return Center(
+            key: const ValueKey('listEmpty'),
+            child: Text(
+              AppLocalizations.of(context)?.noRepository ??
+                  WordingData.noRepository,
+            ),
           );
         }
         return AdaptiveRepositoryListView(
+          key: const ValueKey('list'),
           value: value,
           scrollController: _scrollController,
         );
       case _:
         return const Center(
+          key: ValueKey('loading'),
           child: CircularProgressIndicator(),
         );
     }
