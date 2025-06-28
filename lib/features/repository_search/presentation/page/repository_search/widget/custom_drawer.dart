@@ -236,6 +236,9 @@ class _SearchHistoryListItem extends ConsumerWidget {
       ),
       trailing: IconButton(
         onPressed: () async {
+          if (!context.mounted || !ref.context.mounted) {
+            return;
+          }
           await ref.read(searchHistoryProvider.notifier).removeTo(value);
         },
         icon: Icon(
@@ -274,6 +277,9 @@ class _ApplyTestDataButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return IconButton(
       onPressed: () async {
+        if (!context.mounted || !ref.context.mounted) {
+          return;
+        }
         const searchHistories = [
           'flutter riverpod',
           'yumemi',
