@@ -26,6 +26,12 @@ class _SearchPageState extends ConsumerState<RepositorySearchPage> {
   /// 検索テキストフィールドの入力内容を管理するコントローラーです。
   final controller = TextEditingController();
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   /// リポジトリ検索ページのUIを構築します。
   ///
   /// 検索テキストフィールドや検索結果リストなど、ページ全体のレイアウトを定義します。
