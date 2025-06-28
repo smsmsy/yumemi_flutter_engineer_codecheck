@@ -187,6 +187,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Input search keyword'**
   String get inputKeyword;
+
+  /// Tooltip for clearing search history.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search history'**
+  String get clearHistory;
+
+  /// The title for the search history section.
+  ///
+  /// In en, this message translates to:
+  /// **'Search History'**
+  String get searchHistory;
 }
 
 class _AppLocalizationsDelegate

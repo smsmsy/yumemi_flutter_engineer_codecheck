@@ -52,4 +52,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inputKeyword => 'Input search keyword';
+
+  @override
+  String get clearHistory => 'Clear search history';
+
+  @override
+  String get searchHistory => 'Search History';
 }

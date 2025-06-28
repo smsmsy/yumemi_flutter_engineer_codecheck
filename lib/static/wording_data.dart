@@ -52,4 +52,10 @@ class WordingData {
 
   /// 未検索状態の表示用ラベル。リポジトリがまだ検索されていない場合に利用されます。
   static const inputKeyword = 'Input search keyword';
+
+  /// 検索履歴クリアボタンのツールチップ。検索履歴を削除する際に利用されます。
+  static const clearHistory = 'Clear search history';
+
+  /// 検索履歴セクションのタイトル。ドロワーや履歴表示で利用されます。
+  static const searchHistory = 'Search History';
 }

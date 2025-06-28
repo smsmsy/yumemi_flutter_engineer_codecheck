@@ -52,4 +52,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get inputKeyword => '検索キーワードを入力してください';
+
+  @override
+  String get clearHistory => '検索履歴をクリアします';
+
+  @override
+  String get searchHistory => '検索履歴';
 }
