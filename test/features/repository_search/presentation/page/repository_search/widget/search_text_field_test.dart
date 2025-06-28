@@ -4,11 +4,21 @@ import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/pre
 
 void main() {
   group('SearchTextField', () {
+    late TextEditingController controller;
+    setUp(() {
+      controller = TextEditingController();
+    });
+    tearDown(() {
+      controller.dispose();
+    });
     testWidgets('labelTextが表示される', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
           home: Scaffold(
-            body: SearchTextField(labelText: '検索'),
+            body: SearchTextField(
+              controller: controller,
+              labelText: '検索',
+            ),
           ),
         ),
       );
@@ -21,6 +31,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: SearchTextField(
+              controller: controller,
               onChanged: (v) => value = v,
             ),
           ),
@@ -36,6 +47,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: SearchTextField(
+              controller: controller,
               onCancelButtonPressed: () => pressed = true,
             ),
           ),
@@ -46,7 +58,6 @@ void main() {
     });
 
     testWidgets('テキスト入力時にTextFieldに表示される', (tester) async {
-      final controller = TextEditingController();
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -69,6 +80,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: SearchTextField(
+              controller: controller,
               onSubmitted: (v) => submittedValue = v,
             ),
           ),

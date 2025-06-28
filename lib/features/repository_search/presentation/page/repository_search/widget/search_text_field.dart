@@ -11,8 +11,8 @@ class SearchTextField extends StatelessWidget {
   /// [onCancelButtonPressed]でキャンセルボタン押下時の処理、[labelText]でラベル表示、
   /// [onSubmitted]でエンター押下時の処理を指定できます。
   const SearchTextField({
+    required this.controller,
     super.key,
-    this.controller,
     this.onChanged,
     this.onCancelButtonPressed,
     this.labelText,
@@ -22,7 +22,7 @@ class SearchTextField extends StatelessWidget {
   /// テキストフィールドのコントローラー
   ///
   /// 入力値の取得や制御に利用します。
-  final TextEditingController? controller;
+  final TextEditingController controller;
 
   /// 入力値が変更されたときに呼ばれるコールバック
   final void Function(String)? onChanged;
@@ -44,7 +44,7 @@ class SearchTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
       child: TextField(
-        controller: controller ?? TextEditingController(),
+        controller: controller,
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.search),
           suffixIcon: IconButton(
