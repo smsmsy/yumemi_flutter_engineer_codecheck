@@ -186,6 +186,9 @@ class _SearchResultListItem extends ConsumerWidget {
         margin: const EdgeInsets.symmetric(vertical: 6),
         showChevron: true,
         onTap: () async {
+          if (!context.mounted || !ref.context.mounted) {
+            return;
+          }
           // 検索キーワードを履歴に追加
           final query = ref.read(gitHubSearchQueryNotifierProvider).q;
           if (query.isNotEmpty) {
