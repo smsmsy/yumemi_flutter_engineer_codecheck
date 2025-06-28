@@ -58,5 +58,17 @@
   "inputKeyword": "Input search keyword",
   "@inputKeyword": {
     "description": "Label for prompting user to input search keyword."
+  },
+  "clearHistory": "Clear search history",
+  "@clearHistory": {
+    "description": "Tooltip for clearing search history."
+  },
+  "searchHistory": "Search History",
+  "@searchHistory": {
+    "description": "The title for the search history section."
+  },
+  "noSearchHistory": "No search history.",
+  "@noSearchHistory": {
+    "description": "Message shown when there is no search history."
   }
 }

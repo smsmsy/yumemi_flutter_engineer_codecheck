@@ -5,9 +5,9 @@ tools: ['changes', 'codebase', 'editFiles', 'extensions', 'fetch', 'findTestFile
 入力された文言についての翻訳文言の整備をお願いします。
 翻訳文言の整備は以下の手順に従って下さい。
 
-### 1. まずは基本的な翻訳文言の追加をお願いします。
+### 1. 基本的な翻訳文言の追加
 
-翻訳文言の追加方法は documents/how-to-add-strings.md を参照してください。
+翻訳文言の追加方法は documents/how-to-add-strings.md を参照しその内容に従って文言を追加して下さい。
 
 ### 2. 英語文言のWordingDataクラスへの追加
 

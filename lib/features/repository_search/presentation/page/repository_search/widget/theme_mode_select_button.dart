@@ -50,6 +50,11 @@ class ThemeModeSelectButton extends ConsumerWidget {
       },
       initialValue: themeMode.value ?? ThemeMode.system,
       child: ListTile(
+        dense: true,
+        visualDensity: const VisualDensity(
+          vertical: VisualDensity.minimumDensity,
+          horizontal: VisualDensity.minimumDensity,
+        ),
         leading: const Icon(Icons.brightness_6),
         title: Text(
           AppLocalizations.of(context)?.themeModeSelect ??

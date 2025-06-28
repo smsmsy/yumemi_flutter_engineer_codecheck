@@ -42,7 +42,12 @@ class _SearchPageState extends ConsumerState<RepositorySearchPage> {
                 WordingData.searchPageTitle,
           ),
         ),
-        drawer: const CustomDrawer(),
+        drawer: CustomDrawer(
+          onHistoryTap: (value) {
+            controller.text = value;
+            _setQuery(value);
+          },
+        ),
         body: Center(
           child: Column(
             children: [
@@ -52,28 +57,18 @@ class _SearchPageState extends ConsumerState<RepositorySearchPage> {
                 ),
                 child: SearchTextField(
                   controller: controller,
-                  onChanged: (value) {
-                    ref
-                        .read(gitHubSearchQueryNotifierProvider.notifier)
-                        .setQuery(q: value);
-                  },
-                  onSubmitted: (value) {
-                    ref
-                        .read(gitHubSearchQueryNotifierProvider.notifier)
-                        .setQuery(q: value);
-                  },
+                  onChanged: _setQuery,
+                  onSubmitted: _setQuery,
                   onCancelButtonPressed: () {
                     setState(controller.clear);
-                    ref
-                        .read(gitHubSearchQueryNotifierProvider.notifier)
-                        .setQuery(q: '');
+                    _setQuery('');
                   },
                   labelText:
                       AppLocalizations.of(context)?.searchRepositories ??
                       WordingData.searchRepositories,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: NumberData.paddingSmall),
               const Expanded(
                 child: SearchResultListView(),
               ),
@@ -83,6 +78,9 @@ class _SearchPageState extends ConsumerState<RepositorySearchPage> {
       ),
     );
   }
+
+  void _setQuery(String value) =>
+      ref.read(gitHubSearchQueryNotifierProvider.notifier).setQuery(q: value);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
