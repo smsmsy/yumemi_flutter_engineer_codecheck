@@ -8,6 +8,8 @@
     - [Riverpod/Freezed/JsonSerialization の自動生成](#riverpodfreezedjsonserialization-の自動生成)
     - [多言語対応（l10n）ファイルの自動生成](#多言語対応l10nファイルの自動生成)
   - [開発手順について](#開発手順について)
+    - [開発ワークフローについて](#開発ワークフローについて)
+    - [継続インテグレーション(CI)について](#継続インテグレーションciについて)
     - [コーディングガイドについて](#コーディングガイドについて)
     - [アプリの機能について](#アプリの機能について)
   - [アプリの設計について](#アプリの設計について)
@@ -95,6 +97,39 @@ sh l10n-generate.sh
 詳しい言語追加対応については [how-to-add-strings.md](documents/how-to-add-strings.md) をご確認ください。
 
 ## 開発手順について
+
+### 開発ワークフローについて
+
+本プロジェクトではGitHubを用いた開発を行います。
+
+下記のようなフローで開発しています。
+
+1. Issueを立てる(もしくは既存のIssueを確認する)
+2. Issueに対してブランチを切る
+3. ブランチで実装を行う
+4. Pull Requestによってコードレビューを行う
+5. Pull Requestをマージする
+
+IssueやPull Requestでは、テンプレートファイルを用いて書式を統一しています。
+
+テンプレートファイルは、[ISSUE_TEMPLATE ディレクトリ](.github/ISSUE_TEMPLATE) や [PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md) をご確認ください。
+
+### 継続インテグレーション(CI)について
+
+本プロジェクトでは GitHub Actions による継続インテグレーション(CI)を行っています。
+
+Pull Requestが作成された時点で対象のブランチに対する CI が自動実行されます。
+
+CIの内容は下記のとおりです
+
+- 静的解析に問題がないことを確認する
+- テストが全て通ることを確認する
+- 下記の環境でビルドが通ることを確認する
+  - Web (Linux環境)
+  - Android (Linux環境)
+  - iOS (macOS環境)
+
+CIの設定内容については [ci.yaml](.github/workflows/ci.yaml) をご確認ください。
 
 ### コーディングガイドについて
 
