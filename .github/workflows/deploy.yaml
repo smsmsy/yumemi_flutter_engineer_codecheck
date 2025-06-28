@@ -41,7 +41,7 @@ jobs:
         run: flutter pub get
 
       - name: Build web
-        run: flutter build web --no-strip-wasm --base-href "/yumemi-flutter-engineer-codecheck/" -o docs/
+        run: flutter build web --base-href "/yumemi_flutter_engineer_codecheck/" -o docs/
 
       - name: Commit and push to release
         run: |
