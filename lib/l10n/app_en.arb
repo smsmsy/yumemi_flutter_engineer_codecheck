@@ -74,5 +74,13 @@
   "noRepository": "No repositories found.",
   "@noRepository": {
     "description": "Message shown when there is no repository found."
+  },
+  "searchQueryLength": "Search query must be 256 characters or less.",
+  "@searchQueryLength": {
+    "description": "Error message for search query length."
+  },
+  "searchQueryOperator": "Up to 5 AND/OR/NOT operators are allowed.",
+  "@searchQueryOperator": {
+    "description": "Error message for AND/OR/NOT operator count."
   }
 }

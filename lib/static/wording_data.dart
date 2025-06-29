@@ -64,4 +64,12 @@ class WordingData {
 
   /// 検索結果が空の場合の表示用ラベル。該当するリポジトリがない場合に利用されます。
   static const noRepository = 'No repositories found.';
+
+  /// 検索クエリが256文字を超えた場合のエラーメッセージ。
+  static const searchQueryLength =
+      'Search query must be 256 characters or less.';
+
+  /// AND/OR/NOT演算子が合計5個を超えた場合のエラーメッセージ。
+  static const searchQueryOperator =
+      'Up to 5 AND/OR/NOT operators are allowed.';
 }
