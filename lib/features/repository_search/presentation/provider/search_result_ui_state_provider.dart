@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/search_result_list_view.dart';
@@ -12,10 +13,7 @@ import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
 part 'search_result_ui_state_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-SearchResultUIState searchResultUIState(
-  Ref ref, {
-  required ScrollController scrollController,
-}) {
+SearchResultUIState searchResultUIState(Ref ref) {
   final queryString = ref.watch(
     repo_providers.gitHubSearchQueryNotifierProvider.select((e) => e.q),
   );
@@ -25,7 +23,6 @@ SearchResultUIState searchResultUIState(
   return SearchResultUIState.build(
     queryString: queryString,
     repositoriesAsyncValue: repositoriesAsyncValue,
-    scrollController: scrollController,
   );
 }
 
@@ -35,22 +32,21 @@ sealed class SearchResultUIState extends ConsumerWidget {
   factory SearchResultUIState.build({
     required String queryString,
     required AsyncValue<List<Repository>> repositoriesAsyncValue,
-    required ScrollController scrollController,
   }) {
     if (queryString.isEmpty) {
-      return const QueryEmptyState();
+      return const _QueryEmptyState();
     }
     if (repositoriesAsyncValue is AsyncError) {
-      return const ErrorState();
+      return const _ErrorState();
     }
     if (repositoriesAsyncValue is AsyncData) {
       if (repositoriesAsyncValue.requireValue.isEmpty) {
-        return const ListEmptyState();
+        return const _ListEmptyState();
       } else {
-        return ListState(scrollController: scrollController);
+        return const _ListState();
       }
     }
-    return const LoadingState();
+    return const _LoadingState();
   }
 
   FadeTransition transitionBuilder(Widget child, Animation<double> animation) =>
@@ -71,14 +67,14 @@ sealed class SearchResultUIState extends ConsumerWidget {
   }
 }
 
-class QueryEmptyState extends SearchResultUIState {
-  const QueryEmptyState({super.key});
+class _QueryEmptyState extends SearchResultUIState {
+  const _QueryEmptyState();
 
   @override
   ValueKey<String> get key => const ValueKey('queryEmpty');
 
   @override
-  Duration get duration => const Duration(milliseconds: 200);
+  Duration get duration => Durations.short3;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -92,14 +88,14 @@ class QueryEmptyState extends SearchResultUIState {
   }
 }
 
-class ListEmptyState extends SearchResultUIState {
-  const ListEmptyState({super.key});
+class _ListEmptyState extends SearchResultUIState {
+  const _ListEmptyState();
 
   @override
   ValueKey<String> get key => const ValueKey('listEmpty');
 
   @override
-  Duration get duration => const Duration(milliseconds: 200);
+  Duration get duration => Durations.short3;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -113,14 +109,14 @@ class ListEmptyState extends SearchResultUIState {
   }
 }
 
-class LoadingState extends SearchResultUIState {
-  const LoadingState({super.key});
+class _LoadingState extends SearchResultUIState {
+  const _LoadingState();
 
   @override
   ValueKey<String> get key => const ValueKey('loading');
 
   @override
-  Duration get duration => const Duration(milliseconds: 200);
+  Duration get duration => Durations.short3;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -131,14 +127,14 @@ class LoadingState extends SearchResultUIState {
   }
 }
 
-class ErrorState extends SearchResultUIState {
-  const ErrorState({super.key});
+class _ErrorState extends SearchResultUIState {
+  const _ErrorState();
 
   @override
   ValueKey<String> get key => const ValueKey('error');
 
   @override
-  Duration get duration => const Duration(milliseconds: 200);
+  Duration get duration => Durations.short3;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -155,40 +151,32 @@ class ErrorState extends SearchResultUIState {
   }
 }
 
-class ListState extends SearchResultUIState {
-  const ListState({required this.scrollController, super.key});
-
-  final ScrollController scrollController;
+class _ListState extends SearchResultUIState {
+  const _ListState();
 
   @override
   ValueKey<String> get key => const ValueKey('list');
 
   @override
-  Duration get duration => const Duration(milliseconds: 400);
+  Duration get duration => Durations.medium4;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Center(
-      key: key,
-      child: AdaptiveRepositoryListView(
-        value: ref.watch(
-          repo_providers.repositoriesSearchResultProvider.select(
-            (e) => e.requireValue,
+    return HookBuilder(
+      builder: (context) {
+        final scrollController = useScrollController();
+        return Center(
+          key: key,
+          child: AdaptiveRepositoryListView(
+            value: ref.watch(
+              repo_providers.repositoriesSearchResultProvider.select(
+                (e) => e.requireValue,
+              ),
+            ),
+            scrollController: scrollController,
           ),
-        ),
-        scrollController: scrollController,
-      ),
-    );
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(
-      DiagnosticsProperty<ScrollController>(
-        'scrollController',
-        scrollController,
-      ),
+        );
+      },
     );
   }
 }
