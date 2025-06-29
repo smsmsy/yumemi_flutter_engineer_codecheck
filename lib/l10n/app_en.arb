@@ -82,5 +82,25 @@
   "searchQueryOperator": "Up to 5 AND/OR/NOT operators are allowed.",
   "@searchQueryOperator": {
     "description": "Error message for AND/OR/NOT operator count."
+  },
+  "moveToSearch": "Move to Search Page",
+  "@moveToSearch": {
+    "description": "Button label for moving to search page."
+  },
+  "loginSuccess": "Login successful!",
+  "@loginSuccess": {
+    "description": "Message for successful login."
+  },
+  "continueWithoutLogin": "Continue without logging in",
+  "@continueWithoutLogin": {
+    "description": "Button label for continuing without login."
+  },
+  "signInWithGitHub": "Sign in with GitHub",
+  "@signInWithGitHub": {
+    "description": "Button label for signing in with GitHub."
+  },
+  "githubAuth": "GitHub Authentication",
+  "@githubAuth": {
+    "description": "Title for GitHub authentication page."
   }
 }

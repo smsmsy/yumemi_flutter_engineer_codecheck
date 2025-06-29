@@ -19,5 +19,10 @@
   "noSearchHistory": "検索履歴はありません。",
   "noRepository": "該当するリポジトリはありません。",
   "searchQueryLength": "検索クエリは256文字以内で入力してください",
-  "searchQueryOperator": "AND/OR/NOT演算子は合計5個までです"
+  "searchQueryOperator": "AND/OR/NOT演算子は合計5個までです",
+  "moveToSearch": "検索画面へ移動する",
+  "loginSuccess": "ログイン成功しました！",
+  "continueWithoutLogin": "ログインせずに続行する",
+  "signInWithGitHub": "GitHubでサインイン",
+  "githubAuth": "GitHub認証"
 }
