@@ -61,4 +61,7 @@ class WordingData {
 
   /// 検索履歴が空の場合の表示文言。検索履歴が存在しない場合に利用されます。
   static const noSearchHistory = 'No search history.';
+
+  /// 検索結果が空の場合の表示用ラベル。該当するリポジトリがない場合に利用されます。
+  static const noRepository = 'No repositories found.';
 }
