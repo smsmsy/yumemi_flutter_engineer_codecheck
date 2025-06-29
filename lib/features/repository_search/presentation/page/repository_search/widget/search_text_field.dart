@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/search_query_validator_provider.dart';
 
 /// 検索用のテキストフィールドを表示するウィジェット
 ///
 /// 入力値の変更やキャンセルボタン、ラベル表示などをサポートします。
-class SearchTextField extends StatelessWidget {
+class SearchTextField extends HookConsumerWidget {
   /// 検索テキストフィールドのコンストラクタ
   ///
   /// [controller]でテキストの制御、[onChanged]で入力値の変更時コールバック、
@@ -40,21 +43,38 @@ class SearchTextField extends StatelessWidget {
   /// 検索用テキストフィールドのウィジェットツリーを構築します。
   ///
   /// アイコンやキャンセルボタン付きのテキストフィールドを返します。
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final searchQueryValidator = ref.watch(searchQueryValidatorProvider);
+    final formKey = useMemoized(GlobalKey<FormState>.new);
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.search),
-          suffixIcon: IconButton(
-            onPressed: onCancelButtonPressed,
-            icon: const Icon(Icons.cancel),
+      child: Form(
+        key: formKey,
+        child: TextFormField(
+          controller: controller,
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              Icons.search,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            suffixIcon: IconButton(
+              onPressed: onCancelButtonPressed,
+              icon: const Icon(Icons.cancel),
+            ),
+            labelText: labelText,
           ),
-          labelText: labelText,
+          // バリデーション文字列を表示する
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          onChanged: onChanged,
+          onFieldSubmitted: onSubmitted,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return null;
+            }
+            final message = searchQueryValidator(value)?.messageVia(context);
+            return message;
+          },
         ),
-        onChanged: onChanged,
-        onSubmitted: onSubmitted,
       ),
     );
   }
