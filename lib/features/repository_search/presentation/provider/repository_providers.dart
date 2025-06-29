@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:simple_logger/simple_logger.dart';
 import 'package:yumemi_flutter_engineer_codecheck/extension/debounce_and_cancel_extension.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/git_hub_search_query.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/repository/git_hub_search_api_repository.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/github_access_token_provider.dart';
 
 part 'repository_providers.g.dart';
 
@@ -26,7 +28,11 @@ Future<List<Repository>> repositoriesSearchResult(Ref ref) async {
   if (query.q.isEmpty) {
     return [];
   }
+
   final dio = await ref.getDebouncedHttpClient();
   final repository = ref.watch(githubRepositoryProvider(dio));
-  return repository.searchRepositories(query);
+  final accessToken = ref.watch(githubAccessTokenProvider);
+  SimpleLogger().info('Access Token: $accessToken'); // デバッグ用ログ
+
+  return repository.searchRepositories(query, accessToken);
 }

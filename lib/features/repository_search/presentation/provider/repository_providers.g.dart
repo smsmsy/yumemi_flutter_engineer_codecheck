@@ -173,7 +173,7 @@ class _GithubRepositoryProviderElement
 }
 
 String _$repositoriesSearchResultHash() =>
-    r'9c4150d4a3bb3e0d44d904cd54ef0513788527d7';
+    r'517b8fa8b310ed286a5ee2335c17a66c37911cde';
 
 /// リポジトリ検索結果を提供するプロバイダー
 ///
