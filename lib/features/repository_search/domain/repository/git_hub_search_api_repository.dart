@@ -28,14 +28,25 @@ class GitHubSearchApiRepository {
   ///
   /// [query]で指定した条件に基づきAPIリクエストを行い、該当するリポジトリ一覧を取得します。
   /// 検索ワードが空の場合は空リストを返します。
-  Future<List<Repository>> searchRepositories(GitHubSearchQuery query) async {
+  Future<List<Repository>> searchRepositories(
+    GitHubSearchQuery query,
+    String? accessToken,
+  ) async {
     if (query.q.isEmpty) {
       return [];
     }
     final baseUri = Uri.parse('https://api.github.com/search/repositories');
+    final headers = <String, String>{};
+    headers['Accept'] = 'application/vnd.github.v3+json';
+    if (accessToken != null && accessToken.isNotEmpty) {
+      headers['Authorization'] = 'Bearer $accessToken';
+    }
     final uri = baseUri.replace(queryParameters: query.toQueryParameters());
     try {
-      final response = await dio.getUri<Map<String, dynamic>>(uri);
+      final response = await dio.getUri<Map<String, dynamic>>(
+        uri,
+        options: Options(headers: headers),
+      );
       if (response.statusCode != 200) {
         throw Exception('GitHub API error: status ${response.statusCode}');
       }
