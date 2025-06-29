@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/git_hub_search_query.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/repository.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/search_result_list_view.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/repository_providers.dart'
-    as repo_providers;
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/repository_providers.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
 
@@ -15,10 +15,10 @@ part 'search_result_ui_state_provider.g.dart';
 @Riverpod(keepAlive: true)
 SearchResultUIState searchResultUIState(Ref ref) {
   final queryString = ref.watch(
-    repo_providers.gitHubSearchQueryNotifierProvider.select((e) => e.q),
+    gitHubSearchQueryNotifierProvider.select((e) => e.q),
   );
   final repositoriesAsyncValue = ref.watch(
-    repo_providers.repositoriesSearchResultProvider,
+    repositoriesSearchResultProvider,
   );
   return SearchResultUIState.build(
     queryString: queryString,
@@ -139,7 +139,7 @@ class _ErrorState extends SearchResultUIState {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final errorString = ref.watch(
-      repo_providers.repositoriesSearchResultProvider.select((e) => e.error),
+      repositoriesSearchResultProvider.select((e) => e.error),
     );
     return Center(
       key: key,
@@ -169,7 +169,7 @@ class _ListState extends SearchResultUIState {
           key: key,
           child: AdaptiveRepositoryListView(
             value: ref.watch(
-              repo_providers.repositoriesSearchResultProvider.select(
+              repositoriesSearchResultProvider.select(
                 (e) => e.requireValue,
               ),
             ),
