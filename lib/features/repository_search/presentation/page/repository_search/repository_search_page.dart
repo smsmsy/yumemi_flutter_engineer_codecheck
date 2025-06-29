@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/domain/entity/git_hub_search_query.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/custom_drawer.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/search_result_list_view.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/search_text_field.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/firebase_auth_user_provider.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/go_router_provider.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
@@ -37,6 +41,7 @@ class _SearchPageState extends ConsumerState<RepositorySearchPage> {
   /// 検索テキストフィールドや検索結果リストなど、ページ全体のレイアウトを定義します。
   @override
   Widget build(BuildContext context) {
+    final authUser = ref.watch(firebaseAuthUserProvider);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -47,6 +52,41 @@ class _SearchPageState extends ConsumerState<RepositorySearchPage> {
             AppLocalizations.of(context)?.searchPageTitle ??
                 WordingData.searchPageTitle,
           ),
+          actions: [
+            authUser.when(
+              data: (data) {
+                if (data == null) {
+                  return IconButton(
+                    onPressed: () async {
+                      await GoRouter.of(
+                        context,
+                      ).pushReplacement(AppRoutes.githubAuth);
+                    },
+                    icon: const Icon(Icons.login),
+                  );
+                }
+                return IconButton(
+                  onPressed: () async {
+                    if (context.mounted) {
+                      await FirebaseAuth.instance.signOut();
+                    }
+                  },
+                  icon: const Icon(Icons.logout),
+                );
+              },
+              error: (error, stackTrace) {
+                return IconButton(
+                  onPressed: () {
+                    ref.invalidate(firebaseAuthUserProvider);
+                  },
+                  icon: const Icon(Icons.replay),
+                );
+              },
+              loading: () {
+                return const CircularProgressIndicator();
+              },
+            ),
+          ],
         ),
         drawer: CustomDrawer(
           onHistoryTap: (value) {
