@@ -7,7 +7,7 @@ part of 'search_result_ui_state_provider.dart';
 // **************************************************************************
 
 String _$searchResultUIStateHash() =>
-    r'9a709fb970f92fdca62b8430289f21fa33c58f0e';
+    r'f33ec4cc481805b7fde89928831045586e5bfdbf';
 
 /// See also [searchResultUIState].
 @ProviderFor(searchResultUIState)
