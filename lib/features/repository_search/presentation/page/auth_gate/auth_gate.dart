@@ -2,8 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:simple_logger/simple_logger.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/github_auth/github_auth_page.dart';
-import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/repository_search_page.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/firebase_auth_user_provider.dart';
 
 class AuthGate extends ConsumerWidget {
@@ -15,12 +13,12 @@ class AuthGate extends ConsumerWidget {
 
     return authUser.when(
       data: (user) {
-        // ユーザーがログインしている場合
-        if (user != null) {
-          return const RepositorySearchPage(); // ログイン後のメイン画面
-        } else {
-          return const GitHubAuthPage(); // ログイン画面
-        }
+        // リダイレクティングを待つ
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(), // ローディング中の表示
+          ),
+        );
       },
       loading:
           () => const Scaffold(
