@@ -56,3 +56,7 @@ google-services.json
 env*.g.dart
 firebase_options*.dart
 firebase_app_id_file.json
+
+# cloud functions
+functions/node_modules/
+node_modules/
