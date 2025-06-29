@@ -12,36 +12,18 @@ import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
 /// 検索結果のリポジトリ一覧を表示するウィジェット
 ///
 /// RiverpodのProviderから取得したリポジトリ一覧をリスト表示します。
-class SearchResultListView extends ConsumerStatefulWidget {
+class SearchResultListView extends ConsumerWidget {
   /// 検索結果リストビューのコンストラクタ
   ///
   /// 必要に応じてkeyを指定できます。
   const SearchResultListView({super.key});
 
   @override
-  ConsumerState<SearchResultListView> createState() =>
-      _SearchResultListViewState();
-}
-
-/// [SearchResultListView]の状態を管理するStateクラス
-class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
-  /// 検索結果リストのスクロール制御用コントローラー
-  final _scrollController = ScrollController();
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   /// 検索結果の状態に応じてリストやエラー・ローディング表示を切り替えます。
   ///
   /// Providerから取得したリポジトリ一覧をリスト表示し、該当なしやエラー時はメッセージを表示します。
-  Widget build(BuildContext context) {
-    final uiState = ref.watch(
-      searchResultUIStateProvider(scrollController: _scrollController),
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final uiState = ref.watch(searchResultUIStateProvider);
     return AnimatedSwitcher(
       duration: uiState.duration,
       transitionBuilder: uiState.transitionBuilder,
