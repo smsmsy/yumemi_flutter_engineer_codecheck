@@ -11,6 +11,8 @@ import 'package:http/http.dart' as http;
 import 'package:simple_logger/simple_logger.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/github_access_token_provider.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/go_router_provider.dart';
+import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
+import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
 
 /// GitHub認証画面を提供するStatefulWidgetです。
 ///
@@ -71,7 +73,9 @@ class _GitHubAuthPageState extends ConsumerState<GitHubAuthPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('GitHub認証'),
+        title: Text(
+          AppLocalizations.of(context)?.githubAuth ?? WordingData.githubAuth,
+        ),
       ),
       body: Center(
         child: _user == null ? _buildSignInUI() : _buildLoggedInUI(),
@@ -83,35 +87,42 @@ class _GitHubAuthPageState extends ConsumerState<GitHubAuthPage> {
   ///
   /// GitHubでサインインするボタンや、ログインせずに続行するボタンを表示します。
   Widget _buildSignInUI() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
+      alignment: Alignment.center,
       children: [
-        FilledButton.tonalIcon(
-          onPressed: signInWithGitHub,
-          icon: Image.asset(
-            Theme.brightnessOf(context) == Brightness.dark
-                ? 'asset/image/github-mark-white.png'
-                : 'asset/image/github-mark.png',
-            height: 36,
-          ),
-          label: Text(
-            'GitHubでサインイン',
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FilledButton.tonalIcon(
+              onPressed: signInWithGitHub,
+              icon: Image.asset(
+                Theme.brightnessOf(context) == Brightness.dark
+                    ? 'asset/image/github-mark-white.png'
+                    : 'asset/image/github-mark.png',
+                height: 36,
+              ),
+              label: Text(
+                AppLocalizations.of(context)?.signInWithGitHub ??
+                    WordingData.signInWithGitHub,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.all(20),
+              ),
             ),
-          ),
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.all(20),
-          ),
-        ),
-        const SizedBox(height: 20),
-        TextButton(
-          onPressed: () async {
-            await GoRouter.of(context).pushReplacement(AppRoutes.search);
-          },
-          child: const Text('ログインせずに続行する'),
+            const SizedBox(height: 20),
+            TextButton(
+              onPressed: () async {
+                await GoRouter.of(context).pushReplacement(AppRoutes.search);
+              },
+              child: Text(
+                AppLocalizations.of(context)?.continueWithoutLogin ??
+                    WordingData.continueWithoutLogin,
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -121,20 +132,13 @@ class _GitHubAuthPageState extends ConsumerState<GitHubAuthPage> {
   ///
   /// ログイン成功メッセージと、検索画面へ移動するボタンを表示します。
   Widget _buildLoggedInUI() {
-    Timer.periodic(
-      const Duration(milliseconds: 500),
-      (timer) async {
-        if (!mounted) {
-          timer.cancel();
-          await GoRouter.of(context).pushReplacement(AppRoutes.search);
-        }
-      },
-    );
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'ログイン成功しました！',
+            AppLocalizations.of(context)?.loginSuccess ??
+                WordingData.loginSuccess,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -144,7 +148,10 @@ class _GitHubAuthPageState extends ConsumerState<GitHubAuthPage> {
             onPressed: () async {
               await GoRouter.of(context).pushReplacement(AppRoutes.search);
             },
-            child: const Text('検索画面へ移動する'),
+            child: Text(
+              AppLocalizations.of(context)?.moveToSearch ??
+                  WordingData.moveToSearch,
+            ),
           ),
         ],
       ),
@@ -185,7 +192,7 @@ class _GitHubAuthPageState extends ConsumerState<GitHubAuthPage> {
   /// FlutterWebAuth2を利用してGitHub認証を行い、カスタムトークンでFirebaseにサインインします。
   Future<void> _signInWithGitHubMobile() async {
     const clientId = 'Iv23lituienRCCjD6uzl';
-    const redirectUri = 'yumemi.flutter://auth'; // カスタムスキーム
+    const redirectUri = 'yumemi.flutter://auth';
     const url =
         'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&scope=read:user';
     const callbackUrlScheme = 'yumemi.flutter';
