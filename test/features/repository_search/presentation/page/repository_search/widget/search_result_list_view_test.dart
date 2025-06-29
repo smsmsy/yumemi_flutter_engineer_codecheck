@@ -65,7 +65,7 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      expect(find.text('該当するリポジトリはありません'), findsOneWidget);
+      expect(find.text('該当するリポジトリはありません。'), findsOneWidget);
     });
 
     testWidgets('ローディング時にインジケータが表示される', (tester) async {

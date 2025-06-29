@@ -205,6 +205,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No search history.'**
   String get noSearchHistory;
+
+  /// Message shown when there is no repository found.
+  ///
+  /// In en, this message translates to:
+  /// **'No repositories found.'**
+  String get noRepository;
 }
 
 class _AppLocalizationsDelegate
