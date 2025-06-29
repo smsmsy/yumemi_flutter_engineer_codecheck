@@ -100,15 +100,27 @@ class _SearchHistoryListViewState extends ConsumerState<SearchHistoryListView> {
   }
 }
 
+/// 検索履歴リストの内容が確定した状態で表示するウィジェット。
+///
+/// AnimatedListを用いて、確定した検索履歴リストを表示します。
 class _ConfirmedSearchHistoryListView extends StatelessWidget {
+  /// [viewModel]と[widget]を受け取るコンストラクタ。
+  ///
+  /// [viewModel]はリストの状態管理、[widget]は親ウィジェットを参照します。
   const _ConfirmedSearchHistoryListView({
     required this.viewModel,
     required this.widget,
   });
 
+  /// 検索履歴リストの状態管理を行うViewModel。
   final SearchHistoryListViewModel viewModel;
+
+  /// 親のSearchHistoryListViewウィジェット。
   final SearchHistoryListView widget;
 
+  /// AnimatedListを用いて検索履歴リストのUIを構築します。
+  ///
+  /// スクロールバー付きで、履歴項目をアニメーション表示します。
   @override
   Widget build(BuildContext context) {
     return Scrollbar(

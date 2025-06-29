@@ -41,6 +41,9 @@ class SearchHistoryListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// [newList]に含まれる要素をinternalListに追加し、AnimatedListに挿入アニメーションを適用します。
+  ///
+  /// newListの各要素をinternalListと比較し、異なる場合は該当位置に挿入します。
   void _addItems(List<String> newList, AnimatedListState listState) {
     for (var i = 0; i < newList.length; i++) {
       if (i >= internalList.length || internalList[i] != newList[i]) {
@@ -50,6 +53,9 @@ class SearchHistoryListViewModel extends ChangeNotifier {
     }
   }
 
+  /// internalListから[newList]に含まれない要素を削除し、AnimatedListに削除アニメーションを適用します。
+  ///
+  /// internalListを後ろから走査し、newListに存在しない要素をAnimatedListからアニメーション付きで削除します。
   void _deleteItems(List<String> newList, AnimatedListState listState) {
     for (var i = internalList.length - 1; i >= 0; i--) {
       if (!newList.contains(internalList[i])) {
