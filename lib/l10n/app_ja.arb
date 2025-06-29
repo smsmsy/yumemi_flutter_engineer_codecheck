@@ -17,5 +17,7 @@
   "clearHistory": "検索履歴をクリアします",
   "searchHistory": "検索履歴",
   "noSearchHistory": "検索履歴はありません。",
-  "noRepository": "該当するリポジトリはありません。"
+  "noRepository": "該当するリポジトリはありません。",
+  "searchQueryLength": "検索クエリは256文字以内で入力してください",
+  "searchQueryOperator": "AND/OR/NOT演算子は合計5個までです"
 }
