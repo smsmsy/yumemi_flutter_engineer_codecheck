@@ -64,4 +64,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get noRepository => '該当するリポジトリはありません。';
+
+  @override
+  String get searchQueryLength => '検索クエリは256文字以内で入力してください';
+
+  @override
+  String get searchQueryOperator => 'AND/OR/NOT演算子は合計5個までです';
 }

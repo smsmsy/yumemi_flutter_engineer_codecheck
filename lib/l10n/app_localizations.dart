@@ -211,6 +211,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No repositories found.'**
   String get noRepository;
+
+  /// Error message for search query length.
+  ///
+  /// In en, this message translates to:
+  /// **'Search query must be 256 characters or less.'**
+  String get searchQueryLength;
+
+  /// Error message for AND/OR/NOT operator count.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 5 AND/OR/NOT operators are allowed.'**
+  String get searchQueryOperator;
 }
 
 class _AppLocalizationsDelegate

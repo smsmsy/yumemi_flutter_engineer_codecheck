@@ -64,4 +64,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noRepository => 'No repositories found.';
+
+  @override
+  String get searchQueryLength =>
+      'Search query must be 256 characters or less.';
+
+  @override
+  String get searchQueryOperator => 'Up to 5 AND/OR/NOT operators are allowed.';
 }
