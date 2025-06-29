@@ -94,7 +94,6 @@ class _SearchHistoryTitle extends StatelessWidget {
   }
 }
 
-
 /// テスト用の検索履歴データを適用するボタンウィジェット。
 class _ApplyTestDataButton extends ConsumerWidget {
   /// デフォルトコンストラクタ。
