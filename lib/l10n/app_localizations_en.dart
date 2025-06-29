@@ -61,4 +61,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noSearchHistory => 'No search history.';
+
+  @override
+  String get noRepository => 'No repositories found.';
 }

@@ -6,77 +6,29 @@ import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/dom
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/common/widget/common_repository_card.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/repository_providers.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/search_history_provider.dart';
-import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/search_result_ui_state_provider.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
-import 'package:yumemi_flutter_engineer_codecheck/static/wording_data.dart';
 
 /// 検索結果のリポジトリ一覧を表示するウィジェット
 ///
 /// RiverpodのProviderから取得したリポジトリ一覧をリスト表示します。
-class SearchResultListView extends ConsumerStatefulWidget {
+class SearchResultListView extends ConsumerWidget {
   /// 検索結果リストビューのコンストラクタ
   ///
   /// 必要に応じてkeyを指定できます。
   const SearchResultListView({super.key});
 
   @override
-  ConsumerState<SearchResultListView> createState() =>
-      _SearchResultListViewState();
-}
-
-/// [SearchResultListView]の状態を管理するStateクラス
-class _SearchResultListViewState extends ConsumerState<SearchResultListView> {
-  /// 検索結果リストのスクロール制御用コントローラー
-  final _scrollController = ScrollController();
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   /// 検索結果の状態に応じてリストやエラー・ローディング表示を切り替えます。
   ///
   /// Providerから取得したリポジトリ一覧をリスト表示し、該当なしやエラー時はメッセージを表示します。
-  Widget build(BuildContext context) {
-    final queryString = ref.watch(
-      gitHubSearchQueryNotifierProvider.select((e) => e.q),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final uiState = ref.watch(searchResultUIStateProvider);
+    return AnimatedSwitcher(
+      duration: uiState.duration,
+      transitionBuilder: uiState.transitionBuilder,
+      child: uiState.build(context, ref),
     );
-    if (queryString.isEmpty) {
-      return Center(
-        child: Text(
-          AppLocalizations.of(context)?.inputKeyword ??
-              WordingData.inputKeyword,
-        ),
-      );
-    }
-
-    final repositoriesAsyncValue = ref.watch(repositoriesSearchResultProvider);
-
-    switch (repositoriesAsyncValue) {
-      case AsyncError(:final error):
-        return Center(
-          child: Text(
-            error.toString(),
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        );
-      case AsyncData(:final value):
-        if (value.isEmpty) {
-          return const Center(
-            child: Text('該当するリポジトリはありません'),
-          );
-        }
-        return AdaptiveRepositoryListView(
-          value: value,
-          scrollController: _scrollController,
-        );
-      case _:
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-    }
   }
 }
 
@@ -122,8 +74,9 @@ class AdaptiveRepositoryListView extends StatelessWidget {
               return Row(
                 children: List.generate(columnCount, (columnIndex) {
                   final itemIndex = rowIndex * columnCount + columnIndex;
-                  if (itemIndex >= value.length) {
-                    return const SizedBox.expand();
+                  if (itemIndex >= value.length ||
+                      value[itemIndex].name.isEmpty) {
+                    return const Flexible(child: SizedBox.shrink());
                   }
                   return Expanded(
                     child: Padding(

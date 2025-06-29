@@ -70,5 +70,9 @@
   "noSearchHistory": "No search history.",
   "@noSearchHistory": {
     "description": "Message shown when there is no search history."
+  },
+  "noRepository": "No repositories found.",
+  "@noRepository": {
+    "description": "Message shown when there is no repository found."
   }
 }
