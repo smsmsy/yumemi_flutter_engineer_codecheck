@@ -177,13 +177,13 @@ class _GitHubAuthPageState extends ConsumerState<GitHubAuthPage> {
     final githubProvider = GithubAuthProvider();
     try {
       await _auth.signInWithPopup(githubProvider);
-      // アクセストークンは仕様上取得できない場合が多い
     } catch (error, stackTrace) {
       _logger.warning(
         'WebでのGitHub認証エラー',
         error: error,
         stackTrace: stackTrace,
       );
+      rethrow;
     }
   }
 
@@ -207,6 +207,7 @@ class _GitHubAuthPageState extends ConsumerState<GitHubAuthPage> {
       await _auth.signInWithCustomToken(token);
     } catch (error, stackTrace) {
       _logger.warning('GitHub認証エラー', error: error, stackTrace: stackTrace);
+      rethrow;
     }
   }
 
