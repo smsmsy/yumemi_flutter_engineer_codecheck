@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/search_history_list_view_model.dart';
 import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/provider/search_history_provider.dart';
 import 'package:yumemi_flutter_engineer_codecheck/l10n/app_localizations.dart';
 import 'package:yumemi_flutter_engineer_codecheck/static/number_data.dart';
@@ -38,24 +39,17 @@ class SearchHistoryListView extends ConsumerStatefulWidget {
 ///
 /// AnimatedListの状態管理や履歴リストの同期処理を行います。
 class _SearchHistoryListViewState extends ConsumerState<SearchHistoryListView> {
-  /// スクロール位置を管理するコントローラー。
-  final _scrollController = ScrollController();
+  late final SearchHistoryListViewModel viewModel;
 
-  /// AnimatedListの状態を管理するキー。
-  final _listKey = GlobalKey<AnimatedListState>();
-
-  /// 内部で保持する履歴リスト。
-  List<String> _internalList = [];
-
-  /// 初回ビルドかどうかのフラグ。
-  var _firstBuild = true;
-
-  /// アニメーションの継続時間。
-  static const _animationDuration = Duration(milliseconds: 150);
+  @override
+  void initState() {
+    super.initState();
+    viewModel = SearchHistoryListViewModel();
+  }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    viewModel.dispose();
     super.dispose();
   }
 
@@ -67,7 +61,7 @@ class _SearchHistoryListViewState extends ConsumerState<SearchHistoryListView> {
     // 検索履歴のProviderを監視し、更新があればAnimatedListを同期します。
     ref.listen(searchHistoryProvider, (_, history) {
       if (history is AsyncData<List<String>>) {
-        _updateAnimatedList(history.requireValue);
+        viewModel.updateAnimatedList(history.requireValue);
       }
     });
     final historyAsync = ref.watch(searchHistoryProvider);
@@ -75,9 +69,9 @@ class _SearchHistoryListViewState extends ConsumerState<SearchHistoryListView> {
       child: historyAsync.when(
         data: (history) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            _updateAnimatedList(history);
+            viewModel.updateAnimatedList(history);
           });
-          if (_internalList.isEmpty) {
+          if (viewModel.internalList.isEmpty) {
             return Center(
               child: Text(
                 AppLocalizations.of(context)?.noSearchHistory ??
@@ -86,73 +80,67 @@ class _SearchHistoryListViewState extends ConsumerState<SearchHistoryListView> {
               ),
             );
           }
-          return Scrollbar(
-            controller: _scrollController,
-            thumbVisibility: true,
-            child: AnimatedList(
-              key: _listKey,
-              controller: _scrollController,
-              initialItemCount: _internalList.length,
-              itemBuilder: (context, index, animation) {
-                return SizeTransition(
-                  sizeFactor: CurvedAnimation(
-                    parent: animation,
-                    curve: Curves.easeInOut,
-                  ),
-                  child: _SearchHistoryListItem(
-                    index: index,
-                    value: _internalList[index],
-                    onHistoryTap: widget.onHistoryTap,
-                  ),
-                );
-              },
-            ),
+          return _ConfirmedSearchHistoryListView(
+            viewModel: viewModel,
+            widget: widget,
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => const SizedBox.shrink(),
+        error: (_, _) => const SizedBox.shrink(),
       ),
     );
   }
 
-  /// AnimatedListの内容を新しい履歴リスト[newList]に同期します。
-  ///
-  /// 初回ビルド時はリストをそのままコピーし、
-  /// 2回目以降は削除・追加のアニメーションを適用してリストを更新します。
-  void _updateAnimatedList(List<String> newList) {
-    final listState = _listKey.currentState;
-    if (_firstBuild) {
-      _internalList = List.from(newList);
-      _firstBuild = false;
-      return;
-    }
-    if (listState == null) {
-      return;
-    }
-    // 削除（降順）
-    for (var i = _internalList.length - 1; i >= 0; i--) {
-      if (!newList.contains(_internalList[i])) {
-        final removed = _internalList.removeAt(i);
-        listState.removeItem(
-          i,
-          (context, animation) => SizeTransition(
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(
+      DiagnosticsProperty<SearchHistoryListViewModel>('viewModel', viewModel),
+    );
+  }
+}
+
+class _ConfirmedSearchHistoryListView extends StatelessWidget {
+  const _ConfirmedSearchHistoryListView({
+    required this.viewModel,
+    required this.widget,
+  });
+
+  final SearchHistoryListViewModel viewModel;
+  final SearchHistoryListView widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scrollbar(
+      controller: viewModel.scrollController,
+      thumbVisibility: true,
+      child: AnimatedList(
+        key: viewModel.listKey,
+        controller: viewModel.scrollController,
+        initialItemCount: viewModel.internalList.length,
+        itemBuilder: (context, index, animation) {
+          return SizeTransition(
             sizeFactor: CurvedAnimation(
               parent: animation,
               curve: Curves.easeInOut,
             ),
-            child: ListTile(title: Text(removed)),
-          ),
-          duration: _animationDuration,
-        );
-      }
-    }
-    // 追加（昇順）
-    for (var i = 0; i < newList.length; i++) {
-      if (i >= _internalList.length || _internalList[i] != newList[i]) {
-        _internalList.insert(i, newList[i]);
-        listState.insertItem(i, duration: _animationDuration);
-      }
-    }
+            child: _SearchHistoryListItem(
+              index: index,
+              value: viewModel.internalList[index],
+              onHistoryTap: widget.onHistoryTap,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(
+      DiagnosticsProperty<SearchHistoryListViewModel>('viewModel', viewModel),
+    );
   }
 }
 
