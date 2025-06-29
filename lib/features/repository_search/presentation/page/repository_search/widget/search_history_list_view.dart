@@ -136,7 +136,7 @@ class _ConfirmedSearchHistoryListView extends StatelessWidget {
               parent: animation,
               curve: Curves.easeInOut,
             ),
-            child: _SearchHistoryListItem(
+            child: SearchHistoryListItem(
               index: index,
               value: viewModel.internalList[index],
               onHistoryTap: widget.onHistoryTap,
@@ -159,14 +159,15 @@ class _ConfirmedSearchHistoryListView extends StatelessWidget {
 /// 検索履歴リストの各項目ウィジェット。
 ///
 /// 履歴の値や削除ボタン、タップ時の挙動を定義します。
-class _SearchHistoryListItem extends ConsumerWidget {
+class SearchHistoryListItem extends ConsumerWidget {
   /// 検索履歴リスト項目のコンストラクタ。
   ///
   /// [index]はリスト内のインデックス、[value]は履歴の値、[onHistoryTap]はタップ時のコールバックです。
-  const _SearchHistoryListItem({
+  const SearchHistoryListItem({
     required this.index,
     required this.value,
     required this.onHistoryTap,
+    super.key,
   });
 
   /// リスト内のインデックス。

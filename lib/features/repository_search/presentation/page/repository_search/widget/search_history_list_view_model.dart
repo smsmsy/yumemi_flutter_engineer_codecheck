@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yumemi_flutter_engineer_codecheck/features/repository_search/presentation/page/repository_search/widget/search_history_list_view.dart';
 
 /// 検索履歴リストの状態とAnimatedListの操作を管理するViewModel。
 ///
@@ -65,9 +66,13 @@ class SearchHistoryListViewModel extends ChangeNotifier {
           (context, animation) => SizeTransition(
             sizeFactor: CurvedAnimation(
               parent: animation,
-              curve: Curves.easeInOut,
+              curve: Curves.decelerate,
             ),
-            child: ListTile(title: Text(removed)),
+            child: SearchHistoryListItem(
+              index: i,
+              value: removed,
+              onHistoryTap: (value) {},
+            ),
           ),
           duration: animationDuration,
         );
