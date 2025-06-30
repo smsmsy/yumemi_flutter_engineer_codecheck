@@ -1,6 +1,7 @@
 # yumemi_flutter_engineer_codecheck
 
 - [yumemi\_flutter\_engineer\_codecheck](#yumemi_flutter_engineer_codecheck)
+  - [ゆめみ社員さんへ](#ゆめみ社員さんへ)
   - [概要](#概要)
   - [開発環境](#開発環境)
   - [動作確認方法](#動作確認方法)
@@ -17,6 +18,12 @@
       - [インストラクションファイル](#インストラクションファイル)
       - [プロンプトファイル](#プロンプトファイル)
 
+## ゆめみ社員さんへ
+
+レビューポイント資料（アピールポイントや留意点など）を別途作成いたしました。
+
+こちらから [REVIEW_POINT.md](documents/REVIEW_POINT.md) をご確認ください。
+
 ## 概要
 
 本プロジェクトは[株式会社ゆめみ Flutter エンジニアコードチェック課題](https://github.com/yumemi-inc/flutter-engineer-codecheck)を実装したものです。
@@ -28,6 +35,7 @@
 - 検索履歴機能
 - テーマモードの変更機能
 - OSSライセンス表示機能
+- サインイン機能（iOSのみ）
 
 ## 開発環境
 
