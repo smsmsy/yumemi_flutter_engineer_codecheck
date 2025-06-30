@@ -70,4 +70,19 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get searchQueryOperator => 'AND/OR/NOT演算子は合計5個までです';
+
+  @override
+  String get moveToSearch => '検索画面へ移動する';
+
+  @override
+  String get loginSuccess => 'ログイン成功しました！';
+
+  @override
+  String get continueWithoutLogin => 'ログインせずに続行する';
+
+  @override
+  String get signInWithGitHub => 'GitHubでサインイン';
+
+  @override
+  String get githubAuth => 'GitHub認証';
 }

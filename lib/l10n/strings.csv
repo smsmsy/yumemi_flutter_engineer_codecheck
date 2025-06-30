@@ -20,3 +20,8 @@ noSearchHistory,Message shown when there is no search history.,No search history
 noRepository,Message shown when there is no repository found.,No repositories found.,該当するリポジトリはありません。
 searchQueryLength,Error message for search query length.,Search query must be 256 characters or less.,検索クエリは256文字以内で入力してください
 searchQueryOperator,Error message for AND/OR/NOT operator count.,Up to 5 AND/OR/NOT operators are allowed.,AND/OR/NOT演算子は合計5個までです
+moveToSearch,Button label for moving to search page.,Move to Search Page,検索画面へ移動する
+loginSuccess,Message for successful login.,Login successful!,ログイン成功しました！
+continueWithoutLogin,Button label for continuing without login.,Continue without logging in,ログインせずに続行する
+signInWithGitHub,Button label for signing in with GitHub.,Sign in with GitHub,GitHubでサインイン
+githubAuth,Title for GitHub authentication page.,GitHub Authentication,GitHub認証
