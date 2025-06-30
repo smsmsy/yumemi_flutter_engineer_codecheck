@@ -60,7 +60,7 @@ void main() {
         ),
       );
 
-      final result = await repository.searchRepositories(query);
+      final result = await repository.searchRepositories(query, null);
       expect(result, isA<List<Repository>>());
       expect(result.length, 2);
       expect(result[0].name, 'repo1');
@@ -83,7 +83,7 @@ void main() {
       );
 
       expect(
-        () => repository.searchRepositories(query),
+        () => repository.searchRepositories(query, null),
         throwsA(isA<Exception>()),
       );
     });
@@ -103,7 +103,7 @@ void main() {
           requestOptions: RequestOptions(),
         ),
       );
-      final result = await repository.searchRepositories(query);
+      final result = await repository.searchRepositories(query, null);
       expect(result, isA<List<Repository>>());
       expect(result, isEmpty);
     });
@@ -123,7 +123,7 @@ void main() {
           requestOptions: RequestOptions(),
         ),
       );
-      final result = await repository.searchRepositories(query);
+      final result = await repository.searchRepositories(query, null);
       expect(result, isA<List<Repository>>());
       expect(result, isEmpty);
     });
@@ -163,7 +163,7 @@ void main() {
         ),
       );
       expect(
-        () => repository.searchRepositories(query),
+        () => repository.searchRepositories(query, null),
         throwsA(isA<Exception>()),
       );
     });
@@ -182,7 +182,7 @@ void main() {
         ),
       );
       expect(
-        () => repository.searchRepositories(query),
+        () => repository.searchRepositories(query, null),
         throwsA(isA<Exception>()),
       );
     });
@@ -202,7 +202,7 @@ void main() {
         ),
       );
       expect(
-        () => repository.searchRepositories(query),
+        () => repository.searchRepositories(query, null),
         throwsA(isA<Exception>()),
       );
     });
@@ -240,7 +240,7 @@ void main() {
           requestOptions: RequestOptions(),
         ),
       );
-      final result = await repository.searchRepositories(query);
+      final result = await repository.searchRepositories(query, null);
       expect(result, isA<List<Repository>>());
       expect(result.length, 1);
       expect(result[0].name, 'repo1');
@@ -275,7 +275,7 @@ void main() {
           requestOptions: RequestOptions(),
         ),
       );
-      final result = await repository.searchRepositories(query);
+      final result = await repository.searchRepositories(query, null);
       expect(result, isA<List<Repository>>());
       expect(result.length, 1);
       expect(result[0].name, 'repo1');
@@ -311,7 +311,7 @@ void main() {
           requestOptions: RequestOptions(),
         ),
       );
-      final result = await repository.searchRepositories(query);
+      final result = await repository.searchRepositories(query, null);
       expect(result, isA<List<Repository>>());
       expect(result.length, 1);
       expect(result[0].name, 'repo1');

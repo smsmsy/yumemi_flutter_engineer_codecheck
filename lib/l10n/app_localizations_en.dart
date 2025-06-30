@@ -71,4 +71,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchQueryOperator => 'Up to 5 AND/OR/NOT operators are allowed.';
+
+  @override
+  String get moveToSearch => 'Move to Search Page';
+
+  @override
+  String get loginSuccess => 'Login successful!';
+
+  @override
+  String get continueWithoutLogin => 'Continue without logging in';
+
+  @override
+  String get signInWithGitHub => 'Sign in with GitHub';
+
+  @override
+  String get githubAuth => 'GitHub Authentication';
 }

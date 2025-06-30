@@ -30,11 +30,16 @@
   "cSpell.words": [
     "codecheck",
     "cupertino",
+    "lituien",
     "prefs",
     "pubspec",
     "riverpod",
     "subosito",
     "xcworkspace",
     "yumemi"
-  ]
+  ],
+
+  "dart.showLintNames": false,
+  "dart.showTodos": false,
+  "dart.analysisServer.launchArgs": ["--disable-server-lints"]
 }

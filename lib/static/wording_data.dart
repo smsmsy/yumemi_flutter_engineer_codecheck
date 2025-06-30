@@ -72,4 +72,19 @@ class WordingData {
   /// AND/OR/NOT演算子が合計5個を超えた場合のエラーメッセージ。
   static const searchQueryOperator =
       'Up to 5 AND/OR/NOT operators are allowed.';
+
+  /// 検索画面へ移動するボタンのラベル。認証後の遷移ボタンなどで利用されます。
+  static const moveToSearch = 'Move to Search Page';
+
+  /// ログイン成功時のメッセージ。認証完了時のダイアログや画面で利用されます。
+  static const loginSuccess = 'Login successful!';
+
+  /// ログインせずに続行するボタンのラベル。認証画面などで利用されます。
+  static const continueWithoutLogin = 'Continue without logging in';
+
+  /// GitHubでサインインボタンのラベル。認証画面などで利用されます。
+  static const signInWithGitHub = 'Sign in with GitHub';
+
+  /// GitHub認証画面のタイトル。AppBarやダイアログタイトルで利用されます。
+  static const githubAuth = 'GitHub Authentication';
 }

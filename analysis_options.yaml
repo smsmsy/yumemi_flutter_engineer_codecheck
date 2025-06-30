@@ -3,3 +3,7 @@ include: package:yumemi_lints/flutter/3.32/recommended.yaml
 analyzer:
   plugins:
     - custom_lint
+
+# node_modules を除外する
+  exclude:
+    - node_modules/**

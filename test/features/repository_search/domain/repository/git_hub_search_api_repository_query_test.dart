@@ -55,7 +55,7 @@ void main() {
         ),
       );
 
-      final result = await repository.searchRepositories(query);
+      final result = await repository.searchRepositories(query, null);
       expect(result, isA<List<Repository>>());
       expect(result.length, 1);
       expect(result[0].name, 'repo1');

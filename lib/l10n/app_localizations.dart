@@ -223,6 +223,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Up to 5 AND/OR/NOT operators are allowed.'**
   String get searchQueryOperator;
+
+  /// Button label for moving to search page.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to Search Page'**
+  String get moveToSearch;
+
+  /// Message for successful login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login successful!'**
+  String get loginSuccess;
+
+  /// Button label for continuing without login.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue without logging in'**
+  String get continueWithoutLogin;
+
+  /// Button label for signing in with GitHub.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with GitHub'**
+  String get signInWithGitHub;
+
+  /// Title for GitHub authentication page.
+  ///
+  /// In en, this message translates to:
+  /// **'GitHub Authentication'**
+  String get githubAuth;
 }
 
 class _AppLocalizationsDelegate
